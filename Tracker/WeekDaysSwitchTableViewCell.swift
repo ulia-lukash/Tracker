@@ -79,18 +79,5 @@ final class WeekDaysSwitchTableViewCell: UITableViewCell {
 }
 
 
-enum WeekDays: Int {
-    case monday = 1
-    case tuesday
-    case wednesday
-    case thursday
-    case friday
-    case saturday
-    case sunday
-}
 
-struct SwitchOptions {
-    let weekDay: WeekDays
-    let name: String
-    let isOn: Bool
-}
+

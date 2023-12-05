@@ -225,9 +225,4 @@ extension CreateNewHabitViewController: SetScheduleViewControllerDelegate {
     
     
 }
-struct SettingOptions {
-    let name: String
-    // - TODO: Отображение категории/расписания после выбора...
-    let pickedParameter: Any?
-    let handler: () -> Void
-}
+

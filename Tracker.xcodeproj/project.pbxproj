@@ -23,6 +23,9 @@
 		2653A2C52B1F26A7006B92A5 /* SetScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2C42B1F26A7006B92A5 /* SetScheduleViewController.swift */; };
 		2653A2C72B1F299F006B92A5 /* WeekDaysSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2C62B1F299F006B92A5 /* WeekDaysSwitchTableViewCell.swift */; };
 		2653A2C92B1F69EB006B92A5 /* SetCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2C82B1F69EB006B92A5 /* SetCategoryViewController.swift */; };
+		2653A2CB2B1FA856006B92A5 /* SettingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2CA2B1FA856006B92A5 /* SettingOptions.swift */; };
+		2653A2CD2B1FA88E006B92A5 /* SwitchOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2CC2B1FA88E006B92A5 /* SwitchOptions.swift */; };
+		2653A2CF2B1FA8A5006B92A5 /* WeekDays.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2CE2B1FA8A5006B92A5 /* WeekDays.swift */; };
 		2678DE9C2B11F1EF0037A7FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678DE9B2B11F1EF0037A7FF /* AppDelegate.swift */; };
 		2678DE9E2B11F1EF0037A7FF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678DE9D2B11F1EF0037A7FF /* SceneDelegate.swift */; };
 		2678DEA02B11F1EF0037A7FF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678DE9F2B11F1EF0037A7FF /* ViewController.swift */; };
@@ -48,6 +51,9 @@
 		2653A2C42B1F26A7006B92A5 /* SetScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetScheduleViewController.swift; sourceTree = "<group>"; };
 		2653A2C62B1F299F006B92A5 /* WeekDaysSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDaysSwitchTableViewCell.swift; sourceTree = "<group>"; };
 		2653A2C82B1F69EB006B92A5 /* SetCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCategoryViewController.swift; sourceTree = "<group>"; };
+		2653A2CA2B1FA856006B92A5 /* SettingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingOptions.swift; sourceTree = "<group>"; };
+		2653A2CC2B1FA88E006B92A5 /* SwitchOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwitchOptions.swift; sourceTree = "<group>"; };
+		2653A2CE2B1FA8A5006B92A5 /* WeekDays.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDays.swift; sourceTree = "<group>"; };
 		2678DE982B11F1EF0037A7FF /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2678DE9B2B11F1EF0037A7FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2678DE9D2B11F1EF0037A7FF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -77,6 +83,9 @@
 				2619991C2B13698F006741B5 /* TrackerCategory.swift */,
 				2619991E2B1369C9006741B5 /* TrackerRecord.swift */,
 				2653A2B62B139EAF006B92A5 /* Collection Parameters.swift */,
+				2653A2CA2B1FA856006B92A5 /* SettingOptions.swift */,
+				2653A2CC2B1FA88E006B92A5 /* SwitchOptions.swift */,
+				2653A2CE2B1FA8A5006B92A5 /* WeekDays.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -206,13 +215,16 @@
 			files = (
 				2653A2AF2B1382B3006B92A5 /* TabBarViewController.swift in Sources */,
 				2619991B2B136911006741B5 /* Tracker.swift in Sources */,
+				2653A2CF2B1FA8A5006B92A5 /* WeekDays.swift in Sources */,
 				2653A2BF2B1F123F006B92A5 /* CreateNewHabitViewController.swift in Sources */,
 				2653A2C12B1F1256006B92A5 /* CreateNewIrrActionController.swift in Sources */,
 				2678DEA02B11F1EF0037A7FF /* ViewController.swift in Sources */,
 				261999212B136A62006741B5 /* TrackersViewController.swift in Sources */,
+				2653A2CD2B1FA88E006B92A5 /* SwitchOptions.swift in Sources */,
 				2653A2C92B1F69EB006B92A5 /* SetCategoryViewController.swift in Sources */,
 				2653A2C32B1F240A006B92A5 /* SettingTableViewCell.swift in Sources */,
 				2678DE9C2B11F1EF0037A7FF /* AppDelegate.swift in Sources */,
+				2653A2CB2B1FA856006B92A5 /* SettingOptions.swift in Sources */,
 				2653A2B92B139F5F006B92A5 /* TrackerCollectionViewCell.swift in Sources */,
 				2678DE9E2B11F1EF0037A7FF /* SceneDelegate.swift in Sources */,
 				2653A2B72B139EAF006B92A5 /* Collection Parameters.swift in Sources */,
