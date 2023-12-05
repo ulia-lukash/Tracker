@@ -7,6 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2619991B2B136911006741B5 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2619991A2B136911006741B5 /* Tracker.swift */; };
+		2619991D2B13698F006741B5 /* TrackerCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2619991C2B13698F006741B5 /* TrackerCategory.swift */; };
+		2619991F2B1369C9006741B5 /* TrackerRecord.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2619991E2B1369C9006741B5 /* TrackerRecord.swift */; };
+		261999212B136A62006741B5 /* TrackersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 261999202B136A62006741B5 /* TrackersViewController.swift */; };
+		2653A2AF2B1382B3006B92A5 /* TabBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2AE2B1382B3006B92A5 /* TabBarViewController.swift */; };
+		2653A2B12B1382E4006B92A5 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2B02B1382E4006B92A5 /* StatisticsViewController.swift */; };
+		2653A2B72B139EAF006B92A5 /* Collection Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2B62B139EAF006B92A5 /* Collection Parameters.swift */; };
+		2653A2B92B139F5F006B92A5 /* TrackerCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2B82B139F5F006B92A5 /* TrackerCollectionViewCell.swift */; };
+		2653A2BB2B139FB3006B92A5 /* TrackerCollectionViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2BA2B139FB3006B92A5 /* TrackerCollectionViewHeader.swift */; };
+		2653A2BD2B1E4563006B92A5 /* CreateTrackerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2BC2B1E4563006B92A5 /* CreateTrackerViewController.swift */; };
+		2653A2BF2B1F123F006B92A5 /* CreateNewHabitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2BE2B1F123F006B92A5 /* CreateNewHabitViewController.swift */; };
+		2653A2C12B1F1256006B92A5 /* CreateNewIrrActionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2C02B1F1256006B92A5 /* CreateNewIrrActionController.swift */; };
+		2653A2C32B1F240A006B92A5 /* SettingTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2C22B1F240A006B92A5 /* SettingTableViewCell.swift */; };
+		2653A2C52B1F26A7006B92A5 /* SetScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2C42B1F26A7006B92A5 /* SetScheduleViewController.swift */; };
+		2653A2C72B1F299F006B92A5 /* WeekDaysSwitchTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2C62B1F299F006B92A5 /* WeekDaysSwitchTableViewCell.swift */; };
+		2653A2C92B1F69EB006B92A5 /* SetCategoryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2653A2C82B1F69EB006B92A5 /* SetCategoryViewController.swift */; };
 		2678DE9C2B11F1EF0037A7FF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678DE9B2B11F1EF0037A7FF /* AppDelegate.swift */; };
 		2678DE9E2B11F1EF0037A7FF /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678DE9D2B11F1EF0037A7FF /* SceneDelegate.swift */; };
 		2678DEA02B11F1EF0037A7FF /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2678DE9F2B11F1EF0037A7FF /* ViewController.swift */; };
@@ -16,6 +32,22 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2619991A2B136911006741B5 /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
+		2619991C2B13698F006741B5 /* TrackerCategory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategory.swift; sourceTree = "<group>"; };
+		2619991E2B1369C9006741B5 /* TrackerRecord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerRecord.swift; sourceTree = "<group>"; };
+		261999202B136A62006741B5 /* TrackersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackersViewController.swift; sourceTree = "<group>"; };
+		2653A2AE2B1382B3006B92A5 /* TabBarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarViewController.swift; sourceTree = "<group>"; };
+		2653A2B02B1382E4006B92A5 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
+		2653A2B62B139EAF006B92A5 /* Collection Parameters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection Parameters.swift"; sourceTree = "<group>"; };
+		2653A2B82B139F5F006B92A5 /* TrackerCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewCell.swift; sourceTree = "<group>"; };
+		2653A2BA2B139FB3006B92A5 /* TrackerCollectionViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCollectionViewHeader.swift; sourceTree = "<group>"; };
+		2653A2BC2B1E4563006B92A5 /* CreateTrackerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTrackerViewController.swift; sourceTree = "<group>"; };
+		2653A2BE2B1F123F006B92A5 /* CreateNewHabitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewHabitViewController.swift; sourceTree = "<group>"; };
+		2653A2C02B1F1256006B92A5 /* CreateNewIrrActionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateNewIrrActionController.swift; sourceTree = "<group>"; };
+		2653A2C22B1F240A006B92A5 /* SettingTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingTableViewCell.swift; sourceTree = "<group>"; };
+		2653A2C42B1F26A7006B92A5 /* SetScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetScheduleViewController.swift; sourceTree = "<group>"; };
+		2653A2C62B1F299F006B92A5 /* WeekDaysSwitchTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDaysSwitchTableViewCell.swift; sourceTree = "<group>"; };
+		2653A2C82B1F69EB006B92A5 /* SetCategoryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetCategoryViewController.swift; sourceTree = "<group>"; };
 		2678DE982B11F1EF0037A7FF /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2678DE9B2B11F1EF0037A7FF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		2678DE9D2B11F1EF0037A7FF /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,6 +56,7 @@
 		2678DEA42B11F1F10037A7FF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		2678DEA72B11F1F10037A7FF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		2678DEA92B11F1F10037A7FF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2678DEAF2B11FF590037A7FF /* YS Display-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "YS Display-Bold.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +70,34 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		261999192B136907006741B5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				2619991A2B136911006741B5 /* Tracker.swift */,
+				2619991C2B13698F006741B5 /* TrackerCategory.swift */,
+				2619991E2B1369C9006741B5 /* TrackerRecord.swift */,
+				2653A2B62B139EAF006B92A5 /* Collection Parameters.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		2653A2AD2B13829E006B92A5 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				261999202B136A62006741B5 /* TrackersViewController.swift */,
+				2653A2AE2B1382B3006B92A5 /* TabBarViewController.swift */,
+				2653A2B02B1382E4006B92A5 /* StatisticsViewController.swift */,
+				2653A2B82B139F5F006B92A5 /* TrackerCollectionViewCell.swift */,
+				2653A2BA2B139FB3006B92A5 /* TrackerCollectionViewHeader.swift */,
+				2653A2BC2B1E4563006B92A5 /* CreateTrackerViewController.swift */,
+				2653A2BE2B1F123F006B92A5 /* CreateNewHabitViewController.swift */,
+				2653A2C02B1F1256006B92A5 /* CreateNewIrrActionController.swift */,
+				2653A2C42B1F26A7006B92A5 /* SetScheduleViewController.swift */,
+				2653A2C82B1F69EB006B92A5 /* SetCategoryViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
 		2678DE8F2B11F1EF0037A7FF = {
 			isa = PBXGroup;
 			children = (
@@ -56,11 +117,16 @@
 		2678DE9A2B11F1EF0037A7FF /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				2653A2AD2B13829E006B92A5 /* ViewControllers */,
+				261999192B136907006741B5 /* Models */,
 				2678DE9B2B11F1EF0037A7FF /* AppDelegate.swift */,
+				2653A2C62B1F299F006B92A5 /* WeekDaysSwitchTableViewCell.swift */,
+				2653A2C22B1F240A006B92A5 /* SettingTableViewCell.swift */,
 				2678DE9D2B11F1EF0037A7FF /* SceneDelegate.swift */,
 				2678DE9F2B11F1EF0037A7FF /* ViewController.swift */,
 				2678DEA12B11F1EF0037A7FF /* Main.storyboard */,
 				2678DEA42B11F1F10037A7FF /* Assets.xcassets */,
+				2678DEAF2B11FF590037A7FF /* YS Display-Bold.ttf */,
 				2678DEA62B11F1F10037A7FF /* LaunchScreen.storyboard */,
 				2678DEA92B11F1F10037A7FF /* Info.plist */,
 			);
@@ -138,9 +204,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2653A2AF2B1382B3006B92A5 /* TabBarViewController.swift in Sources */,
+				2619991B2B136911006741B5 /* Tracker.swift in Sources */,
+				2653A2BF2B1F123F006B92A5 /* CreateNewHabitViewController.swift in Sources */,
+				2653A2C12B1F1256006B92A5 /* CreateNewIrrActionController.swift in Sources */,
 				2678DEA02B11F1EF0037A7FF /* ViewController.swift in Sources */,
+				261999212B136A62006741B5 /* TrackersViewController.swift in Sources */,
+				2653A2C92B1F69EB006B92A5 /* SetCategoryViewController.swift in Sources */,
+				2653A2C32B1F240A006B92A5 /* SettingTableViewCell.swift in Sources */,
 				2678DE9C2B11F1EF0037A7FF /* AppDelegate.swift in Sources */,
+				2653A2B92B139F5F006B92A5 /* TrackerCollectionViewCell.swift in Sources */,
 				2678DE9E2B11F1EF0037A7FF /* SceneDelegate.swift in Sources */,
+				2653A2B72B139EAF006B92A5 /* Collection Parameters.swift in Sources */,
+				2653A2C52B1F26A7006B92A5 /* SetScheduleViewController.swift in Sources */,
+				2653A2BB2B139FB3006B92A5 /* TrackerCollectionViewHeader.swift in Sources */,
+				2653A2B12B1382E4006B92A5 /* StatisticsViewController.swift in Sources */,
+				2653A2C72B1F299F006B92A5 /* WeekDaysSwitchTableViewCell.swift in Sources */,
+				2653A2BD2B1E4563006B92A5 /* CreateTrackerViewController.swift in Sources */,
+				2619991D2B13698F006741B5 /* TrackerCategory.swift in Sources */,
+				2619991F2B1369C9006741B5 /* TrackerRecord.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -290,11 +372,14 @@
 				DEVELOPMENT_TEAM = H47RMLWCVY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tracker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Tracker;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -302,9 +387,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.yandex.ulianalukash.Tracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -318,11 +406,14 @@
 				DEVELOPMENT_TEAM = H47RMLWCVY;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tracker/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Tracker;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UIStatusBarStyle = "";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -330,9 +421,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ru.yandex.ulianalukash.Tracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
