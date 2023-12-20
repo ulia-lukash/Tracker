@@ -13,7 +13,7 @@ final class CategoriesTableViewCell: UITableViewCell {
     // MARK: - Public Properties
     
     static let identifier = "CategoriesTableViewCell"
-    
+    var isCellSelected: Bool = false
     // MARK: - Private Properties
     
     lazy var accessoryImage: UIImageView = {

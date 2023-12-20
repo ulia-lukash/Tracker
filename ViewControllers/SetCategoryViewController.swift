@@ -170,6 +170,8 @@ extension SetCategoryViewController: UITableViewDelegate {
         // TODO: - Добавить галки при выборе
         selectedCategory = categories[indexPath.row]
         delegate?.didSetCategory(category: selectedCategory!)
+//        TODO: - Should it be here? Should it not?
+//        dismiss(animated: true)
     }
 }
 
