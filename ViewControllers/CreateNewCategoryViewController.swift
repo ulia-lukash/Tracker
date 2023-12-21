@@ -20,6 +20,10 @@ final class CreateNewCategoryViewController: UIViewController {
     
     private var trackerCategoryStore = TrackerCategoryStore.shared
     
+    let toolbar = UIToolbar()
+    let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
+    let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
+    
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
         label.text = titleText
@@ -41,6 +45,7 @@ final class CreateNewCategoryViewController: UIViewController {
         textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.rightViewMode = .always
         textField.clearButtonMode = .whileEditing
+        textField.inputAccessoryView = toolbar
         return textField
     }()
     
@@ -58,6 +63,8 @@ final class CreateNewCategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        toolbar.sizeToFit()
+        toolbar.setItems([flexible, doneButton], animated: false)
         view.backgroundColor = .white
         configView()
     }
@@ -67,7 +74,7 @@ final class CreateNewCategoryViewController: UIViewController {
         view.addSubview(viewTitle)
         view.addSubview(textField)
         view.addSubview(addCategoryButton)
-        
+
         viewTitle.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints = false
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +94,6 @@ final class CreateNewCategoryViewController: UIViewController {
             addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-    
     @objc private func addCategoryButtonTapped()  {
         guard let categoryName = textField.text else { return }
         
@@ -101,5 +107,7 @@ final class CreateNewCategoryViewController: UIViewController {
          
         dismiss(animated: true)
     }
-    
+    @objc func doneButtonTapped() {
+        textField.resignFirstResponder()
+    }
 }

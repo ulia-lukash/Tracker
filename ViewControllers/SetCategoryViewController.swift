@@ -30,7 +30,7 @@ class SetCategoryViewController: UIViewController {
         alert.title = "Эта категория точно не нужна?"
         return alert
     }()
-
+    
     
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
@@ -112,10 +112,10 @@ class SetCategoryViewController: UIViewController {
             categoriesTable.isHidden = false
         }
     }
-
+    
     private func setUpScrollViewContent() {
         let tableHeight = CGFloat(categories.count * 75)
-
+        
         scrollViewContent.addSubview(categoriesTable)
         
         categoriesTable.translatesAutoresizingMaskIntoConstraints = false
@@ -128,7 +128,7 @@ class SetCategoryViewController: UIViewController {
         ])
     }
     private func configView() {
-
+        
         let tableHeight = CGFloat(categories.count * 75)
         
         view.backgroundColor = .white
@@ -199,7 +199,7 @@ extension SetCategoryViewController: UITableViewDataSource {
         cell!.backgroundColor = UIColor(named: "Background")
         
         cell!.textLabel?.text = categories[indexPath.row].name
-
+        
         cell?.selectionStyle = .none
         self.addInteraction(toCell: cell!)
         return cell!
@@ -211,12 +211,11 @@ extension SetCategoryViewController: UITableViewDataSource {
 extension SetCategoryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-    
+        
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         selectedCategory = categories[indexPath.row]
         delegate?.didSetCategory(category: selectedCategory!)
-        //        TODO: - Should it be here? Should it not?
-        //        dismiss(animated: true)
+        dismiss(animated: true)
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
@@ -242,8 +241,8 @@ extension SetCategoryViewController: UIContextMenuInteractionDelegate {
     }
     
     func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
-            let item = categories[indexPath.row]
-
+        let item = categories[indexPath.row]
+        
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
             
             let editAction = UIAction(title: "Редактировать") { _ in
@@ -259,7 +258,7 @@ extension SetCategoryViewController: UIContextMenuInteractionDelegate {
             }
             return UIMenu(title: "", children: [editAction, deleteAction])
         }
-        }
+    }
     private func presentActionSheetForCategory(_ id: UUID) {
         let action1 = UIAlertAction(title: "Удалить", style: .destructive) {_ in
             self.trackerCategoryStore.deleteCategory(id)
