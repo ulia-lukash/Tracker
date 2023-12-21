@@ -15,6 +15,7 @@ protocol SetCategoryViewControllerDelegate: AnyObject {
 
 class SetCategoryViewController: UIViewController {
     
+    
     // MARK: - Public Properties
     
     private var trackerCategoryStore = TrackerCategoryStore.shared
@@ -23,6 +24,13 @@ class SetCategoryViewController: UIViewController {
     private var selectedCategory: TrackerCategory?
     var categories: [TrackerCategory] = []
     // MARK: - Private Properties
+    
+    private lazy var actionSheet: UIAlertController = {
+        let alert = UIAlertController()
+        alert.title = "Эта категория точно не нужна?"
+        return alert
+    }()
+
     
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
@@ -68,12 +76,16 @@ class SetCategoryViewController: UIViewController {
         return table
     }()
     
+    private lazy var scrollView = UIScrollView()
+    private let scrollViewContent = UIView()
+    
     // MARK: - UIViewController
     
-    override func viewDidLoad() {
+    override func viewDidLoad()  {
         super.viewDidLoad()
-        fetchCategories()
+        categories =  trackerCategoryStore.getCategories()
         setPlaceholderVisibility()
+        setUpScrollViewContent()
         configView()
         categoriesTable.dataSource = self
         categoriesTable.delegate = self
@@ -83,6 +95,11 @@ class SetCategoryViewController: UIViewController {
     // MARK: - Public Methods
     
     // MARK: - Private Methods
+    
+    private func addInteraction(toCell cell: UITableViewCell) {
+        let interaction = UIContextMenuInteraction(delegate: self)
+        cell.addInteraction(interaction)
+    }
     
     private func setPlaceholderVisibility() {
         if categories.isEmpty {
@@ -95,24 +112,40 @@ class SetCategoryViewController: UIViewController {
             categoriesTable.isHidden = false
         }
     }
-    private func fetchCategories() {
-        categories = trackerCategoryStore.getCategories()
-    }
-    
-    private func configView() {
+
+    private func setUpScrollViewContent() {
         let tableHeight = CGFloat(categories.count * 75)
+
+        scrollViewContent.addSubview(categoriesTable)
+        
+        categoriesTable.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            categoriesTable.heightAnchor.constraint(equalToConstant: tableHeight),
+            categoriesTable.topAnchor.constraint(equalTo: scrollViewContent.topAnchor),
+            categoriesTable.leftAnchor.constraint(equalTo: scrollViewContent.leftAnchor),
+            categoriesTable.rightAnchor.constraint(equalTo: scrollViewContent.rightAnchor)
+        ])
+    }
+    private func configView() {
+
+        let tableHeight = CGFloat(categories.count * 75)
+        
         view.backgroundColor = .white
         view.addSubview(viewTitle)
         view.addSubview(addCategoryButton)
         view.addSubview(placeholderPic)
         view.addSubview(placeholderText)
-        view.addSubview(categoriesTable)
+        view.addSubview(scrollView)
+        
+        scrollView.addSubview(scrollViewContent)
         
         viewTitle.translatesAutoresizingMaskIntoConstraints = false
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
         placeholderPic.translatesAutoresizingMaskIntoConstraints = false
         placeholderText.translatesAutoresizingMaskIntoConstraints = false
-        categoriesTable.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollViewContent.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             viewTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -128,16 +161,23 @@ class SetCategoryViewController: UIViewController {
             addCategoryButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
             addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            categoriesTable.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 38),
-            categoriesTable.heightAnchor.constraint(equalToConstant: tableHeight),
-            categoriesTable.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            categoriesTable.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            scrollView.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 38),
+            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            scrollView.bottomAnchor.constraint(equalTo: addCategoryButton.topAnchor, constant: -16),
+            scrollViewContent.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            scrollViewContent.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
+            scrollViewContent.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            scrollViewContent.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollViewContent.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            scrollViewContent.heightAnchor.constraint(equalToConstant: tableHeight)
         ])
     }
     
     
     @objc private func addCategoryButtonTapped() {
         let viewController = CreateNewCategoryViewController()
+        viewController.titleText = "Новая привычка"
         viewController.delegate = self
         present(viewController, animated: true)
     }
@@ -146,7 +186,7 @@ class SetCategoryViewController: UIViewController {
 extension SetCategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
+        print("!!!!!!!", categories.count)
         return categories.count
     }
     
@@ -155,9 +195,13 @@ extension SetCategoryViewController: UITableViewDataSource {
         let reuseIdentifier = "CategoriesTableViewCell"
         
         let cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
+        cell!.heightAnchor.constraint(equalToConstant: 75).isActive = true
+        cell!.backgroundColor = UIColor(named: "Background")
         
         cell!.textLabel?.text = categories[indexPath.row].name
-        
+
+        cell?.selectionStyle = .none
+        self.addInteraction(toCell: cell!)
         return cell!
         
     }
@@ -167,20 +211,63 @@ extension SetCategoryViewController: UITableViewDataSource {
 extension SetCategoryViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // TODO: - Добавить галки при выборе
+    
+        tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
         selectedCategory = categories[indexPath.row]
         delegate?.didSetCategory(category: selectedCategory!)
-//        TODO: - Should it be here? Should it not?
-//        dismiss(animated: true)
+        //        TODO: - Should it be here? Should it not?
+        //        dismiss(animated: true)
+    }
+    func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
+        
+        tableView.cellForRow(at: indexPath)?.accessoryType = .none
+        
+        tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }
 
 //  TODO: - Reload Data not working
 extension SetCategoryViewController: CreateNewCategoryViewControllerDelegate {
-    func addNewCategory(named name: String) {
-        let newCategory = TrackerCategory(id: UUID(), name: name, trackers: [])
-        trackerCategoryStore.saveCategoryToCoreData(newCategory)
-        categories = trackerCategoryStore.getCategories()
+    
+    func reloadCategories()  {
+        categories =  trackerCategoryStore.getCategories()
         categoriesTable.reloadData()
+    }
+}
+
+extension SetCategoryViewController: UIContextMenuInteractionDelegate {
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return nil
+    }
+    
+    func tableView(_ tableView: UITableView, contextMenuConfigurationForRowAt indexPath: IndexPath, point: CGPoint) -> UIContextMenuConfiguration? {
+            let item = categories[indexPath.row]
+
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+            
+            let editAction = UIAction(title: "Редактировать") { _ in
+                let viewController = CreateNewCategoryViewController()
+                viewController.titleText = "Редактирование категории"
+                viewController.startingString = item.name
+                viewController.categoryId = item.id
+                viewController.delegate = self
+                self.present(viewController, animated: true)
+            }
+            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { _ in
+                self.presentActionSheetForCategory(item.id)
+            }
+            return UIMenu(title: "", children: [editAction, deleteAction])
+        }
+        }
+    private func presentActionSheetForCategory(_ id: UUID) {
+        let action1 = UIAlertAction(title: "Удалить", style: .destructive) {_ in
+            self.trackerCategoryStore.deleteCategory(id)
+            self.reloadCategories()
+        }
+        let action2 = UIAlertAction(title: "Отменить", style: .cancel)
+        actionSheet.addAction(action1)
+        actionSheet.addAction(action2)
+        present(actionSheet, animated: true)
     }
 }

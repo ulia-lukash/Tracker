@@ -9,15 +9,20 @@ import Foundation
 import UIKit
 
 protocol CreateNewCategoryViewControllerDelegate {
-    func addNewCategory(named: String)
+    func reloadCategories()
 }
 final class CreateNewCategoryViewController: UIViewController {
         
     var delegate: CreateNewCategoryViewControllerDelegate?
+    var categoryId: UUID?
+    var titleText: String?
+    var startingString: String = ""
+    
+    private var trackerCategoryStore = TrackerCategoryStore.shared
     
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
-        label.text = "Новая категория"
+        label.text = titleText
         label.textColor = UIColor(named: "Black")
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -26,6 +31,7 @@ final class CreateNewCategoryViewController: UIViewController {
     
     private lazy var textField: UITextField = {
         let textField = UITextField()
+        textField.text = startingString
         textField.backgroundColor = UIColor(named: "Background")
         textField.textColor = UIColor(named: "Black")
         textField.placeholder = "Введите название категории"
@@ -34,6 +40,7 @@ final class CreateNewCategoryViewController: UIViewController {
         textField.leftViewMode = .always
         textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.rightViewMode = .always
+        textField.clearButtonMode = .whileEditing
         return textField
     }()
     
@@ -60,7 +67,7 @@ final class CreateNewCategoryViewController: UIViewController {
         view.addSubview(viewTitle)
         view.addSubview(textField)
         view.addSubview(addCategoryButton)
-
+        
         viewTitle.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints = false
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
@@ -77,15 +84,22 @@ final class CreateNewCategoryViewController: UIViewController {
             addCategoryButton.heightAnchor.constraint(equalToConstant: 60),
             addCategoryButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
             addCategoryButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
-            addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
-            
+            addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
     
-    @objc func addCategoryButtonTapped() {
+    @objc private func addCategoryButtonTapped()  {
         guard let categoryName = textField.text else { return }
         
-        delegate?.addNewCategory(named: categoryName)
+        if let categoryId = self.categoryId {
+            trackerCategoryStore.renameCategory(categoryId, newName: categoryName)
+        } else {
+            let newCategory = TrackerCategory(id: UUID(), name: categoryName, trackers: [])
+            trackerCategoryStore.saveCategoryToCoreData(newCategory)
+            delegate?.reloadCategories()
+        }
+         
         dismiss(animated: true)
     }
+    
 }

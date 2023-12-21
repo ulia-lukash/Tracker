@@ -13,14 +13,9 @@ final class CategoriesTableViewCell: UITableViewCell {
     // MARK: - Public Properties
     
     static let identifier = "CategoriesTableViewCell"
-    var isCellSelected: Bool = false
+
     // MARK: - Private Properties
     
-    lazy var accessoryImage: UIImageView = {
-        let imageView = UIImageView()
-        
-        return imageView
-    }()
     
     // MARK: - Initializers
     
@@ -29,7 +24,6 @@ final class CategoriesTableViewCell: UITableViewCell {
         
         self.detailTextLabel?.font = .systemFont(ofSize: 17, weight: .regular)
         self.detailTextLabel?.textColor = UIColor(named: "Gray")
-        makeViewLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -40,19 +34,5 @@ final class CategoriesTableViewCell: UITableViewCell {
     
 
     // MARK: - Private Methods
-    
-    private func makeViewLayout() {
-        
-        contentView.backgroundColor = UIColor(named: "Background")
-        contentView.heightAnchor.constraint(equalToConstant: 75).isActive = true
-        contentView.addSubview(accessoryImage)
-        
-        accessoryImage.translatesAutoresizingMaskIntoConstraints = false
-        
-        NSLayoutConstraint.activate([
-            accessoryImage.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -24),
-            accessoryImage.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-        ])
-        
-    }
+
 }

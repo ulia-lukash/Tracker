@@ -20,8 +20,8 @@ final class TrackerCategoryStore: NSObject {
     
     var catsAtt: [TrackerCategory] = []
     
-    func getCategories() -> [TrackerCategory] {
-        return transformCoredataCategories(fetchCoreDataCategories())
+    func getCategories()  -> [TrackerCategory] {
+        return  transformCoredataCategories(fetchCoreDataCategories())
     }
     private func transformCoredataCategories(_ categories: [TrackerCategoryCoreData]) -> [TrackerCategory] {
         var cats: [TrackerCategory] = []
@@ -75,47 +75,6 @@ final class TrackerCategoryStore: NSObject {
             }
         }
     }
-    func addMockDataToCoreData() {
-        
-        let firstCategory = TrackerCategoryCoreData(context: context)
-        firstCategory.id = UUID()
-        firstCategory.name = "Home"
-        let firstTracker = TrackerCoreData(context: context)
-        firstTracker.id = UUID()
-        firstTracker.name = "Cleaning"
-        firstTracker.emoji = "🌺"
-        firstTracker.colour = "Color selection 13"
-        let secondTracker = TrackerCoreData(context: context)
-        secondTracker.id = UUID()
-        secondTracker.name = "Cooking"
-        secondTracker.emoji = "🌺"
-        secondTracker.colour = "Color selection 7"
-        firstCategory.trackers = [firstTracker, secondTracker]
-        
-        let secondCategory = TrackerCategoryCoreData(context: context)
-        secondCategory.id = UUID()
-        secondCategory.name = "Fun"
-        let firsTracker = TrackerCoreData(context: context)
-        firsTracker.id = UUID()
-        firsTracker.name = "Funning"
-        firsTracker.emoji = "🌺"
-        firsTracker.colour = "Color selection 11"
-        let secndTracker = TrackerCoreData(context: context)
-        secndTracker.id = UUID()
-        secndTracker.name = "Unfunning"
-        secndTracker.emoji = "🌺"
-        secndTracker.colour = "Color selection 15"
-        secondCategory.trackers = [firsTracker, secndTracker]
-        
-        do {
-            try self.context.save()
-        }
-        catch {
-            let nserror = error as NSError
-            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
-        }
-        
-    }
     
     func isCategoryInCoreData(_ category: TrackerCategory) -> Bool {
         var categories: [TrackerCategoryCoreData] = []
@@ -132,15 +91,42 @@ final class TrackerCategoryStore: NSObject {
         }
     }
     func fetchCategoryWithId(_ id: UUID) -> TrackerCategoryCoreData {
-            let request = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        let request = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
         
-            request.returnsObjectsAsFaults = false
+        request.returnsObjectsAsFaults = false
         let uuid = id.uuidString
-
+        
         request.predicate = NSPredicate(format: "id == %@", uuid)
-            let category = try! context.fetch(request)
-
-            return category[0]
-
+        let category = try! context.fetch(request)
+        
+        return category[0]
+        
+    }
+    
+    func renameCategory(_ id: UUID, newName: String) {
+        let category = fetchCategoryWithId(id)
+        category.name = newName
+        
+        do {
+            try self.context.save()
+        }
+        catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
+    func deleteCategory(_ id: UUID) {
+        let category = fetchCategoryWithId(id)
+        
+        context.delete(category)
+        do {
+            try context.save()
+        } catch {
+            // Replace this implementation with code to handle the error appropriately.
+            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
     }
 }

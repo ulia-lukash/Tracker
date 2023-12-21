@@ -15,7 +15,7 @@ class TrackersViewController: UIViewController  {
     let categoryStore = TrackerCategoryStore.shared
     let trackerStore = TrackerStore.shared
     let trackerRecordStore = TrackerRecordStore.shared
-//    Will have to move CoreData logic to separate files
+    //    Will have to move CoreData logic to separate files
     
     var catsAtt: [TrackerCategory] = []
     // MARK: - Private Properties
@@ -23,10 +23,9 @@ class TrackersViewController: UIViewController  {
     private let widthParameters = CollectionParameters(cellsNumber: 2, leftInset: 16, rightInset: 16, interCellSpacing: 10)
     private var filteredData: [TrackerCategory] = []
     private var completedRecords: [TrackerRecord] = []
-    private var currentDate = Date()
     private var selectedDate = Date()
     private var categories: [TrackerCategory] = []
-        
+    
     private lazy var placeholderPic = UIImageView(image: UIImage(named: "tracker_placeholder"))
     private lazy var placeholderText: UILabel = {
         let label = UILabel()
@@ -82,22 +81,18 @@ class TrackersViewController: UIViewController  {
     
     // MARK: - UIViewController
     
-    override func viewDidLoad() {
+    override func viewDidLoad()   {
         
         super.viewDidLoad()
         
+        selectedDate = Date()
+        initialTrackersFilter()
         setInitialPlaceholderVisibility()
         searchBar.delegate = self
         categories = categoryStore.getCategories()
         completedRecords = trackerRecordStore.getCompletedTrackers()
-        filteredData = categories.filter { category in
-            if category.trackers.count > 0 {
-                return true
-            } else {
-                return false
-            }
-        }
-        datePicker.addTarget(self, action: #selector(didChangeSelectedDate), for: .allEvents)
+        
+        datePicker.addTarget(self, action: #selector(didChangeSelectedDate), for: .valueChanged)
         configTopNavBar()
         trackerCollection.dataSource = self
         trackerCollection.delegate = self
@@ -111,6 +106,15 @@ class TrackersViewController: UIViewController  {
         }
     }
     // MARK: - Private Methods
+    
+    private func initialTrackersFilter() {
+        filteredData = categories.filter { category in
+            for tracker in category.trackers {
+                return isTrackerScheduledOnSelectedDate(tracker)
+            }
+            return false
+        }
+    }
     
     private func showPlaceholder() {
         placeholderPic.isHidden = false
@@ -197,6 +201,10 @@ class TrackersViewController: UIViewController  {
         return model.trackerId == trackerId && Calendar.current.isDate(model.date, inSameDayAs: selectedDate)
     }
     
+    private func isTrackerScheduledOnSelectedDate(_ tracker: Tracker) -> Bool {
+        guard let weekDay = WeekDays(rawValue: calculateWeekDayNumber(for: selectedDate)) else { return false }
+        return tracker.schedule?.contains(weekDay) ?? false
+    }
     private func calculateWeekDayNumber(for date: Date) -> Int {
         var calendar = Calendar.current
         calendar.firstWeekday = 2
@@ -245,9 +253,8 @@ class TrackersViewController: UIViewController  {
             var dateSortedTrackers: Array<Tracker> = []
             
             for tracker in category.trackers {
-                guard let weekDay = WeekDays(rawValue: calculateWeekDayNumber(for: selectedDate)) else { continue }
-                guard let doesContain = tracker.schedule?.contains(weekDay) else {continue}
-                if doesContain {
+                
+                if isTrackerScheduledOnSelectedDate(tracker) {
                     dateSortedTrackers.append(tracker)
                 }
                 
@@ -260,8 +267,6 @@ class TrackersViewController: UIViewController  {
         filteredData.isEmpty ? showPlaceholder() : hidePlaceholder()
         hideErrorPlaceholder()
         trackerCollection.reloadData()
-        
-        
     }
     
 }
@@ -269,18 +274,12 @@ class TrackersViewController: UIViewController  {
 extension  TrackersViewController: CreateTrackerViewControllerDelegate {
     
     func didCreateNewTracker(model: Tracker, toCategory: TrackerCategory) {
-
+        
         trackerStore.saveTrackerCoreData(model, toCategory: toCategory)
-        updateVisibleTrackers()
+        selectedDate = Date()
+        initialTrackersFilter()
         trackerCollection.reloadData()
         
-    }
-    
-    func didCreateNewCategory(category: TrackerCategory) {
-//        categories.randomElement()?.trackers.append(category)
-//        categories.append(category)
-//        updateVisibleTrackers()
-//        trackerCollection.reloadData()
     }
 }
 
@@ -314,12 +313,12 @@ extension TrackersViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return filteredData.count
-//        return coreDataCategories!.count
+        //        return coreDataCategories!.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return filteredData[section].trackers.count
-//        return coreDataCategories![section].trackers!.count
+        //        return coreDataCategories![section].trackers!.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -328,10 +327,10 @@ extension TrackersViewController: UICollectionViewDataSource {
         else {
             preconditionFailure("Failed to cast UICollectionViewCell as TrackerCollectionViewCell")
         }
-
+        
         let tracker = filteredData[indexPath.section].trackers[indexPath.item]
         
-
+        
         let isCompleted = completedRecords.contains { isMatchRecord(model: $0, with: tracker.id) }
         let completedDays = completedRecords.filter { $0.trackerId == tracker.id }.count
         
@@ -379,15 +378,28 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 extension TrackersViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        if searchBar.text?.isEmpty == true {
-            filteredData = categories
+        if searchBar.text == "" {
+            var filteredCategories: [TrackerCategory] = []
+            for category in categories {
+                let filteredTrackers = category.trackers.filter { tracker in
+                    if isTrackerScheduledOnSelectedDate(tracker) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+                if !filteredTrackers.isEmpty {
+                    filteredCategories.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredTrackers))
+                }
+            }
+            
         } else {
             var searchedCategories: Array<TrackerCategory> = []
             for category in categories {
                 var searchedTrackers: Array<Tracker> = []
                 
-                for tracker in category.trackers {
-                    if tracker.name.localizedCaseInsensitiveContains(searchText) {
+                for tracker in category.trackers{
+                    if tracker.name.localizedCaseInsensitiveContains(searchText) && isTrackerScheduledOnSelectedDate(tracker) {
                         searchedTrackers.append(tracker)
                     }
                 }
@@ -396,6 +408,13 @@ extension TrackersViewController: UISearchBarDelegate {
                 }
             }
             filteredData = searchedCategories
+        }
+        if filteredData.isEmpty {
+            hidePlaceholder()
+            showErrorPlaceholder()
+        } else {
+            hidePlaceholder()
+            hideErrorPlaceholder()
         }
         trackerCollection.reloadData()
     }

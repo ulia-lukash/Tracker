@@ -40,16 +40,22 @@ class CreateNewHabitViewController: UIViewController {
     private var pickedEmoji: String?
     private var pickedColour: UIColor?
     
-    private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        return scrollView
-    }()
+    private lazy var scrollView = UIScrollView()
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
         label.text = "Новая привычка"
         label.textColor = UIColor(named: "Black")
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        return label
+    }()
+    
+    private lazy var restrictionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Ограничение 38 символов"
+        label.font = .systemFont(ofSize: 17)
+        label.textColor = UIColor(named: "Red")
+        label.textAlignment = .center
         return label
     }()
     
@@ -60,10 +66,10 @@ class CreateNewHabitViewController: UIViewController {
         textField.placeholder = "Введите название трекера"
         textField.layer.cornerRadius = 16
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
+        
         textField.leftViewMode = .always
-        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
-        textField.rightViewMode = .always
         textField.addTarget(self, action: #selector(textFieldDidChange), for: .allEditingEvents)
+        textField.clearButtonMode = .whileEditing
         return textField
     }()
     
@@ -193,6 +199,8 @@ class CreateNewHabitViewController: UIViewController {
     
     private func configView(){
         
+        restrictionLabel.isHidden = true
+        
         view.addSubview(viewTitle)
         view.addSubview(scrollView)
         view.addSubview(cancelButton)
@@ -234,20 +242,26 @@ class CreateNewHabitViewController: UIViewController {
             createButton.heightAnchor.constraint(equalToConstant: 60),
             createButton.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 4),
             createButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            
         ])
     }
     
     private func setUpScrollViewContent() {
+        
+        let orientir: UIView = restrictionLabel.isHidden ? textField : restrictionLabel
+        
         scrollViewContent.addSubview(textField)
         scrollViewContent.addSubview(settingTable)
         scrollViewContent.addSubview(emojisCollection)
         scrollViewContent.addSubview(coloursCollection)
+        scrollViewContent.addSubview(restrictionLabel)
         
         textField.translatesAutoresizingMaskIntoConstraints = false
         settingTable.translatesAutoresizingMaskIntoConstraints = false
         emojisCollection.translatesAutoresizingMaskIntoConstraints = false
         coloursCollection.translatesAutoresizingMaskIntoConstraints = false
-        
+        restrictionLabel.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
             textField.textInputView.leftAnchor.constraint(equalTo: textField.leftAnchor, constant: 16),
             textField.topAnchor.constraint(equalTo: scrollViewContent.topAnchor),
@@ -255,7 +269,7 @@ class CreateNewHabitViewController: UIViewController {
             textField.rightAnchor.constraint(equalTo: scrollViewContent.rightAnchor),
             textField.leftAnchor.constraint(equalTo: scrollViewContent.leftAnchor),
             
-            settingTable.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 24),
+            settingTable.topAnchor.constraint(equalTo: orientir.bottomAnchor, constant: 24),
             settingTable.leftAnchor.constraint(equalTo: scrollViewContent.leftAnchor),
             settingTable.rightAnchor.constraint(equalTo: scrollViewContent.rightAnchor),
             
@@ -265,11 +279,14 @@ class CreateNewHabitViewController: UIViewController {
             
             coloursCollection.topAnchor.constraint(equalTo: emojisCollection.bottomAnchor, constant: 16),
             coloursCollection.leftAnchor.constraint(equalTo: scrollViewContent.leftAnchor, constant: 2),
-            coloursCollection.rightAnchor.constraint(equalTo: scrollViewContent.rightAnchor, constant: -2)
+            coloursCollection.rightAnchor.constraint(equalTo: scrollViewContent.rightAnchor, constant: -2),
+            restrictionLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 8),
+            restrictionLabel.leftAnchor.constraint(equalTo: textField.leftAnchor, constant: 28),
+            restrictionLabel.rightAnchor.constraint(equalTo: textField.rightAnchor, constant: -28),
+            
             
         ])
     }
-    
     
     // MARK: - @objc Methods
     
@@ -304,8 +321,12 @@ class CreateNewHabitViewController: UIViewController {
         }
     }
     
-    
     @objc private func textFieldDidChange() {
+        if textField.text!.count >= 38 {
+            restrictionLabel.isHidden = false
+        } else {
+            restrictionLabel.isHidden = true
+        }
         setCreateButtonState()
     }
 }
