@@ -155,6 +155,8 @@ class CreateNewHabitViewController: UIViewController {
         
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         createButton.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
+        
+        
     }
     
     // MARK: - Private Methods
@@ -455,6 +457,7 @@ extension CreateNewHabitViewController: UICollectionViewDelegate {
                 cell.layer.cornerRadius = 16
                 cell.backgroundColor = UIColor(named: "Light Gray")
                 pickedEmoji = emojis[indexPath.row]
+                setCreateButtonState()
             }
         } else {
             if let cell = collectionView.cellForItem(at: indexPath) as? ColoursCollectionViewCell {
@@ -467,6 +470,7 @@ extension CreateNewHabitViewController: UICollectionViewDelegate {
                 let colour = colours[indexPath.row].withAlphaComponent(0.3)
                 pickedColour = colours[indexPath.row]
                 cell.layer.borderColor = colour.cgColor
+                setCreateButtonState()
             }
         }
     }
@@ -475,10 +479,12 @@ extension CreateNewHabitViewController: UICollectionViewDelegate {
         if collectionView == emojisCollection {
             if let cell = collectionView.cellForItem(at: indexPath) as? EmojisCollectionViewCell {
                 cell.backgroundColor = UIColor(named: "White")
+                setCreateButtonState()
             }
         } else {
             if let cell = collectionView.cellForItem(at: indexPath) as? ColoursCollectionViewCell {
                 cell.layer.borderColor = UIColor(named: "White")?.cgColor
+                setCreateButtonState()
             }
         }
     }

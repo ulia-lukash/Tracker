@@ -151,6 +151,7 @@ class TrackersViewController: UIViewController  {
         addButton.tintColor = UIColor(named: "Black")
         datePicker.datePickerMode = .date
         datePicker.preferredDatePickerStyle = .compact
+        datePicker.locale = Locale(identifier: "ru_RU")
         searchBar.searchBarStyle = .minimal
         searchBar.placeholder = "Поиск"
         navigationItem.leftBarButtonItem = addButton
@@ -162,6 +163,7 @@ class TrackersViewController: UIViewController  {
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            datePicker.widthAnchor.constraint(equalToConstant: 120),
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             searchBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 136),
@@ -411,6 +413,7 @@ extension TrackersViewController: UISearchBarDelegate {
         }
        
         trackerCollection.reloadData()
+        filteredData.isEmpty ? showErrorPlaceholder() : hideErrorPlaceholder()
     }
     
     private func filterSelectedDateCategories() {
