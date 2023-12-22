@@ -18,11 +18,7 @@ final class CreateNewCategoryViewController: UIViewController {
     var titleText: String?
     var startingString: String = ""
     
-    private var trackerCategoryStore = TrackerCategoryStore.shared
-    
-    let toolbar = UIToolbar()
-    let flexible = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
-    let doneButton = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(doneButtonTapped))
+    private var trackerCategoryStore = TrackerCategoryStore()
     
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
@@ -45,7 +41,6 @@ final class CreateNewCategoryViewController: UIViewController {
         textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.rightViewMode = .always
         textField.clearButtonMode = .whileEditing
-        textField.inputAccessoryView = toolbar
         return textField
     }()
     
@@ -63,12 +58,16 @@ final class CreateNewCategoryViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        toolbar.sizeToFit()
-        toolbar.setItems([flexible, doneButton], animated: false)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(endEditing))
+        view.addGestureRecognizer(tapGesture)
         view.backgroundColor = .white
         configView()
     }
     
+    @objc func endEditing() {
+        textField.endEditing(true)
+    }
     private func configView(){
         
         view.addSubview(viewTitle)
@@ -106,8 +105,5 @@ final class CreateNewCategoryViewController: UIViewController {
         }
          
         dismiss(animated: true)
-    }
-    @objc func doneButtonTapped() {
-        textField.resignFirstResponder()
     }
 }

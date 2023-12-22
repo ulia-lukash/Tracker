@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol CreateNewHabitViewControllerDelegate: AnyObject {
-    func createdNewHabit(model: Tracker, toCategory: TrackerCategory)
+    func createdNewHabit()
     func cancelNewHabitCreation()
 }
 
@@ -20,6 +20,9 @@ class CreateNewHabitViewController: UIViewController {
     weak var delegate: CreateNewHabitViewControllerDelegate?
     var isHabit: Bool = true
     // MARK: - Private Properties
+    
+    private let trackerStore = TrackerStore.shared
+    private let categoryStore = TrackerCategoryStore.shared
     
     private let emojis = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     private let colours = {
@@ -302,9 +305,10 @@ class CreateNewHabitViewController: UIViewController {
         guard let colour = pickedColour, let emoji = pickedEmoji else { return }
         
         let newHabit = Tracker(id: UUID(), name: trackerName, colour: colour, emoji: emoji, schedule: configuredSchedule)
+    
+        trackerStore.saveTrackerCoreData(newHabit, toCategory: pickedCategory)
         
-        
-        delegate?.createdNewHabit(model: newHabit, toCategory: pickedCategory)
+        delegate?.createdNewHabit()
         
     }
     

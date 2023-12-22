@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol CreateTrackerViewControllerDelegate: AnyObject {
-    func didCreateNewTracker(model: Tracker, toCategory: TrackerCategory)
+    func didCreateNewTracker()
 }
 
 class CreateTrackerViewController: UIViewController {
@@ -108,9 +108,9 @@ class CreateTrackerViewController: UIViewController {
 extension CreateTrackerViewController: CreateNewHabitViewControllerDelegate {
 
     
-    func createdNewHabit(model: Tracker, toCategory: TrackerCategory) {
+    func createdNewHabit() {
         dismiss(animated: true)
-        delegate?.didCreateNewTracker(model: model, toCategory: toCategory)
+        delegate?.didCreateNewTracker()
     }
     
     func cancelNewHabitCreation() {

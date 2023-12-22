@@ -18,7 +18,7 @@ class SetCategoryViewController: UIViewController {
     
     // MARK: - Public Properties
     
-    private var trackerCategoryStore = TrackerCategoryStore.shared
+    private var trackerCategoryStore = TrackerCategoryStore()
     
     weak var delegate: SetCategoryViewControllerDelegate?
     private var selectedCategory: TrackerCategory?
@@ -186,7 +186,6 @@ class SetCategoryViewController: UIViewController {
 extension SetCategoryViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("!!!!!!!", categories.count)
         return categories.count
     }
     
@@ -229,7 +228,9 @@ extension SetCategoryViewController: UITableViewDelegate {
 extension SetCategoryViewController: CreateNewCategoryViewControllerDelegate {
     
     func reloadCategories()  {
+        print("До обновления категорий - ", categories.count)
         categories =  trackerCategoryStore.getCategories()
+        print("После обновления категорий - ", categories.count)
         categoriesTable.reloadData()
     }
 }

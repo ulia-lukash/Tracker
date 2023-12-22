@@ -13,7 +13,7 @@ import UIKit
 final class TrackerCategoryStore: NSObject {
     
     static let shared = TrackerCategoryStore()
-    
+        
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var coreDataCategories: [ TrackerCategoryCoreData ]?
@@ -23,7 +23,7 @@ final class TrackerCategoryStore: NSObject {
     func getCategories()  -> [TrackerCategory] {
         return  transformCoredataCategories(fetchCoreDataCategories())
     }
-    private func transformCoredataCategories(_ categories: [TrackerCategoryCoreData]) -> [TrackerCategory] {
+    func transformCoredataCategories(_ categories: [TrackerCategoryCoreData]) -> [TrackerCategory] {
         var cats: [TrackerCategory] = []
         for category in categories {
             let id = category.id!
@@ -102,7 +102,7 @@ final class TrackerCategoryStore: NSObject {
         return category[0]
         
     }
-    
+
     func renameCategory(_ id: UUID, newName: String) {
         let category = fetchCategoryWithId(id)
         category.name = newName

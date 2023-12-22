@@ -64,6 +64,7 @@ final class TrackerStore: NSObject {
 
     }
     
+    
     private func fetchTrackers() -> [TrackerCoreData] {
         let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
     
@@ -75,7 +76,7 @@ final class TrackerStore: NSObject {
 
     }
     
-    private func convertToTrackers(_ coreData: [TrackerCoreData]) -> [Tracker] {
+    func convertToTrackers(_ coreData: [TrackerCoreData]) -> [Tracker] {
         var trackers: [Tracker] = []
         for tracker in coreData {
             let converted = convertToTracker(coreDataTracker: tracker)

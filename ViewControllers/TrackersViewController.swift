@@ -13,8 +13,9 @@ import CoreData
 class TrackersViewController: UIViewController  {
     
     let categoryStore = TrackerCategoryStore.shared
-    let trackerStore = TrackerStore.shared
     let trackerRecordStore = TrackerRecordStore.shared
+    let trackerStore = TrackerStore.shared
+    
     //    Will have to move CoreData logic to separate files
     
     var catsAtt: [TrackerCategory] = []
@@ -85,6 +86,9 @@ class TrackersViewController: UIViewController  {
         
         super.viewDidLoad()
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(endEditing))
+        view.addGestureRecognizer(tapGesture)
+        
         selectedDate = Date()
         initialTrackersFilter()
         setInitialPlaceholderVisibility()
@@ -99,6 +103,10 @@ class TrackersViewController: UIViewController  {
         configView()
     }
     
+    @objc func endEditing() {
+        searchBar.endEditing(true)
+    }
+    
     func setInitialPlaceholderVisibility() {
         let numberOfTrackers = trackerStore.getNumberOfTrackers()
         if numberOfTrackers == 0 {
@@ -108,6 +116,7 @@ class TrackersViewController: UIViewController  {
     // MARK: - Private Methods
     
     private func initialTrackersFilter() {
+        categories = categoryStore.getCategories()
         filteredData = categories.filter { category in
             for tracker in category.trackers {
                 return isTrackerScheduledOnSelectedDate(tracker)
@@ -120,17 +129,14 @@ class TrackersViewController: UIViewController  {
         placeholderPic.isHidden = false
         placeholderText.isHidden = false
     }
-    
     private func hidePlaceholder() {
         placeholderPic.isHidden = true
         placeholderText.isHidden = true
     }
-    
     private func showErrorPlaceholder() {
         errorPlaceholderPic.isHidden = false
         errorPlaceholderText.isHidden = false
     }
-    
     private func hideErrorPlaceholder() {
         errorPlaceholderPic.isHidden = true
         errorPlaceholderText.isHidden = true
@@ -271,12 +277,11 @@ class TrackersViewController: UIViewController  {
     
 }
 
-extension  TrackersViewController: CreateTrackerViewControllerDelegate {
+extension TrackersViewController: CreateTrackerViewControllerDelegate {
     
-    func didCreateNewTracker(model: Tracker, toCategory: TrackerCategory) {
+    func didCreateNewTracker() {
         
-        trackerStore.saveTrackerCoreData(model, toCategory: toCategory)
-        selectedDate = Date()
+        hidePlaceholder()
         initialTrackersFilter()
         trackerCollection.reloadData()
         
@@ -378,22 +383,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 extension TrackersViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        if searchBar.text == "" {
-            var filteredCategories: [TrackerCategory] = []
-            for category in categories {
-                let filteredTrackers = category.trackers.filter { tracker in
-                    if isTrackerScheduledOnSelectedDate(tracker) {
-                        return true
-                    } else {
-                        return false
-                    }
-                }
-                if !filteredTrackers.isEmpty {
-                    filteredCategories.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredTrackers))
-                }
-            }
-            
-        } else {
+        if searchBar.text != nil && searchBar.text != "" {
             var searchedCategories: Array<TrackerCategory> = []
             for category in categories {
                 var searchedTrackers: Array<Tracker> = []
@@ -408,6 +398,22 @@ extension TrackersViewController: UISearchBarDelegate {
                 }
             }
             filteredData = searchedCategories
+            
+            
+        } else {
+            var filteredCategories: [TrackerCategory] = []
+            for category in categories {
+                let filteredTrackers = category.trackers.filter { tracker in
+                    if isTrackerScheduledOnSelectedDate(tracker) {
+                        return true
+                    } else {
+                        return false
+                    }
+                }
+                if !filteredTrackers.isEmpty {
+                    filteredCategories.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredTrackers))
+                }
+            }
         }
         if filteredData.isEmpty {
             hidePlaceholder()
