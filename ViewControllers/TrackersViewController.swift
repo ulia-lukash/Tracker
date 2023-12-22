@@ -85,7 +85,6 @@ class TrackersViewController: UIViewController  {
     override func viewDidLoad()   {
         
         super.viewDidLoad()
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(endEditing))
         view.addGestureRecognizer(tapGesture)
         
@@ -117,11 +116,14 @@ class TrackersViewController: UIViewController  {
     
     private func initialTrackersFilter() {
         categories = categoryStore.getCategories()
-        filteredData = categories.filter { category in
-            for tracker in category.trackers {
+        filteredData = []
+        for category in categories {
+            let filteredTrackers = category.trackers.filter { tracker in
                 return isTrackerScheduledOnSelectedDate(tracker)
             }
-            return false
+            if !filteredTrackers.isEmpty {
+                filteredData.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredTrackers))
+            }
         }
     }
     
@@ -382,46 +384,48 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 
 extension TrackersViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        categories = categoryStore.getCategories()
         
-        if searchBar.text != nil && searchBar.text != "" {
-            var searchedCategories: Array<TrackerCategory> = []
-            for category in categories {
-                var searchedTrackers: Array<Tracker> = []
+        if let text = searchBar.text {
+            if text.count > 0 {
+                var searchedCategories: Array<TrackerCategory> = []
+                for category in categories {
+                    var searchedTrackers: Array<Tracker> = []
+                    
+                    for tracker in category.trackers{
+                        if tracker.name.localizedCaseInsensitiveContains(text) && isTrackerScheduledOnSelectedDate(tracker) {
+                            searchedTrackers.append(tracker)
+                        }
+                    }
+                    if !searchedTrackers.isEmpty {
+                        searchedCategories.append(TrackerCategory(id: UUID(), name: category.name, trackers: searchedTrackers))
+                    }
+                }
+                filteredData = searchedCategories
                 
-                for tracker in category.trackers{
-                    if tracker.name.localizedCaseInsensitiveContains(searchText) && isTrackerScheduledOnSelectedDate(tracker) {
-                        searchedTrackers.append(tracker)
-                    }
-                }
-                if !searchedTrackers.isEmpty {
-                    searchedCategories.append(TrackerCategory(id: UUID(), name: category.name, trackers: searchedTrackers))
-                }
+            } else {
+                filterSelectedDateCategories()
             }
-            filteredData = searchedCategories
-            
-            
         } else {
-            var filteredCategories: [TrackerCategory] = []
-            for category in categories {
-                let filteredTrackers = category.trackers.filter { tracker in
-                    if isTrackerScheduledOnSelectedDate(tracker) {
-                        return true
-                    } else {
-                        return false
-                    }
-                }
-                if !filteredTrackers.isEmpty {
-                    filteredCategories.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredTrackers))
-                }
-            }
+            filterSelectedDateCategories()
         }
-        if filteredData.isEmpty {
-            hidePlaceholder()
-            showErrorPlaceholder()
-        } else {
-            hidePlaceholder()
-            hideErrorPlaceholder()
-        }
+       
         trackerCollection.reloadData()
+    }
+    
+    private func filterSelectedDateCategories() {
+        filteredData = []
+        for category in categories {
+            let filteredTrackers = category.trackers.filter { tracker in
+                if isTrackerScheduledOnSelectedDate(tracker) {
+                    return true
+                } else {
+                    return false
+                }
+            }
+            if !filteredTrackers.isEmpty {
+                filteredData.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredTrackers))
+            }
+        }
     }
 }

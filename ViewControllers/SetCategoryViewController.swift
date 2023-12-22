@@ -89,7 +89,6 @@ class SetCategoryViewController: UIViewController {
         configView()
         categoriesTable.dataSource = self
         categoriesTable.delegate = self
-        
     }
     
     // MARK: - Public Methods
@@ -177,7 +176,7 @@ class SetCategoryViewController: UIViewController {
     
     @objc private func addCategoryButtonTapped() {
         let viewController = CreateNewCategoryViewController()
-        viewController.titleText = "Новая привычка"
+        viewController.titleText = "Новая категория"
         viewController.delegate = self
         present(viewController, animated: true)
     }

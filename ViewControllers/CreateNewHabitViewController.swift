@@ -46,7 +46,7 @@ class CreateNewHabitViewController: UIViewController {
     private lazy var scrollView = UIScrollView()
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
-        label.text = "Новая привычка"
+        label.text = isHabit ? "Новая привычка" : "Новое нерегулярное событие"
         label.textColor = UIColor(named: "Black")
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
