@@ -9,6 +9,9 @@ import Foundation
 import UIKit
 
 final class  SetCategoryViewModel: CreateNewCategoryViewControllerDelegate {
+    
+    var viewController: SetCategoryViewController?
+    
     func reloadCategories() {
         SetCategoryViewController().reloadCategories()
     }
@@ -35,35 +38,8 @@ final class  SetCategoryViewModel: CreateNewCategoryViewControllerDelegate {
         }
     }
     
-    func userPressedCategory(_ item: TrackerCategory) -> UIContextMenuConfiguration {
-        
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
-            
-            let editAction = UIAction(title: "Редактировать") { _ in
-                let viewController = CreateNewCategoryViewController()
-                viewController.titleText = "Редактирование категории"
-                viewController.startingString = item.name
-                viewController.categoryId = item.id
-                viewController.delegate = self
-                SetCategoryViewController().present(viewController, animated: true)
-            }
-            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { _ in
-                
-                let actionSheet: UIAlertController = {
-                    let alert = UIAlertController()
-                    alert.title = "Эта категория точно не нужна?"
-                    return alert
-                }()
-                let action1 = UIAlertAction(title: "Удалить", style: .destructive) {_ in
-                    self.categoryStore.deleteCategory(item.id)
-                    self.reloadCategories()
-                }
-                let action2 = UIAlertAction(title: "Отменить", style: .cancel)
-                actionSheet.addAction(action1)
-                actionSheet.addAction(action2)
-                SetCategoryViewController().present(actionSheet, animated: true)
-            }
-            return UIMenu(title: "", children: [editAction, deleteAction])
-        }
+    func deleteCategory(_ item: TrackerCategory) {
+        self.categoryStore.deleteCategory(item.id)
+        getCategories()
     }
 }

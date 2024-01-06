@@ -14,6 +14,7 @@ final class TrackerCategoryStore: NSObject {
     
     static let shared = TrackerCategoryStore()
     
+//    private let recordStore = TrackerRecordStore.shared
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var coreDataCategories: [ TrackerCategoryCoreData ]?
@@ -122,6 +123,7 @@ final class TrackerCategoryStore: NSObject {
         if let trackers = category.trackers?.allObjects as? [TrackerCoreData] {
             for tracker in trackers {
                 context.delete(tracker)
+//                TODO: delete tracker records too bish they be lagging
             }
         }
         context.delete(category)

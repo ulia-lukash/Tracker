@@ -319,7 +319,8 @@ class CreateNewHabitViewController: UIViewController {
         guard let habitName = textField.text, let pickedEmoji = pickedEmoji else {
             return
         }
-        if habitName.isEmpty || pickedEmoji.isEmpty || pickedColour == nil || configuredSchedule.isEmpty && isHabit  {
+        
+        if habitName.isEmpty || pickedEmoji.isEmpty || pickedColour == nil || pickedCategory == nil || configuredSchedule.isEmpty && isHabit  {
             createButton.backgroundColor = UIColor(named: "Gray")
             createButton.isEnabled = false
         } else {

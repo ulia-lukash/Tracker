@@ -70,7 +70,7 @@ class SetCategoryViewController: UIViewController {
         super.viewDidLoad()
         
         viewModel = SetCategoryViewModel()
-        
+        viewModel?.viewController? = self
         bind()
         
         viewModel?.getCategories()
@@ -214,7 +214,33 @@ extension SetCategoryViewController: UIContextMenuInteractionDelegate {
         guard let viewModel = viewModel else { return nil }
         let item = viewModel.categories[indexPath.row]
         
-        return viewModel.userPressedCategory(item)
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+            
+            let editAction = UIAction(title: "Редактировать") { _ in
+                let viewController = CreateNewCategoryViewController()
+                viewController.titleText = "Редактирование категории"
+                viewController.startingString = item.name
+                viewController.categoryId = item.id
+                viewController.delegate = self
+                self.present(viewController, animated: true)
+            }
+            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { _ in
+                
+                let actionSheet: UIAlertController = {
+                    let alert = UIAlertController()
+                    alert.title = "Эта категория точно не нужна?"
+                    return alert
+                }()
+                let action1 = UIAlertAction(title: "Удалить", style: .destructive) {_ in
+                    viewModel.deleteCategory(item)
+                }
+                let action2 = UIAlertAction(title: "Отменить", style: .cancel)
+                actionSheet.addAction(action1)
+                actionSheet.addAction(action2)
+                self.present(actionSheet, animated: true)
+            }
+            return UIMenu(title: "", children: [editAction, deleteAction])
+        }
     }
 }
 
