@@ -23,7 +23,7 @@ final class TrackerStore: NSObject {
         let emoji = coreDataTracker.emoji!
         let schedule = coreDataTracker.schedule?.schedule
         var tracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule)
- 
+        
         return tracker
     }
     
@@ -39,7 +39,7 @@ final class TrackerStore: NSObject {
         }
         let fetchedCategory = categoryStore.fetchCategoryWithId(category.id)
         newTracker.category = fetchedCategory
-                
+        
         do {
             try self.context.save()
         }
@@ -52,28 +52,38 @@ final class TrackerStore: NSObject {
     }
     
     func fetchTrackerWithId(_ id: UUID) -> TrackerCoreData {
-            let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
         
-            request.returnsObjectsAsFaults = false
+        request.returnsObjectsAsFaults = false
         let uuid = id.uuidString
-
+        
         request.predicate = NSPredicate(format: "id == %@", uuid)
-            let tracker = try! context.fetch(request)
-
-            return tracker[0]
-
+        let tracker = try! context.fetch(request)
+        
+        return tracker[0]
+        
     }
     
+    func fetchTrackersOfCategory(_ category: TrackerCategoryCoreData) -> [TrackerCoreData] {
+        let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
+        
+        request.returnsObjectsAsFaults = false
+        
+        request.predicate = NSPredicate(format: "category == %@", category)
+        let trackers = try! context.fetch(request)
+        
+        return trackers
+    }
     
     private func fetchTrackers() -> [TrackerCoreData] {
         let request = NSFetchRequest<TrackerCoreData>(entityName: "TrackerCoreData")
-    
+        
         request.returnsObjectsAsFaults = false
-    
+        
         let trackers = try! context.fetch(request)
-
+        
         return trackers
-
+        
     }
     
     func convertToTrackers(_ coreData: [TrackerCoreData]) -> [Tracker] {
@@ -89,7 +99,7 @@ final class TrackerStore: NSObject {
         return convertToTrackers(fetchTrackers())
     }
     
-//    Существует возможно получать количество сразу из request... 
+    //    Существует возможно получать количество сразу из request...
     func getNumberOfTrackers() -> Int {
         let trackers = getTrackers()
         return trackers.count

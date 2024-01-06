@@ -90,6 +90,7 @@ class CreateNewHabitViewController: UIViewController {
         let table = UITableView(frame: .zero)
         
         table.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
+        table.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         table.isScrollEnabled = false
         table.layer.masksToBounds = true
         table.layer.cornerRadius = 16
