@@ -16,13 +16,9 @@ protocol SetCategoryViewControllerDelegate: AnyObject {
 class SetCategoryViewController: UIViewController {
     
     var viewModel: SetCategoryViewModel?
-    
+    var viewModelDelegate: SetCategoryViewControllerDelegate?
     // MARK: - Public Properties
-    
-    private var trackerCategoryStore = TrackerCategoryStore()
-    weak var delegate: SetCategoryViewControllerDelegate?
-    private var selectedCategory: TrackerCategory?
-    
+        
     // MARK: - Private Properties
         
     private lazy var viewTitle: UILabel = {
@@ -70,7 +66,7 @@ class SetCategoryViewController: UIViewController {
         super.viewDidLoad()
         
         viewModel = SetCategoryViewModel()
-        viewModel?.viewController? = self
+        viewModel?.delegate = viewModelDelegate
         bind()
         
         viewModel?.getCategories()
@@ -204,14 +200,12 @@ extension SetCategoryViewController: UITableViewDelegate {
         
         guard let viewModel = viewModel else { return }
         tableView.cellForRow(at: indexPath)?.accessoryType = .checkmark
-        selectedCategory = viewModel.categories[indexPath.row]
-        delegate?.didSetCategory(category: selectedCategory!)
+        viewModel.didSelectCategoryAt(indexPath: indexPath)
         dismiss(animated: true)
     }
     func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
         
         tableView.cellForRow(at: indexPath)?.accessoryType = .none
-        
         tableView.reloadRows(at: [indexPath], with: .automatic)
     }
 }

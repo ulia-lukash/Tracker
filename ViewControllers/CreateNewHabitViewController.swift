@@ -192,7 +192,7 @@ class CreateNewHabitViewController: UIViewController {
     
     private func setCategory() {
         let setCategoryController = SetCategoryViewController()
-        setCategoryController.delegate = self
+        setCategoryController.viewModelDelegate = self
         
         present(UINavigationController(rootViewController: setCategoryController), animated: true)
     }

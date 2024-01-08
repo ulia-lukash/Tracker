@@ -10,7 +10,9 @@ import UIKit
 
 final class  SetCategoryViewModel {
     
-    var viewController: SetCategoryViewController?
+    
+    weak var delegate: SetCategoryViewControllerDelegate?
+    private var selectedCategory: TrackerCategory?
     
     private let categoryStore = TrackerCategoryStore.shared
     var onChange: (() -> Void)?
@@ -36,5 +38,10 @@ final class  SetCategoryViewModel {
     func deleteCategory(_ item: TrackerCategory) {
         self.categoryStore.deleteCategory(item.id)
         getCategories()
+    }
+    
+    func didSelectCategoryAt(indexPath: IndexPath) {
+        selectedCategory = categories[indexPath.row]
+        delegate?.didSetCategory(category: selectedCategory!)
     }
 }
