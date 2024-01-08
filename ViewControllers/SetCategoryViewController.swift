@@ -143,8 +143,6 @@ class SetCategoryViewController: UIViewController {
             categoriesTable.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
             categoriesTable.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
             categoriesTable.bottomAnchor.constraint(equalTo: addCategoryButton.topAnchor, constant: -16),
-        
-            
         ])
     }
     
@@ -171,12 +169,26 @@ extension SetCategoryViewController: UITableViewDataSource {
         let cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
         cell!.heightAnchor.constraint(equalToConstant: 75).isActive = true
         cell!.backgroundColor = UIColor(named: "Background")
+        
         guard let viewModel = viewModel else { return cell! }
+        
         cell!.textLabel?.text = viewModel.categories[indexPath.row].name
-        if indexPath.row == viewModel.categoriesNumber() - 1 {
-            cell!.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-            cell!.layer.cornerRadius = 16
-            cell!.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+        
+        if viewModel.categoriesNumber() ==  1 {
+            if indexPath.row == 0 {
+                cell!.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+                cell!.layer.cornerRadius = 16
+                cell!.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            }
+        } else if viewModel.categoriesNumber() > 1 {
+            if indexPath.row == viewModel.categoriesNumber() - 1 {
+                cell!.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+                cell!.layer.cornerRadius = 16
+                cell!.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
+            } else {
+                cell!.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+                cell!.layer.cornerRadius = 0
+            }
         }
         
         cell?.selectionStyle = .none
@@ -244,10 +256,11 @@ extension SetCategoryViewController: UIContextMenuInteractionDelegate {
     }
 }
 
-//  TODO: - Reload Data not working
 extension SetCategoryViewController: CreateNewCategoryViewControllerDelegate {
     
     func reloadCategories()  {
+        guard let viewModel = viewModel else { return }
+        viewModel.getCategories()
         categoriesTable.reloadData()
     }
 }

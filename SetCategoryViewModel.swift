@@ -8,14 +8,9 @@
 import Foundation
 import UIKit
 
-final class  SetCategoryViewModel: CreateNewCategoryViewControllerDelegate {
+final class  SetCategoryViewModel {
     
     var viewController: SetCategoryViewController?
-    
-    func reloadCategories() {
-        SetCategoryViewController().reloadCategories()
-    }
-    
     
     private let categoryStore = TrackerCategoryStore.shared
     var onChange: (() -> Void)?
