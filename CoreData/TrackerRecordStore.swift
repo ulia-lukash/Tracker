@@ -35,6 +35,45 @@ final class TrackerRecordStore {
         return records
     }
     
+    func fetchCompletedRecordsForTracker(_ tracker: TrackerCoreData) -> [TrackerRecordCoreData] {
+        var records: [TrackerRecordCoreData] = []
+        let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        request.returnsObjectsAsFaults = false
+        request.predicate = NSPredicate(format: "tracker == %@", tracker)
+        do {
+            records = try! context.fetch(request)
+        }
+        catch {
+            
+        }
+        return records
+    }
+    
+    func deleteCompletedRecordsForTracker(_ tracker: TrackerCoreData) {
+        var records: [TrackerRecordCoreData] = []
+        let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        request.returnsObjectsAsFaults = false
+        request.predicate = NSPredicate(format: "tracker == %@", tracker)
+        do {
+            records = try! context.fetch(request)
+            for record in records {
+                context.delete(record)
+                do {
+                    try self.context.save()
+                }
+                catch {
+                    // Replace this implementation with code to handle the error appropriately.
+                    // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                }
+            }
+        }
+        catch {
+            
+        }
+    }
+    
     private func fetchCompletedRecords() -> [TrackerRecordCoreData] {
         var records: [TrackerRecordCoreData] = []
         let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")

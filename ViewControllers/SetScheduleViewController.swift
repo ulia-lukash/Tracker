@@ -31,13 +31,10 @@ class SetScheduleViewController: UIViewController {
         return label
     }()
     
-    private lazy var doneButton: UIButton = {
-        let button = UIButton()
-        button.backgroundColor = UIColor(named: "Black")
-        button.setTitle("Готово", for: .normal)
-        button.tintColor = .white
-        button.layer.cornerRadius = 16
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+    private lazy var doneButton: CustomButton = {
+        let button = CustomButton()
+        button.buttonLabel = "Готово"
+        button.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
         return button
     }()
     
@@ -61,7 +58,7 @@ class SetScheduleViewController: UIViewController {
         view.backgroundColor = .white
         weekDaysSwitchTable.dataSource = self
         weekDaysSwitchTable.delegate = self
-        doneButton.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
+
         appendSwitches()
         configView()
         
@@ -87,7 +84,6 @@ class SetScheduleViewController: UIViewController {
             viewTitle.heightAnchor.constraint(equalToConstant: 22),
             doneButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
             doneButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
-            doneButton.heightAnchor.constraint(equalToConstant: 60),
             doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }

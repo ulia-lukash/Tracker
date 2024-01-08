@@ -31,7 +31,8 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     private var isCompleted: Bool?
     private lazy var backgroundRect: UIView = {
         let view = UIView()
-        
+        let interaction = UIContextMenuInteraction(delegate: self)
+        view.addInteraction(interaction)
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 16
         view.heightAnchor.constraint(equalToConstant: 90).isActive = true
@@ -134,8 +135,8 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     
     private func configureCellLayout() {
         contentView.addSubview(backgroundRect)
-        contentView.addSubview(emojiView)
-        contentView.addSubview(nameLabel)
+        backgroundRect.addSubview(emojiView)
+        backgroundRect.addSubview(nameLabel)
         contentView.addSubview(counterLabel)
         contentView.addSubview(markCompleteButton)
         
@@ -192,5 +193,29 @@ class TrackerCollectionViewCell: UICollectionViewCell {
             delegate?.markComplete(with: trackerID)
             
         }
+    }
+}
+
+extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction,
+                                configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil,
+                                          previewProvider: nil,
+                                          actionProvider: {
+            suggestedActions in
+            let pinAction = UIAction(title: "Закрепить") { action in
+//                self.performInspect()
+            }
+            
+            let editAction = UIAction(title: "Редактировать") { action in
+//                self.performDuplicate()
+            }
+            
+            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { action in
+//                self.performDelete()
+            }
+            
+            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
+        })
     }
 }

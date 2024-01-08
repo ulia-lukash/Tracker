@@ -27,6 +27,11 @@ class TrackersViewController: UIViewController  {
     private var selectedDate = Date()
     private var categories: [TrackerCategory] = []
     
+    private lazy var actionSheet: UIAlertController = {
+        let alert = UIAlertController()
+        alert.title = "Эта категория точно не нужна?"
+        return alert
+    }()
     private lazy var placeholderPic = UIImageView(image: UIImage(named: "tracker_placeholder"))
     private lazy var placeholderText: UILabel = {
         let label = UILabel()
@@ -322,12 +327,10 @@ extension TrackersViewController: UICollectionViewDataSource {
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return filteredData.count
-        //        return coreDataCategories!.count
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return filteredData[section].trackers.count
-        //        return coreDataCategories![section].trackers!.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -430,5 +433,44 @@ extension TrackersViewController: UISearchBarDelegate {
                 filteredData.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredTrackers))
             }
         }
+    }
+}
+
+extension TrackersViewController: UIContextMenuInteractionDelegate {
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return nil
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+            
+            let pinAction = UIAction(title: "Закрепить") { _ in
+                
+            }
+            let editAction = UIAction(title: "Редактировать") { _ in
+//                let viewController = CreateNewCategoryViewController()
+//                viewController.titleText = "Редактирование категории"
+//                viewController.startingString = item.name
+//                viewController.categoryId = item.id
+//                viewController.delegate = self
+//                self.present(viewController, animated: true)
+            }
+            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { _ in
+//                self.presentActionSheetForCategory(item.id)
+            }
+            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
+        }
+    }
+    
+    private func presentActionSheetForCategory(_ id: UUID) {
+        let action1 = UIAlertAction(title: "Удалить", style: .destructive) {_ in
+//            self.trackerCategoryStore.deleteCategory(id)
+//            self.reloadCategories()
+        }
+        let action2 = UIAlertAction(title: "Отменить", style: .cancel)
+        actionSheet.addAction(action1)
+        actionSheet.addAction(action2)
+        present(actionSheet, animated: true)
     }
 }

@@ -9,6 +9,6 @@ import Foundation
 
 // MARK: - Class
 //
-//final class TrackersCoreDataFactory {
-// 
+//final class TrackersCoreDataFactory: NSObject {
+//
 //}

@@ -38,27 +38,22 @@ final class CreateNewCategoryViewController: UIViewController {
         textField.layer.cornerRadius = 16
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftViewMode = .always
-        textField.rightView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
-        textField.rightViewMode = .always
         textField.clearButtonMode = .whileEditing
+        textField.addTarget(self, action: #selector(setButtonState), for: .allEditingEvents)
         return textField
     }()
+
     
-    private lazy var addCategoryButton: UIButton = {
-        let button = UIButton()
-        button.layer.cornerRadius = 16
-        button.backgroundColor = UIColor(named: "Black")
-        button.setTitle("Готово", for: .normal)
-        button.titleLabel?.textColor = .white
-        button.titleLabel?.textAlignment = .center
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+    private lazy var addCategoryButton: CustomButton = {
+        let button = CustomButton()
+        button.buttonLabel = "Готово"
+        button.backgroundColor = UIColor(named: "Gray")
         button.addTarget(self, action: #selector(addCategoryButtonTapped), for: .touchUpInside)
         return button
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(endEditing))
         view.addGestureRecognizer(tapGesture)
         view.backgroundColor = .white
@@ -87,7 +82,6 @@ final class CreateNewCategoryViewController: UIViewController {
             viewTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             viewTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
             viewTitle.heightAnchor.constraint(equalToConstant: 22),
-            addCategoryButton.heightAnchor.constraint(equalToConstant: 60),
             addCategoryButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
             addCategoryButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
             addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -106,4 +100,20 @@ final class CreateNewCategoryViewController: UIViewController {
          
         dismiss(animated: true)
     }
+    
+    @objc private func setButtonState() {
+        guard let categoryName = textField.text else {
+            return
+        }
+        if categoryName.isEmpty {
+            addCategoryButton.backgroundColor = UIColor(named: "Gray")
+            addCategoryButton.isEnabled = false
+        } else {
+            addCategoryButton.backgroundColor = UIColor(named: "Black")
+            addCategoryButton.isEnabled = true
+        }
+    }
+    
+    
+    
 }
