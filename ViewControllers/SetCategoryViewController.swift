@@ -70,7 +70,6 @@ class SetCategoryViewController: UIViewController {
         bind()
         
         viewModel?.getCategories()
-//        categories =  trackerCategoryStore.getCategories()
         setPlaceholderVisibility()
         configView()
         categoriesTable.dataSource = self
@@ -162,33 +161,16 @@ extension SetCategoryViewController: UITableViewDataSource {
         
         let reuseIdentifier = "CategoriesTableViewCell"
         
-        let cell: UITableViewCell? = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier)
-        cell!.heightAnchor.constraint(equalToConstant: 75).isActive = true
-        cell!.backgroundColor = UIColor(named: "Background")
+        guard let cell: CategoriesTableViewCell? = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! CategoriesTableViewCell else { return UITableViewCell() }
         
         guard let viewModel = viewModel else { return cell! }
-        
-        cell!.textLabel?.text = viewModel.categories[indexPath.row].name
-        
-        if viewModel.categoriesNumber() ==  1 {
-            if indexPath.row == 0 {
-                cell!.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-                cell!.layer.cornerRadius = 16
-                cell!.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-            }
-        } else if viewModel.categoriesNumber() > 1 {
-            if indexPath.row == viewModel.categoriesNumber() - 1 {
-                cell!.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
-                cell!.layer.cornerRadius = 16
-                cell!.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
-            } else {
-                cell!.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-                cell!.layer.cornerRadius = 0
-            }
-        }
-        
-        cell?.selectionStyle = .none
+        cell?.viewModel = viewModel
+        cell?.configure(indexPath: indexPath)
         self.addInteraction(toCell: cell!)
+        
+        if (indexPath.row == viewModel.categoriesNumber() - 1) {
+            cell?.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+        }
         return cell!
         
     }

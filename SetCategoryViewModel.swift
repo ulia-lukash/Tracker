@@ -28,11 +28,7 @@ final class  SetCategoryViewModel {
     }
     
     func categoriesNumber() -> Int {
-        if categories.count > 0 {
-            return categories.count
-        } else {
-            return 0
-        }
+        categories.count
     }
     
     func deleteCategory(_ item: TrackerCategory) {

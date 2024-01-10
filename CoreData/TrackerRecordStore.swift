@@ -27,7 +27,7 @@ final class TrackerRecordStore {
         request.returnsObjectsAsFaults = false
         request.predicate = NSPredicate(format: "date == %@", date as NSDate)
         do {
-            records = try! context.fetch(request)
+            records = try context.fetch(request)
         }
         catch {
             
@@ -41,7 +41,7 @@ final class TrackerRecordStore {
         request.returnsObjectsAsFaults = false
         request.predicate = NSPredicate(format: "tracker == %@", tracker)
         do {
-            records = try! context.fetch(request)
+            records = try context.fetch(request)
         }
         catch {
             
@@ -55,7 +55,7 @@ final class TrackerRecordStore {
         request.returnsObjectsAsFaults = false
         request.predicate = NSPredicate(format: "tracker == %@", tracker)
         do {
-            records = try! context.fetch(request)
+            records = try context.fetch(request)
             for record in records {
                 context.delete(record)
                 do {
@@ -80,7 +80,7 @@ final class TrackerRecordStore {
         request.returnsObjectsAsFaults = false
         
         do {
-            records = try! context.fetch(request)
+            records = try context.fetch(request)
         }
         catch {
             

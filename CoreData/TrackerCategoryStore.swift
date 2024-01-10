@@ -14,7 +14,6 @@ final class TrackerCategoryStore: NSObject {
     
     static let shared = TrackerCategoryStore()
     
-//    private let recordStore = TrackerRecordStore.shared
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var coreDataCategories: [ TrackerCategoryCoreData ]?
