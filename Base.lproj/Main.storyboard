@@ -10,7 +10,7 @@
         <!--Onboarding View Controller-->
         <scene sceneID="9LK-7z-6Xy">
             <objects>
-                <pageViewController autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="XDi-1O-cOd" customClass="OnboardingViewController" customModule="Tracker" customModuleProvider="target" sceneMemberID="viewController"/>
+                <pageViewController storyboardIdentifier="OnboardingController" autoresizesArchivedViewToFullSize="NO" transitionStyle="scroll" navigationOrientation="horizontal" spineLocation="none" id="XDi-1O-cOd" customClass="OnboardingViewController" customModule="Tracker" customModuleProvider="target" sceneMemberID="viewController"/>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="eag-YT-7cO" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="779" y="-575"/>
@@ -18,7 +18,7 @@
         <!--Tab Bar View Controller-->
         <scene sceneID="heW-sN-a6W">
             <objects>
-                <tabBarController id="yWc-m8-8bz" customClass="TabBarViewController" customModule="Tracker" customModuleProvider="target" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarController" id="yWc-m8-8bz" customClass="TabBarViewController" customModule="Tracker" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WYp-pJ-Y8K">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

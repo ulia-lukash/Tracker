@@ -157,6 +157,8 @@ class OnboardingViewControllerBase: UIViewController {
     
     @objc func didTapOnboardingButton() {
         let viewController = TabBarViewController()
+        let defaults = UserDefaults.standard
+        defaults.set(true, forKey: "SkippedUnboarding")
         
         viewController.modalPresentationStyle = .fullScreen
         present(viewController, animated: true, completion: nil)
