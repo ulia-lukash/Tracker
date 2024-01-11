@@ -90,6 +90,7 @@ class CreateNewHabitViewController: UIViewController {
         let table = UITableView(frame: .zero)
         
         table.register(SettingTableViewCell.self, forCellReuseIdentifier: SettingTableViewCell.identifier)
+        table.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
         table.isScrollEnabled = false
         table.layer.masksToBounds = true
         table.layer.cornerRadius = 16
@@ -191,7 +192,7 @@ class CreateNewHabitViewController: UIViewController {
     
     private func setCategory() {
         let setCategoryController = SetCategoryViewController()
-        setCategoryController.delegate = self
+        setCategoryController.viewModelDelegate = self
         
         present(UINavigationController(rootViewController: setCategoryController), animated: true)
     }
@@ -318,7 +319,8 @@ class CreateNewHabitViewController: UIViewController {
         guard let habitName = textField.text, let pickedEmoji = pickedEmoji else {
             return
         }
-        if habitName.isEmpty || pickedEmoji.isEmpty || pickedColour == nil || configuredSchedule.isEmpty && isHabit  {
+        
+        if habitName.isEmpty || pickedEmoji.isEmpty || pickedColour == nil || pickedCategory == nil || configuredSchedule.isEmpty && isHabit  {
             createButton.backgroundColor = UIColor(named: "Gray")
             createButton.isEnabled = false
         } else {

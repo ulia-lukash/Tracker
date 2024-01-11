@@ -13,7 +13,7 @@ import UIKit
 final class TrackerCategoryStore: NSObject {
     
     static let shared = TrackerCategoryStore()
-        
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     
     var coreDataCategories: [ TrackerCategoryCoreData ]?
@@ -102,7 +102,7 @@ final class TrackerCategoryStore: NSObject {
         return category[0]
         
     }
-
+    
     func renameCategory(_ id: UUID, newName: String) {
         let category = fetchCategoryWithId(id)
         category.name = newName
@@ -119,6 +119,12 @@ final class TrackerCategoryStore: NSObject {
     func deleteCategory(_ id: UUID) {
         let category = fetchCategoryWithId(id)
         
+        if let trackers = category.trackers?.allObjects as? [TrackerCoreData] {
+            for tracker in trackers {
+                context.delete(tracker)
+//                TODO: delete tracker records too bish they be lagging
+            }
+        }
         context.delete(category)
         do {
             try context.save()
