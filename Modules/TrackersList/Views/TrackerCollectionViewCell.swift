@@ -163,21 +163,10 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     }
     
     private func configureCounter(days: Int) {
-        let localized = NSLocalizedString("number_of_days", comment: "no comment")
-//        let formatted = String(format: localized, days)
-        counterLabel.text = formatted
-//        if (11...14).contains(remainder) {
-//            counterLabel.text = "\(days) дней"
-//        } else {
-//            switch remainder % 10 {
-//            case 1:
-//                counterLabel.text = "\(days) день"
-//            case 2...4:
-//                counterLabel.text = "\(days) дня"
-//            default:
-//                counterLabel.text = "\(days) дней"
-//            }
-//        }
+        let key = "number_of_days"
+        let localizationFormat = NSLocalizedString(key, tableName: key, comment: "Days counter label")
+        let string = String(format: localizationFormat, days)
+        counterLabel.text = string
     }
     
     // MARK: - @objc Methods
