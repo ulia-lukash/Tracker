@@ -46,7 +46,7 @@ class CreateNewHabitViewController: UIViewController {
     private lazy var scrollView = UIScrollView()
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
-        label.text = isHabit ? "Новая привычка" : "Новое нерегулярное событие"
+        label.text = isHabit ?  NSLocalizedString("New habit", comment: "") : NSLocalizedString("New irregular action", comment: "")
         label.textColor = UIColor(named: "Black")
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -55,7 +55,7 @@ class CreateNewHabitViewController: UIViewController {
     
     private lazy var restrictionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Ограничение 38 символов"
+        label.text = NSLocalizedString("Name length restriction", comment: "")
         label.font = .systemFont(ofSize: 17)
         label.textColor = UIColor(named: "Red")
         label.textAlignment = .center
@@ -66,7 +66,7 @@ class CreateNewHabitViewController: UIViewController {
         let textField = UITextField()
         textField.backgroundColor = UIColor(named: "Background")
         textField.textColor = UIColor(named: "Black")
-        textField.placeholder = "Введите название трекера"
+        textField.placeholder = NSLocalizedString("Input tracker name", comment: "")
         textField.layer.cornerRadius = 16
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         
@@ -81,7 +81,7 @@ class CreateNewHabitViewController: UIViewController {
         cancelButton.layer.borderWidth = 1
         cancelButton.setTitleColor(UIColor(named: "Red"), for: .normal)
         cancelButton.layer.borderColor = UIColor(named: "Red")!.cgColor
-        cancelButton.setTitle("Отменить", for: .normal)
+        cancelButton.setTitle(NSLocalizedString("Cancel", comment: ""), for: .normal)
         cancelButton.layer.cornerRadius = 16
         return cancelButton
     }()
@@ -130,7 +130,7 @@ class CreateNewHabitViewController: UIViewController {
         let createButton = UIButton()
         createButton.backgroundColor = UIColor(named: "Gray")
         createButton.tintColor = .white
-        createButton.setTitle("Создать", for: .normal)
+        createButton.setTitle(NSLocalizedString("Create", comment: ""), for: .normal)
         createButton.layer.cornerRadius = 16
         return createButton
     }()
@@ -165,7 +165,7 @@ class CreateNewHabitViewController: UIViewController {
     private func appendSettingsToList() {
         settings.append(
             SettingOptions(
-                name: "Категория",
+                name: NSLocalizedString("Category", comment: ""),
                 pickedParameter: nil,
                 handler: { [weak self] in
                     guard let self = self else {
@@ -177,7 +177,7 @@ class CreateNewHabitViewController: UIViewController {
         if isHabit {
             settings.append(
                 SettingOptions(
-                    name: "Расписание",
+                    name: NSLocalizedString("Schedule", comment: ""),
                     pickedParameter: nil,
                     handler: { [weak self] in
                         guard let self = self else {
@@ -444,7 +444,7 @@ extension CreateNewHabitViewController: UICollectionViewDataSource {
             return view
         } else {
             let view = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: "header", for: indexPath) as! ColoursCollectionHeaderView
-            view.titleLabel.text = "Цвет"
+            view.titleLabel.text = NSLocalizedString("Colour", comment: "")
             return view
         }
         

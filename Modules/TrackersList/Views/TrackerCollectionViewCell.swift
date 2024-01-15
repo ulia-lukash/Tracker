@@ -192,17 +192,15 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
         return UIContextMenuConfiguration(identifier: nil,
                                           previewProvider: nil,
                                           actionProvider: {
+//            TODO: 
             suggestedActions in
-            let pinAction = UIAction(title: "Закрепить") { action in
-//                self.performInspect()
+            let pinAction = UIAction(title: NSLocalizedString("Pin", comment: "")) { action in
             }
             
-            let editAction = UIAction(title: "Редактировать") { action in
-//                self.performDuplicate()
+            let editAction = UIAction(title: NSLocalizedString("Edit", comment: "")) { action in
             }
             
-            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { action in
-//                self.performDelete()
+            let deleteAction = UIAction(title: NSLocalizedString("Delete", comment: ""), attributes: .destructive) { action in
             }
             
             return UIMenu(title: "", children: [pinAction, editAction, deleteAction])

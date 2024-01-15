@@ -22,19 +22,19 @@ class CreateTrackerViewController: UIViewController {
 
     private lazy var habitButton: CustomButton = {
         let button = CustomButton()
-        button.buttonLabel = "Привычка"
+        button.buttonLabel = NSLocalizedString("Habit", comment: "")
         button.addTarget(self, action: #selector(habitButtonTapped), for: .touchUpInside)
         return button
     }()
     private lazy var irregularActionButton: CustomButton = {
         let button = CustomButton()
-        button.buttonLabel = "Нерегулярные событие"
+        button.buttonLabel = NSLocalizedString("Irregular action", comment: "")
         button.addTarget(self, action: #selector(irregularActionButtonTapped), for: .touchUpInside)
         return button
     }()
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
-        label.text = "Создание трекера"
+        label.text = NSLocalizedString("Create a tracker", comment: "")
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
     }()

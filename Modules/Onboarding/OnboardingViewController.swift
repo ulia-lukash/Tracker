@@ -10,8 +10,8 @@ import UIKit
 
 final class OnboardingViewController: UIPageViewController {
     lazy private var pages: [UIViewController] = {
-        let first = OnboardingViewControllerBase(imageName: "background 1", labelText: "Отслеживайте только то, что хотите")
-        let second = OnboardingViewControllerBase(imageName: "background 2", labelText: "Даже если это не литры воды и йога")
+        let first = OnboardingViewControllerBase(imageName: "background 1", labelText: NSLocalizedString("Onboarding 1", comment: ""))
+        let second = OnboardingViewControllerBase(imageName: "background 2", labelText: NSLocalizedString("Onboarding 2", comment: ""))
         
         return [first, second]
     }()

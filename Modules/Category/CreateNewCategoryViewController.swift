@@ -34,7 +34,7 @@ final class CreateNewCategoryViewController: UIViewController {
         textField.text = startingString
         textField.backgroundColor = UIColor(named: "Background")
         textField.textColor = UIColor(named: "Black")
-        textField.placeholder = "Введите название категории"
+        textField.placeholder = NSLocalizedString("Input category name", comment: "")
         textField.layer.cornerRadius = 16
         textField.leftView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: textField.frame.height))
         textField.leftViewMode = .always
@@ -46,7 +46,7 @@ final class CreateNewCategoryViewController: UIViewController {
     
     private lazy var addCategoryButton: CustomButton = {
         let button = CustomButton()
-        button.buttonLabel = "Готово"
+        button.buttonLabel = NSLocalizedString("Done", comment: "")
         button.backgroundColor = UIColor(named: "Gray")
         button.addTarget(self, action: #selector(addCategoryButtonTapped), for: .touchUpInside)
         return button

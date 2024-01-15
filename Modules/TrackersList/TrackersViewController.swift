@@ -29,14 +29,14 @@ class TrackersViewController: UIViewController  {
     
     private lazy var actionSheet: UIAlertController = {
         let alert = UIAlertController()
-        alert.title = "Эта категория точно не нужна?"
+        alert.title = NSLocalizedString("Delete category confirmation", comment: "")
         return alert
     }()
     private lazy var placeholderPic = UIImageView(image: UIImage(named: "tracker_placeholder"))
     private lazy var placeholderText: UILabel = {
         let label = UILabel()
         
-        label.text = "Что будем отслеживать?"
+        label.text = NSLocalizedString("Trackers placeholder", comment: "")
         label.textColor = UIColor(named: "Black")
         label.font = .systemFont(ofSize: 12, weight: .medium)
         return label
@@ -46,7 +46,7 @@ class TrackersViewController: UIViewController  {
     private lazy var errorPlaceholderText: UILabel = {
         let label = UILabel()
         
-        label.text = "Ничего не найдено"
+        label.text = NSLocalizedString("No trackers found", comment: "")
         label.textColor = UIColor(named: "Black")
         label.font = .systemFont(ofSize: 12, weight: .medium)
         return label
@@ -60,7 +60,7 @@ class TrackersViewController: UIViewController  {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         
-        label.text = "Трекеры"
+        label.text = NSLocalizedString("Trackers", comment: "")
         label.textColor = UIColor(named: "Black")
         label.font = .systemFont(ofSize: 34, weight: .bold)
         return label
@@ -141,6 +141,8 @@ class TrackersViewController: UIViewController  {
         placeholderText.isHidden = true
     }
     private func showErrorPlaceholder() {
+        placeholderPic.isHidden = true
+        placeholderText.isHidden = true
         errorPlaceholderPic.isHidden = false
         errorPlaceholderText.isHidden = false
     }
@@ -158,7 +160,7 @@ class TrackersViewController: UIViewController  {
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "ru")
         searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = "Поиск"
+        searchBar.placeholder = NSLocalizedString("Search", comment: "")
         navigationItem.leftBarButtonItem = addButton
         
         addButton.target = self
@@ -445,10 +447,10 @@ extension TrackersViewController: UIContextMenuInteractionDelegate {
     func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
             
-            let pinAction = UIAction(title: "Закрепить") { _ in
+            let pinAction = UIAction(title: NSLocalizedString("Pin", comment: "")) { _ in
                 
             }
-            let editAction = UIAction(title: "Редактировать") { _ in
+            let editAction = UIAction(title: NSLocalizedString("Edit", comment: "")) { _ in
 //                let viewController = CreateNewCategoryViewController()
 //                viewController.titleText = "Редактирование категории"
 //                viewController.startingString = item.name
@@ -456,7 +458,7 @@ extension TrackersViewController: UIContextMenuInteractionDelegate {
 //                viewController.delegate = self
 //                self.present(viewController, animated: true)
             }
-            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { _ in
+            let deleteAction = UIAction(title: NSLocalizedString("Delete", comment: ""), attributes: .destructive) { _ in
 //                self.presentActionSheetForCategory(item.id)
             }
             return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
@@ -464,11 +466,11 @@ extension TrackersViewController: UIContextMenuInteractionDelegate {
     }
     
     private func presentActionSheetForCategory(_ id: UUID) {
-        let action1 = UIAlertAction(title: "Удалить", style: .destructive) {_ in
+        let action1 = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive) {_ in
 //            self.trackerCategoryStore.deleteCategory(id)
 //            self.reloadCategories()
         }
-        let action2 = UIAlertAction(title: "Отменить", style: .cancel)
+        let action2 = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
         actionSheet.addAction(action1)
         actionSheet.addAction(action2)
         present(actionSheet, animated: true)

@@ -16,7 +16,9 @@ final class SettingTableViewCell: UITableViewCell {
     // MARK: - Private Properties
     
     private lazy var accessoryImage: UIImageView = {
-        return UIImageView(image: UIImage(named: "Chevron"))
+        let image = UIImageView(image: UIImage(named: "Chevron"))
+        
+        return image
     }()
     
     // MARK: - Initializers

@@ -22,7 +22,7 @@ final class OnboardingViewControllerBase: UIViewController {
     
     lazy private var label: UILabel = {
         let label = UILabel()
-        label.text = "Отслеживайте только то, что хотите"
+        label.text = labelText
         label.font = .systemFont(ofSize: 32, weight: .bold)
         label.textColor = UIColor(named: "Black")
         label.textAlignment = .center
@@ -32,7 +32,7 @@ final class OnboardingViewControllerBase: UIViewController {
     }()
     lazy private var button: CustomButton = {
         let button = CustomButton()
-        button.buttonLabel = "Вот это технологии!"
+        button.buttonLabel = NSLocalizedString("Wow technology", comment: "")
         return button
     }()
     

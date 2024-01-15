@@ -26,14 +26,14 @@ class SetScheduleViewController: UIViewController {
     
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
-        label.text = "Расписание"
+        label.text = NSLocalizedString("Schedule", comment: "")
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
     }()
     
     private lazy var doneButton: CustomButton = {
         let button = CustomButton()
-        button.buttonLabel = "Готово"
+        button.buttonLabel = NSLocalizedString("Done", comment: "")
         button.addTarget(self, action: #selector(didTapDoneButton), for: .touchUpInside)
         return button
     }()
@@ -100,13 +100,13 @@ class SetScheduleViewController: UIViewController {
     
     private func appendSwitches() {
         switches.append(contentsOf: [
-            SwitchOptions(weekDay: .monday, name: "Понедельник", isOn: schedule.contains(.monday)),
-            SwitchOptions(weekDay: .tuesday, name: "Вторник", isOn: schedule.contains(.tuesday)),
-            SwitchOptions(weekDay: .wednesday, name: "Среда", isOn: schedule.contains(.wednesday)),
-            SwitchOptions(weekDay: .thursday, name: "Четверг", isOn: schedule.contains(.thursday)),
-            SwitchOptions(weekDay: .friday, name: "Пятница", isOn: schedule.contains(.friday)),
-            SwitchOptions(weekDay: .saturday, name: "Суббота", isOn: schedule.contains(.saturday)),
-            SwitchOptions(weekDay: .sunday, name: "Воскресенье", isOn: schedule.contains(.sunday)),
+            SwitchOptions(weekDay: .monday, name: NSLocalizedString("Monday", comment: ""), isOn: schedule.contains(.monday)),
+            SwitchOptions(weekDay: .tuesday, name: NSLocalizedString("Tuesday", comment: ""), isOn: schedule.contains(.tuesday)),
+            SwitchOptions(weekDay: .wednesday, name: NSLocalizedString("Wednesday", comment: ""), isOn: schedule.contains(.wednesday)),
+            SwitchOptions(weekDay: .thursday, name: NSLocalizedString("Thurday", comment: ""), isOn: schedule.contains(.thursday)),
+            SwitchOptions(weekDay: .friday, name: NSLocalizedString("Friday", comment: ""), isOn: schedule.contains(.friday)),
+            SwitchOptions(weekDay: .saturday, name: NSLocalizedString("Saturday", comment: ""), isOn: schedule.contains(.saturday)),
+            SwitchOptions(weekDay: .sunday, name: NSLocalizedString("Sunday", comment: ""), isOn: schedule.contains(.sunday))
         ])
     }
     

@@ -1,0 +1,46 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Uliana Lukash on 15.01.2024.
+  
+*/
+"Input category name" = "Input category name";
+"Zero categories placeholder" = "Trackers can be grouped into categories";
+"Search" = "Search";
+"Cancel" = "Cancel";
+"Delete" = "Delete";
+"Edit" = "Edit";
+"Pin" = "Pin";
+"Habit" = "Habit";
+"Irregular action" = "Irregular action";
+"Tracker" = "Tracker";
+"Trackers" = "Trackers";
+"Category" = "Category";
+"Categories" ="Categories";
+"Schedule" = "Schedule";
+"Create a tracker" = "Create a tracker";
+"Stats" = "Statistics";
+"Input tracker name" = "Input tracker name";
+"New category" = "New category";
+"New habit" = "New habit";
+"New irregular action" = "New irregular action";
+"Name length restriction" = "38 characters limit";
+"Delete category confirmation" = "Are you sure this category is not needed?";
+"Edit category" = "Edit category";
+"Add category" = "Add category";
+"Create" = "Create";
+"Trackers placeholder" = "What are we tracking?";
+"No trackers found" = "No trackers found";
+"Done" = "Done";
+"Monday" = "Monday";
+"Tuesday" = "Tuesday";
+"Wednesday" = "Wednesday";
+"Thursday" = "Thursday";
+"Friday" = "Friday";
+"Saturday" = "Saturday";
+"Sunday" = "Sunday";
+"Colour" = "Colour";
+"Onboarding 1" = "Track only what you want";
+"Onboarding 2" = "Even if it's not liters of water and yoga";
+"Wow technology" = "Wow! Technology!";
