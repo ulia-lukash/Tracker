@@ -74,16 +74,16 @@ final class CreateNewCategoryViewController: UIViewController {
         addCategoryButton.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            textField.textInputView.leftAnchor.constraint(equalTo: textField.leftAnchor, constant: 16),
+            textField.textInputView.leadingAnchor.constraint(equalTo: textField.leadingAnchor, constant: 16),
             textField.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 38),
             textField.heightAnchor.constraint(equalToConstant: 75),
-            textField.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
-            textField.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
+            textField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            textField.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             viewTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             viewTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
             viewTitle.heightAnchor.constraint(equalToConstant: 22),
-            addCategoryButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            addCategoryButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            addCategoryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            addCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }

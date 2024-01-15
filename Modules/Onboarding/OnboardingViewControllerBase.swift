@@ -68,12 +68,12 @@ final class OnboardingViewControllerBase: UIViewController {
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            label.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             label.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
             button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            button.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)
+            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
     

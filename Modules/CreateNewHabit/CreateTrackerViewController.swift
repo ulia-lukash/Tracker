@@ -68,11 +68,11 @@ class CreateTrackerViewController: UIViewController {
             viewTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             viewTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
             viewTitle.heightAnchor.constraint(equalToConstant: 22),
-            habitButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            habitButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            habitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            habitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             habitButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            irregularActionButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            irregularActionButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            irregularActionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            irregularActionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             irregularActionButton.topAnchor.constraint(equalTo: habitButton.bottomAnchor, constant: 16)
         ])
     }

@@ -49,7 +49,7 @@ final class CustomTextField: UITextField {
         
         NSLayoutConstraint.activate([
             clearButton.centerYAnchor.constraint(equalTo: self.centerYAnchor),
-            clearButton.rightAnchor.constraint(equalTo: self.rightAnchor, constant: -12)
+            clearButton.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -12)
         ])
     }
     

@@ -154,9 +154,9 @@ class TrackersViewController: UIViewController  {
         view.addSubview(titleLabel)
         view.addSubview(searchBar)
         addButton.tintColor = UIColor(named: "Black")
+        
         datePicker.datePickerMode = .date
-        datePicker.preferredDatePickerStyle = .compact
-        datePicker.locale = Locale(identifier: "ru_RU")
+        datePicker.locale = Locale(identifier: "ru")
         searchBar.searchBarStyle = .minimal
         searchBar.placeholder = "Поиск"
         navigationItem.leftBarButtonItem = addButton

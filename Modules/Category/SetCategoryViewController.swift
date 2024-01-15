@@ -131,12 +131,12 @@ class SetCategoryViewController: UIViewController {
             placeholderText.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             placeholderText.topAnchor.constraint(equalTo: placeholderPic.bottomAnchor, constant: 8),
             
-            addCategoryButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            addCategoryButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            addCategoryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            addCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             categoriesTable.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 38),
-            categoriesTable.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            categoriesTable.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            categoriesTable.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            categoriesTable.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             categoriesTable.bottomAnchor.constraint(equalTo: addCategoryButton.topAnchor, constant: -16),
         ])
     }

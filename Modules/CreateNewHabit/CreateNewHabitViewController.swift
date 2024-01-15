@@ -227,27 +227,27 @@ class CreateNewHabitViewController: UIViewController {
             viewTitle.heightAnchor.constraint(equalToConstant: 22),
             
             scrollView.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 30),
-            scrollView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            scrollView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             scrollView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -16),
             
             scrollViewContent.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            scrollViewContent.leftAnchor.constraint(equalTo: scrollView.leftAnchor),
-            scrollViewContent.rightAnchor.constraint(equalTo: scrollView.rightAnchor),
+            scrollViewContent.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            scrollViewContent.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             scrollViewContent.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
             scrollViewContent.heightAnchor.constraint(equalToConstant: 810),
             scrollViewContent.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
             cancelButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             cancelButton.heightAnchor.constraint(equalToConstant: 60),
-            cancelButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            cancelButton.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: -4),
+            cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            cancelButton.trailingAnchor.constraint(equalTo: view.centerXAnchor, constant: -4),
             
             createButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             createButton.centerYAnchor.constraint(equalTo: cancelButton.centerYAnchor),
             createButton.heightAnchor.constraint(equalToConstant: 60),
-            createButton.leftAnchor.constraint(equalTo: view.centerXAnchor, constant: 4),
-            createButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            createButton.leadingAnchor.constraint(equalTo: view.centerXAnchor, constant: 4),
+            createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
         ])
     }
@@ -269,26 +269,26 @@ class CreateNewHabitViewController: UIViewController {
         restrictionLabel.translatesAutoresizingMaskIntoConstraints = false
 
         NSLayoutConstraint.activate([
-            textField.textInputView.leftAnchor.constraint(equalTo: textField.leftAnchor, constant: 16),
+            textField.textInputView.leadingAnchor.constraint(equalTo: textField.leadingAnchor, constant: 16),
             textField.topAnchor.constraint(equalTo: scrollViewContent.topAnchor),
             textField.heightAnchor.constraint(equalToConstant: 75),
-            textField.rightAnchor.constraint(equalTo: scrollViewContent.rightAnchor),
-            textField.leftAnchor.constraint(equalTo: scrollViewContent.leftAnchor),
+            textField.trailingAnchor.constraint(equalTo: scrollViewContent.trailingAnchor),
+            textField.leadingAnchor.constraint(equalTo: scrollViewContent.leadingAnchor),
             
             settingTable.topAnchor.constraint(equalTo: orientir.bottomAnchor, constant: 24),
-            settingTable.leftAnchor.constraint(equalTo: scrollViewContent.leftAnchor),
-            settingTable.rightAnchor.constraint(equalTo: scrollViewContent.rightAnchor),
+            settingTable.leadingAnchor.constraint(equalTo: scrollViewContent.leadingAnchor),
+            settingTable.trailingAnchor.constraint(equalTo: scrollViewContent.trailingAnchor),
             
             emojisCollection.topAnchor.constraint(equalTo: settingTable.bottomAnchor, constant: 32),
-            emojisCollection.leftAnchor.constraint(equalTo: scrollViewContent.leftAnchor, constant: 2),
-            emojisCollection.rightAnchor.constraint(equalTo: scrollViewContent.rightAnchor, constant: -2),
+            emojisCollection.leadingAnchor.constraint(equalTo: scrollViewContent.leadingAnchor, constant: 2),
+            emojisCollection.trailingAnchor.constraint(equalTo: scrollViewContent.trailingAnchor, constant: -2),
             
             coloursCollection.topAnchor.constraint(equalTo: emojisCollection.bottomAnchor, constant: 16),
-            coloursCollection.leftAnchor.constraint(equalTo: scrollViewContent.leftAnchor, constant: 2),
-            coloursCollection.rightAnchor.constraint(equalTo: scrollViewContent.rightAnchor, constant: -2),
+            coloursCollection.leadingAnchor.constraint(equalTo: scrollViewContent.leadingAnchor, constant: 2),
+            coloursCollection.trailingAnchor.constraint(equalTo: scrollViewContent.trailingAnchor, constant: -2),
             restrictionLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 8),
-            restrictionLabel.leftAnchor.constraint(equalTo: textField.leftAnchor, constant: 28),
-            restrictionLabel.rightAnchor.constraint(equalTo: textField.rightAnchor, constant: -28),
+            restrictionLabel.leadingAnchor.constraint(equalTo: textField.leadingAnchor, constant: 28),
+            restrictionLabel.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: -28),
             
             
         ])

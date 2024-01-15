@@ -23,7 +23,7 @@ class ColoursCollectionHeaderView: UICollectionReusableView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -14),
         ])

@@ -82,8 +82,8 @@ class SetScheduleViewController: UIViewController {
             viewTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             viewTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
             viewTitle.heightAnchor.constraint(equalToConstant: 22),
-            doneButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            doneButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            doneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             doneButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
