@@ -129,7 +129,7 @@ class CreateNewHabitViewController: UIViewController {
     private lazy var createButton: UIButton = {
         let createButton = UIButton()
         createButton.backgroundColor = UIColor(named: "Gray")
-        createButton.tintColor = .white
+        createButton.tintColor = UIColor(named: "White")
         createButton.setTitle(NSLocalizedString("Create", comment: ""), for: .normal)
         createButton.layer.cornerRadius = 16
         return createButton
@@ -150,7 +150,7 @@ class CreateNewHabitViewController: UIViewController {
         coloursCollection.delegate = self
         
         appendSettingsToList()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "White")
         setUpScrollViewContent()
         configView()
         

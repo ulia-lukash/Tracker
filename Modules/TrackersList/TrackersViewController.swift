@@ -65,14 +65,20 @@ class TrackersViewController: UIViewController  {
         label.font = .systemFont(ofSize: 34, weight: .bold)
         return label
     }()
-    
+    //
     private lazy var datePicker = UIDatePicker()
     
-    private lazy var searchBar = UISearchBar()
-    
+    private lazy var searchController: UISearchController = {
+        let searchController = UISearchController(searchResultsController: nil)
+        searchController.obscuresBackgroundDuringPresentation = false
+        searchController.automaticallyShowsCancelButton = false
+        searchController.hidesNavigationBarDuringPresentation = false
+        searchController.searchBar.placeholder = NSLocalizedString("Search", comment: "")
+        return searchController
+    }()
     private lazy var trackerCollection: UICollectionView = {
         let collection = UICollectionView(frame: .zero, collectionViewLayout: UICollectionViewFlowLayout())
-        
+        collection.backgroundColor = UIColor(named: "White")
         collection.register(
             TrackerCollectionViewCell.self,
             forCellWithReuseIdentifier: TrackerCollectionViewCell.identifier
@@ -90,13 +96,15 @@ class TrackersViewController: UIViewController  {
     override func viewDidLoad()   {
         
         super.viewDidLoad()
+
+        view.backgroundColor = UIColor(named: "White")
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(endEditing))
         view.addGestureRecognizer(tapGesture)
         
         selectedDate = Date()
         initialTrackersFilter()
         setInitialPlaceholderVisibility()
-        searchBar.delegate = self
+        searchController.searchResultsUpdater = self
         categories = categoryStore.getCategories()
         completedRecords = trackerRecordStore.getCompletedTrackers()
         
@@ -108,8 +116,7 @@ class TrackersViewController: UIViewController  {
     }
     
     @objc func endEditing() {
-        searchBar.endEditing(true)
-    }
+        searchController.searchBar.endEditing(true)    }
     
     func setInitialPlaceholderVisibility() {
         let numberOfTrackers = trackerStore.getNumberOfTrackers()
@@ -153,36 +160,26 @@ class TrackersViewController: UIViewController  {
     
     private func configTopNavBar() {
         
-        view.addSubview(titleLabel)
-        view.addSubview(searchBar)
+        navigationController?.navigationBar.prefersLargeTitles = true
+        navigationItem.largeTitleDisplayMode = .always
+        
+        navigationItem.title = NSLocalizedString("Trakers", comment: "")
+        navigationItem.searchController = searchController
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
+        navigationItem.leftBarButtonItem = addButton
+        
         addButton.tintColor = UIColor(named: "Black")
+        addButton.target = self
         
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "ru")
-        searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = NSLocalizedString("Search", comment: "")
-        navigationItem.leftBarButtonItem = addButton
-        
-        addButton.target = self
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        searchBar.translatesAutoresizingMaskIntoConstraints = false
-        
+                
         NSLayoutConstraint.activate([
             datePicker.widthAnchor.constraint(equalToConstant: 120),
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            searchBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 136),
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 8),
-            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -8),
-            
         ])
     }
     
     private func configView() {
-        
-        view.backgroundColor = UIColor(ciColor: .white)
         
         filteredData.isEmpty ? showPlaceholder() : hidePlaceholder()
         hideErrorPlaceholder()
@@ -207,7 +204,7 @@ class TrackersViewController: UIViewController  {
             errorPlaceholderPic.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
             errorPlaceholderText.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             errorPlaceholderText.topAnchor.constraint(equalTo: placeholderPic.bottomAnchor, constant: 8),
-            trackerCollection.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: 10),
+            trackerCollection.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             trackerCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             trackerCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trackerCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -389,11 +386,50 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     }
 }
 
-extension TrackersViewController: UISearchBarDelegate {
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+extension TrackersViewController: UIContextMenuInteractionDelegate {
+    
+    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+        return nil
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
+        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
+            
+            let pinAction = UIAction(title: NSLocalizedString("Pin", comment: "")) { _ in
+                
+            }
+            let editAction = UIAction(title: NSLocalizedString("Edit", comment: "")) { _ in
+                //                let viewController = CreateNewCategoryViewController()
+                //                viewController.titleText = "Редактирование категории"
+                //                viewController.startingString = item.name
+                //                viewController.categoryId = item.id
+                //                viewController.delegate = self
+                //                self.present(viewController, animated: true)
+            }
+            let deleteAction = UIAction(title: NSLocalizedString("Delete", comment: ""), attributes: .destructive) { _ in
+                //                self.presentActionSheetForCategory(item.id)
+            }
+            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
+        }
+    }
+    
+    private func presentActionSheetForCategory(_ id: UUID) {
+        let action1 = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive) {_ in
+            //            self.trackerCategoryStore.deleteCategory(id)
+            //            self.reloadCategories()
+        }
+        let action2 = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
+        actionSheet.addAction(action1)
+        actionSheet.addAction(action2)
+        present(actionSheet, animated: true)
+    }
+}
+
+extension TrackersViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
         categories = categoryStore.getCategories()
         
-        if let text = searchBar.text {
+        if let text = searchController.searchBar.text {
             if text.count > 0 {
                 var searchedCategories: Array<TrackerCategory> = []
                 for category in categories {
@@ -416,7 +452,7 @@ extension TrackersViewController: UISearchBarDelegate {
         } else {
             filterSelectedDateCategories()
         }
-       
+        
         trackerCollection.reloadData()
         filteredData.isEmpty ? showErrorPlaceholder() : hideErrorPlaceholder()
     }
@@ -435,44 +471,5 @@ extension TrackersViewController: UISearchBarDelegate {
                 filteredData.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredTrackers))
             }
         }
-    }
-}
-
-extension TrackersViewController: UIContextMenuInteractionDelegate {
-    
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        return nil
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
-            
-            let pinAction = UIAction(title: NSLocalizedString("Pin", comment: "")) { _ in
-                
-            }
-            let editAction = UIAction(title: NSLocalizedString("Edit", comment: "")) { _ in
-//                let viewController = CreateNewCategoryViewController()
-//                viewController.titleText = "Редактирование категории"
-//                viewController.startingString = item.name
-//                viewController.categoryId = item.id
-//                viewController.delegate = self
-//                self.present(viewController, animated: true)
-            }
-            let deleteAction = UIAction(title: NSLocalizedString("Delete", comment: ""), attributes: .destructive) { _ in
-//                self.presentActionSheetForCategory(item.id)
-            }
-            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
-        }
-    }
-    
-    private func presentActionSheetForCategory(_ id: UUID) {
-        let action1 = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive) {_ in
-//            self.trackerCategoryStore.deleteCategory(id)
-//            self.reloadCategories()
-        }
-        let action2 = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
-        actionSheet.addAction(action1)
-        actionSheet.addAction(action2)
-        present(actionSheet, animated: true)
     }
 }

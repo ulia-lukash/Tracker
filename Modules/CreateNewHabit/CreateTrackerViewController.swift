@@ -51,7 +51,7 @@ class CreateTrackerViewController: UIViewController {
     
     private func configView() {
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "White")
         view.addSubview(viewTitle)
         view.addSubview(habitButton)
         view.addSubview(irregularActionButton)

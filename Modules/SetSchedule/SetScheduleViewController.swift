@@ -55,7 +55,7 @@ class SetScheduleViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "White")
         weekDaysSwitchTable.dataSource = self
         weekDaysSwitchTable.delegate = self
 

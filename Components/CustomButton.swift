@@ -28,11 +28,11 @@ final class CustomButton: UIButton {
     func setup() {
         clipsToBounds = true
         backgroundColor = UIColor(named: "Black")
+        titleLabel?.tintColor =  UIColor(named: "White")
         setTitle(buttonLabel, for: .normal)
 
         layer.cornerRadius = 16
         titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
-        titleLabel?.textColor = .white
         titleLabel?.textAlignment = .center
         heightAnchor.constraint(equalToConstant: 60).isActive = true
     }

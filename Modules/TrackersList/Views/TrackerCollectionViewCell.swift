@@ -42,7 +42,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         
-        label.textColor = UIColor(ciColor: .white)
+        label.textColor = UIColor(named: "White")
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.numberOfLines = 2
         return label
@@ -75,7 +75,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         button.layer.cornerRadius = 17
         button.widthAnchor.constraint(equalToConstant: 34).isActive = true
         button.heightAnchor.constraint(equalTo: button.widthAnchor).isActive = true
-        button.tintColor = UIColor(ciColor: .white)
+        button.tintColor = UIColor(named: "White")
         button.addTarget(self, action: #selector(incrementCounter), for: .touchUpInside)
         
         return button

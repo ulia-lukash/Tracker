@@ -56,7 +56,7 @@ final class CreateNewCategoryViewController: UIViewController {
         super.viewDidLoad()
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(endEditing))
         view.addGestureRecognizer(tapGesture)
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "White")
         configView()
     }
     
