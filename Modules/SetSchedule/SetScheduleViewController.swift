@@ -103,7 +103,7 @@ class SetScheduleViewController: UIViewController {
             SwitchOptions(weekDay: .monday, name: NSLocalizedString("Monday", comment: ""), isOn: schedule.contains(.monday)),
             SwitchOptions(weekDay: .tuesday, name: NSLocalizedString("Tuesday", comment: ""), isOn: schedule.contains(.tuesday)),
             SwitchOptions(weekDay: .wednesday, name: NSLocalizedString("Wednesday", comment: ""), isOn: schedule.contains(.wednesday)),
-            SwitchOptions(weekDay: .thursday, name: NSLocalizedString("Thurday", comment: ""), isOn: schedule.contains(.thursday)),
+            SwitchOptions(weekDay: .thursday, name: NSLocalizedString("Thursday", comment: ""), isOn: schedule.contains(.thursday)),
             SwitchOptions(weekDay: .friday, name: NSLocalizedString("Friday", comment: ""), isOn: schedule.contains(.friday)),
             SwitchOptions(weekDay: .saturday, name: NSLocalizedString("Saturday", comment: ""), isOn: schedule.contains(.saturday)),
             SwitchOptions(weekDay: .sunday, name: NSLocalizedString("Sunday", comment: ""), isOn: schedule.contains(.sunday))
