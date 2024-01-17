@@ -26,6 +26,9 @@
 "Delete category confirmation" = "¿Estás seguro de que esta categoría no es necesaria?";
 
 /* (No Comment) */
+"Delete tracker confirmation" = "¿Estás seguro de que este rastreador no es necesaria?";
+
+/* (No Comment) */
 "Done" = "Hecho";
 
 /* (No Comment) */
@@ -118,3 +121,4 @@
 /* (No Comment) */
 "Zero categories placeholder" = "Los rastreadores se pueden agrupar en categorías\n";
 
+"Pinned" = "Fijado";

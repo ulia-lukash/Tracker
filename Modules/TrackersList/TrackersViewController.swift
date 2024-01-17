@@ -16,8 +16,6 @@ class TrackersViewController: UIViewController  {
     let trackerRecordStore = TrackerRecordStore.shared
     let trackerStore = TrackerStore.shared
     
-    //    Will have to move CoreData logic to separate files
-    
     var catsAtt: [TrackerCategory] = []
     // MARK: - Private Properties
     
@@ -57,15 +55,6 @@ class TrackersViewController: UIViewController  {
         return addButton
     }()
     
-    private lazy var titleLabel: UILabel = {
-        let label = UILabel()
-        
-        label.text = NSLocalizedString("Trackers", comment: "")
-        label.textColor = UIColor(named: "Black")
-        label.font = .systemFont(ofSize: 34, weight: .bold)
-        return label
-    }()
-    //
     private lazy var datePicker = UIDatePicker()
     
     private lazy var searchController: UISearchController = {
@@ -96,7 +85,7 @@ class TrackersViewController: UIViewController  {
     override func viewDidLoad()   {
         
         super.viewDidLoad()
-
+        
         view.backgroundColor = UIColor(named: "White")
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(endEditing))
         view.addGestureRecognizer(tapGesture)
@@ -122,12 +111,20 @@ class TrackersViewController: UIViewController  {
         let numberOfTrackers = trackerStore.getNumberOfTrackers()
         if numberOfTrackers == 0 {
             filteredData = []
+            showPlaceholder()
         }
+        
     }
     // MARK: - Private Methods
     
     private func initialTrackersFilter() {
         categories = categoryStore.getCategories()
+        if let pinnedCategory = categoryStore.fetchCategoryWithName(NSLocalizedString("Pinned", comment: "")) {
+            let filteredCategories = categories.filter { category in
+                category.name == NSLocalizedString("Pinned", comment: "") ? false : true
+            }
+            categories = categoryStore.transformCoredataCategories([pinnedCategory]) + filteredCategories
+        }
         filteredData = []
         for category in categories {
             let filteredTrackers = category.trackers.filter { tracker in
@@ -157,7 +154,6 @@ class TrackersViewController: UIViewController  {
         errorPlaceholderPic.isHidden = true
         errorPlaceholderText.isHidden = true
     }
-    
     private func configTopNavBar() {
         
         navigationController?.navigationBar.prefersLargeTitles = true
@@ -173,7 +169,7 @@ class TrackersViewController: UIViewController  {
         
         datePicker.datePickerMode = .date
         datePicker.locale = Locale(identifier: "ru")
-                
+        
         NSLayoutConstraint.activate([
             datePicker.widthAnchor.constraint(equalToConstant: 120),
         ])
@@ -341,12 +337,12 @@ extension TrackersViewController: UICollectionViewDataSource {
         
         let tracker = filteredData[indexPath.section].trackers[indexPath.item]
         
-        
+        let isPinned = filteredData[indexPath.section].name == NSLocalizedString("Pinned", comment: "") ? true : false
         let isCompleted = completedRecords.contains { isMatchRecord(model: $0, with: tracker.id) }
         let completedDays = completedRecords.filter { $0.trackerId == tracker.id }.count
         
         trackerCell.delegate = self
-        trackerCell.configure(model: tracker, at: indexPath, isCompleted: isCompleted, completedDays: completedDays)
+        trackerCell.configure(model: tracker, at: indexPath, isCompleted: isCompleted, completedDays: completedDays, isPinned: isPinned)
         
         return trackerCell
     }
@@ -384,39 +380,29 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         completedRecords = trackerRecordStore.getCompletedTrackers()
         trackerCollection.reloadData()
     }
-}
+    func pinTracker(withId id: UUID) {
+        trackerStore.pinTracker(withId: id)
+        self.categories = self.categoryStore.getCategories()
+        self.completedRecords = self.trackerRecordStore.getCompletedTrackers()
+        self.initialTrackersFilter()
+        self.setInitialPlaceholderVisibility()
+        self.trackerCollection.reloadData()
+    }
 
-extension TrackersViewController: UIContextMenuInteractionDelegate {
-    
-    func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-        return nil
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, contextMenuConfigurationForItemsAt indexPaths: [IndexPath], point: CGPoint) -> UIContextMenuConfiguration? {
-        return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
-            
-            let pinAction = UIAction(title: NSLocalizedString("Pin", comment: "")) { _ in
-                
-            }
-            let editAction = UIAction(title: NSLocalizedString("Edit", comment: "")) { _ in
-                //                let viewController = CreateNewCategoryViewController()
-                //                viewController.titleText = "Редактирование категории"
-                //                viewController.startingString = item.name
-                //                viewController.categoryId = item.id
-                //                viewController.delegate = self
-                //                self.present(viewController, animated: true)
-            }
-            let deleteAction = UIAction(title: NSLocalizedString("Delete", comment: ""), attributes: .destructive) { _ in
-                //                self.presentActionSheetForCategory(item.id)
-            }
-            return UIMenu(title: "", children: [pinAction, editAction, deleteAction])
-        }
-    }
-    
-    private func presentActionSheetForCategory(_ id: UUID) {
+    func deleteTracker(withId id: UUID) {
+        
+        let actionSheet: UIAlertController = {
+            let alert = UIAlertController()
+            alert.title = NSLocalizedString("Delete category confirmation", comment: "")
+            return alert
+        }()
         let action1 = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive) {_ in
-            //            self.trackerCategoryStore.deleteCategory(id)
-            //            self.reloadCategories()
+            self.trackerStore.deleteTracker(withId: id)
+            self.categories = self.categoryStore.getCategories()
+            self.completedRecords = self.trackerRecordStore.getCompletedTrackers()
+            self.initialTrackersFilter()
+            self.setInitialPlaceholderVisibility()
+            self.trackerCollection.reloadData()
         }
         let action2 = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
         actionSheet.addAction(action1)
@@ -455,8 +441,14 @@ extension TrackersViewController: UISearchResultsUpdating {
         
         trackerCollection.reloadData()
         filteredData.isEmpty ? showErrorPlaceholder() : hideErrorPlaceholder()
+        if searchController.searchBar.text == "" && filteredData.isEmpty {
+            hideErrorPlaceholder()
+            showPlaceholder()
+        }
     }
-    
+    /**
+     Filters categories and their corresponding trackers in accordance with selected day
+     */
     private func filterSelectedDateCategories() {
         filteredData = []
         for category in categories {

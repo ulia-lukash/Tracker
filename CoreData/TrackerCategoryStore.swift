@@ -102,6 +102,21 @@ final class TrackerCategoryStore: NSObject {
         return category[0]
         
     }
+    func fetchCategoryWithName(_ name: String) -> TrackerCategoryCoreData? {
+        let request = NSFetchRequest<TrackerCategoryCoreData>(entityName: "TrackerCategoryCoreData")
+        
+        request.returnsObjectsAsFaults = false
+        
+        request.predicate = NSPredicate(format: "name == %@", name)
+        let category = try! context.fetch(request)
+        
+        if category.count > 0 {
+            return category[0]
+        } else {
+            return nil
+        }
+        
+    }
     
     func renameCategory(_ id: UUID, newName: String) {
         let category = fetchCategoryWithId(id)
@@ -121,16 +136,36 @@ final class TrackerCategoryStore: NSObject {
         
         if let trackers = category.trackers?.allObjects as? [TrackerCoreData] {
             for tracker in trackers {
+                var records: [TrackerRecordCoreData] = []
+                let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+                request.returnsObjectsAsFaults = false
+                request.predicate = NSPredicate(format: "tracker == %@", tracker)
+                do {
+                    records = try context.fetch(request)
+                    for record in records {
+                        context.delete(record)
+                        do {
+                            try self.context.save()
+                        }
+                        catch {
+                             
+                            let nserror = error as NSError
+                            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                        }
+                    }
+                }
+                catch {
+                    
+                }
                 context.delete(tracker)
-//                TODO: delete tracker records too bish they be lagging
+
             }
         }
         context.delete(category)
         do {
             try context.save()
         } catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            
             let nserror = error as NSError
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }

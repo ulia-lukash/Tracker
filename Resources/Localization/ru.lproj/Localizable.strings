@@ -27,6 +27,7 @@
 "New irregular action" = "Новое нерегулярное событие";
 "Name length restriction" = "Ограничение 38 символов";
 "Delete category confirmation" = "Эта категория точно не нужна?";
+"Delete tracker confirmation" = "Уверены что хотите удалить трекер?";
 "Edit category" = "Редактирование категории";
 "Add category" = "Добавить категорию";
 "Create" = "Создать";
@@ -44,3 +45,4 @@
 "Onboarding 1" = "Отслеживайте только то, что хотите";
 "Onboarding 2" = "Даже если это не литры воды и йога";
 "Wow technology" = "Вот это технологии!";
+"Pinned" = "Закрепленные";

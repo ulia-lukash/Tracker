@@ -9,7 +9,6 @@ import Foundation
 
 struct SettingOptions {
     let name: String
-    // - TODO: Отображение категории/расписания после выбора...
     var pickedParameter: String?
     let handler: () -> Void
 }

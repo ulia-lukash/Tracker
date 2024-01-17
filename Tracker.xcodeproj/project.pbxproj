@@ -46,7 +46,6 @@
 		2678DEA82B11F1F10037A7FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2678DEA62B11F1F10037A7FF /* LaunchScreen.storyboard */; };
 		2684DCAD2B5140B600AB4A7F /* number_of_days.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 2684DCAF2B5140B600AB4A7F /* number_of_days.stringsdict */; };
 		2684DCB52B5569B400AB4A7F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2684DCB72B5569B400AB4A7F /* Localizable.strings */; };
-		269A22432B4E94CE0094974E /* CustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269A22422B4E94CE0094974E /* CustomTextField.swift */; };
 		269A22452B4E958B0094974E /* OnboardingViewControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269A22442B4E958B0094974E /* OnboardingViewControllerBase.swift */; };
 		26AF274A2B3215680076B228 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF27492B3215680076B228 /* UIColor.swift */; };
 		26AF27512B3216AD0076B228 /* TrackerCoreData+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF274B2B3216AC0076B228 /* TrackerCoreData+CoreDataClass.swift */; };
@@ -108,7 +107,6 @@
 		2684DCBE2B557B8900AB4A7F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2684DCBF2B557B8A00AB4A7F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = es; path = es.lproj/number_of_days.stringsdict; sourceTree = "<group>"; };
 		2684DCC02B557B8A00AB4A7F /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		269A22422B4E94CE0094974E /* CustomTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTextField.swift; sourceTree = "<group>"; };
 		269A22442B4E958B0094974E /* OnboardingViewControllerBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerBase.swift; sourceTree = "<group>"; };
 		26AF27492B3215680076B228 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
 		26AF274B2B3216AC0076B228 /* TrackerCoreData+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TrackerCoreData+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -226,7 +224,6 @@
 			isa = PBXGroup;
 			children = (
 				262C06022B3968BA006FB716 /* CustomButton.swift */,
-				269A22422B4E94CE0094974E /* CustomTextField.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -432,7 +429,6 @@
 				2653A2CD2B1FA88E006B92A5 /* SwitchOptions.swift in Sources */,
 				2653A2C92B1F69EB006B92A5 /* SetCategoryViewController.swift in Sources */,
 				2653A30F2B289CF7006B92A5 /* TrackerRecordStore.swift in Sources */,
-				269A22432B4E94CE0094974E /* CustomTextField.swift in Sources */,
 				2653A2D92B2860F1006B92A5 /* ColoursCollectionViewCell.swift in Sources */,
 				2653A2C32B1F240A006B92A5 /* SettingTableViewCell.swift in Sources */,
 				2653A3032B28864E006B92A5 /* DaysValueTransformer.swift in Sources */,

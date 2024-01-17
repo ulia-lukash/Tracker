@@ -27,6 +27,7 @@
 "New irregular action" = "New irregular action";
 "Name length restriction" = "38 characters limit";
 "Delete category confirmation" = "Are you sure this category is not needed?";
+"Delete tracker confirmation" = "Are you sure this tracker is not needed?";
 "Edit category" = "Edit category";
 "Add category" = "Add category";
 "Create" = "Create";
@@ -44,3 +45,4 @@
 "Onboarding 1" = "Track only what you want";
 "Onboarding 2" = "Even if it's not liters of water and yoga";
 "Wow technology" = "Wow! Technology!";
+"Pinned" = "Pinned";

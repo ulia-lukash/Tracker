@@ -104,4 +104,62 @@ final class TrackerStore: NSObject {
         let trackers = getTrackers()
         return trackers.count
     }
+    
+    func deleteTracker(withId id: UUID) {
+        
+            
+        
+        let tracker = fetchTrackerWithId(id)
+        
+        var records: [TrackerRecordCoreData] = []
+        let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        request.returnsObjectsAsFaults = false
+        request.predicate = NSPredicate(format: "tracker == %@", tracker)
+        do {
+            records = try context.fetch(request)
+            for record in records {
+                context.delete(record)
+                do {
+                    try self.context.save()
+                }
+                catch {
+                     
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                }
+            }
+        }
+        catch {
+            
+        }
+        context.delete(tracker)
+        do {
+            try context.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+        
+        
+    }
+    func pinTracker(withId id: UUID) {
+        let tracker = fetchTrackerWithId(id)
+        if let category = categoryStore.fetchCategoryWithName(NSLocalizedString("Pinned", comment: "")) {
+            
+            tracker.category = category
+        } else {
+            let newCategory = TrackerCategoryCoreData(context: context)
+            
+            newCategory.id = UUID()
+            newCategory.name = NSLocalizedString("Pinned", comment: "")
+            tracker.category = newCategory
+            
+        }
+        do {
+            try context.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
 }
