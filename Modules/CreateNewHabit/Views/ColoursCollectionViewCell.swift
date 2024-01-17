@@ -30,7 +30,7 @@ class ColoursCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-       NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             titleLabel.widthAnchor.constraint(equalToConstant: 40),
@@ -38,8 +38,33 @@ class ColoursCollectionViewCell: UICollectionViewCell {
         ])
     }
     
+    override var isSelected: Bool{
+        didSet{
+            if self.isSelected
+            {
+                super.isSelected = true
+                layer.masksToBounds = true
+                layer.cornerRadius = 9.5
+                layer.borderWidth = 3
+                layer.borderColor = titleLabel.backgroundColor?.withAlphaComponent(0.3).cgColor
+            }
+            else
+            {
+                super.isSelected = false
+                layer.borderColor = UIColor(named: "White")?.cgColor
+            }
+        }
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    func pickCell(withColour colour: CGColor) {
+        layer.masksToBounds = true
+        layer.cornerRadius = 9.5
+        layer.borderWidth = 3
+        layer.borderColor = colour
+    }
 }

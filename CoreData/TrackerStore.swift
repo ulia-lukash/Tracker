@@ -44,8 +44,27 @@ final class TrackerStore: NSObject {
             try self.context.save()
         }
         catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
+    func editTracker(withId id: UUID, tracker: Tracker, category: TrackerCategory) {
+        let trackerCoreData = fetchTrackerWithId(id)
+        
+        trackerCoreData.name = tracker.name
+        trackerCoreData.emoji = tracker.emoji
+        trackerCoreData.colour = tracker.colour.name
+        trackerCoreData.schedule = DaysValue(schedule: tracker.schedule!)
+        let fetchedCategory = categoryStore.fetchCategoryWithId(category.id)
+        trackerCoreData.category = fetchedCategory
+        
+        do {
+            try self.context.save()
+        }
+        catch {
+            
             let nserror = error as NSError
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
@@ -106,8 +125,6 @@ final class TrackerStore: NSObject {
     }
     
     func deleteTracker(withId id: UUID) {
-        
-            
         
         let tracker = fetchTrackerWithId(id)
         

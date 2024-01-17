@@ -19,10 +19,14 @@ class CreateNewHabitViewController: UIViewController {
     
     weak var delegate: CreateNewHabitViewControllerDelegate?
     var isHabit: Bool = true
+    var isEdit: Bool = false
+    var tracker: TrackerCoreData?
+    
     // MARK: - Private Properties
     
     private let trackerStore = TrackerStore.shared
     private let categoryStore = TrackerCategoryStore.shared
+    private let recordStore = TrackerRecordStore.shared
     
     private let emojis = ["🙂", "😻", "🌺", "🐶", "❤️", "😱", "😇", "😡", "🥶", "🤔", "🙌", "🍔", "🥦", "🏓", "🥇", "🎸", "🏝", "😪"]
     private let colours = {
@@ -35,6 +39,13 @@ class CreateNewHabitViewController: UIViewController {
         }
         return coloursArray
     }()
+    private lazy var counterLabel: UILabel = {
+        let label = UILabel()
+        label.font = .systemFont(ofSize: 32, weight: .bold)
+        label.textColor = UIColor(named: "Black")
+        return label
+    }()
+    private lazy var headerView = UIView()
     
     private let scrollViewContent = UIView()
     private var settings: Array<SettingOptions> = []
@@ -46,7 +57,6 @@ class CreateNewHabitViewController: UIViewController {
     private lazy var scrollView = UIScrollView()
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
-        label.text = isHabit ?  NSLocalizedString("New habit", comment: "") : NSLocalizedString("New irregular action", comment: "")
         label.textColor = UIColor(named: "Black")
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
@@ -61,6 +71,8 @@ class CreateNewHabitViewController: UIViewController {
         label.textAlignment = .center
         return label
     }()
+    
+    private lazy var textFieldView = UIView()
     
     private lazy var textField: UITextField = {
         let textField = UITextField()
@@ -130,7 +142,6 @@ class CreateNewHabitViewController: UIViewController {
         let createButton = UIButton()
         createButton.backgroundColor = UIColor(named: "Gray")
         createButton.tintColor = UIColor(named: "White")
-        createButton.setTitle(NSLocalizedString("Create", comment: ""), for: .normal)
         createButton.layer.cornerRadius = 16
         return createButton
     }()
@@ -139,6 +150,8 @@ class CreateNewHabitViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        configureLabels()
         
         settingTable.dataSource = self
         settingTable.delegate = self
@@ -151,22 +164,47 @@ class CreateNewHabitViewController: UIViewController {
         
         appendSettingsToList()
         view.backgroundColor = UIColor(named: "White")
-        setUpScrollViewContent()
+        
         configView()
         
         cancelButton.addTarget(self, action: #selector(didTapCancelButton), for: .touchUpInside)
         createButton.addTarget(self, action: #selector(didTapCreateButton), for: .touchUpInside)
         
-        
+        createButton.setTitle( isEdit ? NSLocalizedString("Save", comment: "") : NSLocalizedString("Create", comment: ""), for: .normal)
     }
     
     // MARK: - Private Methods
+    private func configureLabels() {
+        if isEdit {
+            viewTitle.text = NSLocalizedString("Edit tracker", comment: "")
+            if let trackerCoreData = self.tracker {
+                let trackerToedit = trackerStore.convertToTracker(coreDataTracker: trackerCoreData)
+                textField.text = trackerToedit.name
+                pickedEmoji = trackerToedit.emoji
+                pickedColour = trackerToedit.colour
+                
+                let category = categoryStore.transformCoreDatacategory(trackerCoreData.category!)
+                pickedCategory = category
+                
+                let records = recordStore.fetchCompletedRecordsForTracker(trackerCoreData)
+                let count = records.count
+                
+                let key = "number_of_days"
+                let localizationFormat = NSLocalizedString(key, tableName: key, comment: "Days counter label")
+                let days = String(format: localizationFormat, count)
+                counterLabel.text = days
+            }
+        } else {
+            viewTitle.text = isHabit ? NSLocalizedString("New habit", comment: "") : NSLocalizedString("New irregular action", comment: "")
+        }
+    }
     
     private func appendSettingsToList() {
+        
         settings.append(
             SettingOptions(
                 name: NSLocalizedString("Category", comment: ""),
-                pickedParameter: nil,
+                pickedParameter: isEdit ? pickedCategory?.name : nil,
                 handler: { [weak self] in
                     guard let self = self else {
                         return
@@ -186,6 +224,9 @@ class CreateNewHabitViewController: UIViewController {
                         self.setSchedule()
                     }
                 ))
+            if isEdit {
+                didConfigure(schedule: (tracker?.schedule!.schedule)!)
+            }
         }
         
     }
@@ -207,14 +248,16 @@ class CreateNewHabitViewController: UIViewController {
         
         restrictionLabel.isHidden = true
         
-        view.addSubview(viewTitle)
+        setUpHeader()
+        setUpScrollViewContent()
+        
         view.addSubview(scrollView)
         view.addSubview(cancelButton)
         view.addSubview(createButton)
         
         scrollView.addSubview(scrollViewContent)
         
-        viewTitle.translatesAutoresizingMaskIntoConstraints = false
+        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         cancelButton.translatesAutoresizingMaskIntoConstraints = false
         createButton.translatesAutoresizingMaskIntoConstraints = false
@@ -222,11 +265,7 @@ class CreateNewHabitViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             
-            viewTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            viewTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 38),
-            viewTitle.heightAnchor.constraint(equalToConstant: 22),
-            
-            scrollView.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 30),
+            scrollView.topAnchor.constraint(equalTo: headerView.bottomAnchor, constant: 30),
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             scrollView.bottomAnchor.constraint(equalTo: cancelButton.topAnchor, constant: -16),
@@ -235,7 +274,7 @@ class CreateNewHabitViewController: UIViewController {
             scrollViewContent.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             scrollViewContent.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
             scrollViewContent.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            scrollViewContent.heightAnchor.constraint(equalToConstant: 810),
+            scrollViewContent.heightAnchor.constraint(equalToConstant: 800),
             scrollViewContent.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             
             cancelButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
@@ -253,29 +292,31 @@ class CreateNewHabitViewController: UIViewController {
     }
     
     private func setUpScrollViewContent() {
-        
-        let orientir: UIView = restrictionLabel.isHidden ? textField : restrictionLabel
-        
+                        
         scrollViewContent.addSubview(textField)
+        scrollViewContent.addSubview(restrictionLabel)
         scrollViewContent.addSubview(settingTable)
         scrollViewContent.addSubview(emojisCollection)
         scrollViewContent.addSubview(coloursCollection)
-        scrollViewContent.addSubview(restrictionLabel)
         
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        restrictionLabel.translatesAutoresizingMaskIntoConstraints = false
         textField.translatesAutoresizingMaskIntoConstraints = false
         settingTable.translatesAutoresizingMaskIntoConstraints = false
         emojisCollection.translatesAutoresizingMaskIntoConstraints = false
         coloursCollection.translatesAutoresizingMaskIntoConstraints = false
-        restrictionLabel.translatesAutoresizingMaskIntoConstraints = false
-
+        
         NSLayoutConstraint.activate([
-            textField.textInputView.leadingAnchor.constraint(equalTo: textField.leadingAnchor, constant: 16),
             textField.topAnchor.constraint(equalTo: scrollViewContent.topAnchor),
             textField.heightAnchor.constraint(equalToConstant: 75),
             textField.trailingAnchor.constraint(equalTo: scrollViewContent.trailingAnchor),
             textField.leadingAnchor.constraint(equalTo: scrollViewContent.leadingAnchor),
+            textField.textInputView.leadingAnchor.constraint(equalTo: textField.leadingAnchor, constant: 16),
             
-            settingTable.topAnchor.constraint(equalTo: orientir.bottomAnchor, constant: 24),
+            restrictionLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 8),
+            restrictionLabel.leadingAnchor.constraint(equalTo: textField.leadingAnchor, constant: 28),
+            restrictionLabel.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: -28),
+            settingTable.topAnchor.constraint(equalTo: restrictionLabel.bottomAnchor, constant: 24),
             settingTable.leadingAnchor.constraint(equalTo: scrollViewContent.leadingAnchor),
             settingTable.trailingAnchor.constraint(equalTo: scrollViewContent.trailingAnchor),
             
@@ -286,14 +327,44 @@ class CreateNewHabitViewController: UIViewController {
             coloursCollection.topAnchor.constraint(equalTo: emojisCollection.bottomAnchor, constant: 16),
             coloursCollection.leadingAnchor.constraint(equalTo: scrollViewContent.leadingAnchor, constant: 2),
             coloursCollection.trailingAnchor.constraint(equalTo: scrollViewContent.trailingAnchor, constant: -2),
-            restrictionLabel.topAnchor.constraint(equalTo: textField.bottomAnchor, constant: 8),
-            restrictionLabel.leadingAnchor.constraint(equalTo: textField.leadingAnchor, constant: 28),
-            restrictionLabel.trailingAnchor.constraint(equalTo: textField.trailingAnchor, constant: -28),
-            
-            
         ])
     }
     
+    private func setUpHeader() {
+        
+        let headerViewHeight: CGFloat = isEdit ? 124 : 68
+        view.addSubview(headerView)
+        
+        headerView.addSubview(viewTitle)
+        
+        headerView.translatesAutoresizingMaskIntoConstraints = false
+        viewTitle.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            headerView.topAnchor.constraint(equalTo: view.topAnchor),
+            headerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            headerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            viewTitle.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
+            viewTitle.topAnchor.constraint(equalTo: headerView.topAnchor, constant: 30),
+            viewTitle.heightAnchor.constraint(equalToConstant: 22),
+            
+        ])
+        
+        if isEdit {
+            
+            headerView.addSubview(counterLabel)
+            counterLabel.translatesAutoresizingMaskIntoConstraints = false
+            
+            NSLayoutConstraint.activate([
+                counterLabel.centerXAnchor.constraint(equalTo: headerView.centerXAnchor),
+                counterLabel.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 24),
+            ])
+        }
+        
+        headerView.heightAnchor.constraint(equalToConstant: headerViewHeight).isActive = true
+        }
+        
     // MARK: - @objc Methods
     
     @objc private func didTapCancelButton() {
@@ -303,16 +374,25 @@ class CreateNewHabitViewController: UIViewController {
     
     @objc private func didTapCreateButton() {
         dismiss(animated: false)
-        guard let trackerName = textField.text, let pickedCategory = pickedCategory else { return }
-        
-        guard let colour = pickedColour, let emoji = pickedEmoji else { return }
-        
-        let newHabit = Tracker(id: UUID(), name: trackerName, colour: colour, emoji: emoji, schedule: configuredSchedule)
-    
-        trackerStore.saveTrackerCoreData(newHabit, toCategory: pickedCategory)
-        
+        if !isEdit {
+            guard let trackerName = textField.text, let pickedCategory = pickedCategory else { return }
+            
+            guard let colour = pickedColour, let emoji = pickedEmoji else { return }
+            
+            let newHabit = Tracker(id: UUID(), name: trackerName, colour: colour, emoji: emoji, schedule: configuredSchedule)
+            
+            trackerStore.saveTrackerCoreData(newHabit, toCategory: pickedCategory)
+            
+            
+        } else {
+            guard let coreDataTracker = tracker else { return }
+            
+            guard let name = textField.text, let colour = pickedColour, let emoji = pickedEmoji else { return }
+            let newTracker = Tracker(id: UUID(), name: name, colour: colour, emoji: emoji, schedule: configuredSchedule)
+            
+            trackerStore.editTracker(withId: coreDataTracker.id!, tracker: newTracker, category: pickedCategory!)
+        }
         delegate?.createdNewHabit()
-        
     }
     
     @objc private func setCreateButtonState() {
@@ -331,9 +411,12 @@ class CreateNewHabitViewController: UIViewController {
     
     @objc private func textFieldDidChange() {
         if textField.text!.count >= 38 {
+            
             restrictionLabel.isHidden = false
         } else {
+            
             restrictionLabel.isHidden = true
+            
         }
         setCreateButtonState()
     }
@@ -426,11 +509,25 @@ extension CreateNewHabitViewController: UICollectionViewDataSource {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "emojisTableCell", for: indexPath) as? EmojisCollectionViewCell
             
             cell?.titleLabel.text = emojis[indexPath.row]
+            if isEdit {
+                if emojis[indexPath.row] == pickedEmoji {
+                    
+                    self.emojisCollection.selectItem(at: indexPath, animated: true, scrollPosition: .left)
+                    cell?.isSelected = true
+                }
+            }
             return cell!
         } else {
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "coloursTableCell", for: indexPath) as? ColoursCollectionViewCell
             
             cell?.titleLabel.backgroundColor = colours[indexPath.row]
+            if isEdit {
+                if colours[indexPath.row] == pickedColour {
+                    
+                    self.coloursCollection.selectItem(at: indexPath, animated: true, scrollPosition: .left)
+                    cell?.isSelected = true
+                }
+            }
             return cell!
         }
         
@@ -452,26 +549,21 @@ extension CreateNewHabitViewController: UICollectionViewDataSource {
 }
 
 extension CreateNewHabitViewController: UICollectionViewDelegate {
+    
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         if collectionView == emojisCollection {
             if let cell = collectionView.cellForItem(at: indexPath) as? EmojisCollectionViewCell {
-                cell.layer.masksToBounds = true
-                cell.layer.cornerRadius = 16
-                cell.backgroundColor = UIColor(named: "Light Gray")
+                cell.pickCell()
                 pickedEmoji = emojis[indexPath.row]
                 setCreateButtonState()
             }
         } else {
             if let cell = collectionView.cellForItem(at: indexPath) as? ColoursCollectionViewCell {
                 
-                
-                cell.layer.masksToBounds = true
-                cell.layer.cornerRadius = 9.5
-                cell.layer.borderWidth = 3
+                pickedColour = colours[indexPath.row]
                 
                 let colour = colours[indexPath.row].withAlphaComponent(0.3)
-                pickedColour = colours[indexPath.row]
-                cell.layer.borderColor = colour.cgColor
+                cell.pickCell(withColour: colour.cgColor)
                 setCreateButtonState()
             }
         }

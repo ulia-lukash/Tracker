@@ -14,6 +14,7 @@ protocol TrackerCollectionViewCellDelegate: AnyObject {
     func undoMarkComplete(with id: UUID)
     func deleteTracker(withId id: UUID)
     func pinTracker(withId id: UUID)
+    func editTracker(withId id: UUID)
 }
 
 class TrackerCollectionViewCell: UICollectionViewCell {
@@ -224,6 +225,8 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
                                           actionProvider: {
 //            TODO: 
             suggestedActions in
+            
+//            TODO: i'm chamging category of the pinned trackers now, but it should kip it's category for me to be able to unpin them, so it really shouldn't be about categories, but rather an isPinned property to the struct!!!!
             let pinAction = UIAction(title: NSLocalizedString("Pin", comment: "")) { action in
                 
                 guard let trackerId = self.trackerId else { return }
@@ -232,6 +235,8 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
             }
             
             let editAction = UIAction(title: NSLocalizedString("Edit", comment: "")) { action in
+                guard let trackerId = self.trackerId else { return }
+                self.delegate?.editTracker(withId: trackerId)
             }
             
             let deleteAction = UIAction(title: NSLocalizedString("Delete", comment: ""), attributes: .destructive) { action in

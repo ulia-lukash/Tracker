@@ -23,6 +23,24 @@ final class TrackerCategoryStore: NSObject {
     func getCategories()  -> [TrackerCategory] {
         return  transformCoredataCategories(fetchCoreDataCategories())
     }
+    
+    func transformCoreDatacategory(_ category: TrackerCategoryCoreData) -> TrackerCategory {
+        let id = category.id!
+        let name = category.name!
+        var trackers: [Tracker] = []
+        let alltrackers = category.trackers?.allObjects as? [TrackerCoreData]
+        for tracker in alltrackers! {
+            let id = tracker.id!
+            let name = tracker.name!
+            let emoji = tracker.emoji!
+            let colour = UIColor(named: tracker.colour!)!
+            let schedule = tracker.schedule?.schedule
+            let newTracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule)
+            trackers.append(newTracker)
+        }
+        return TrackerCategory(id: id, name: name, trackers: trackers)
+    }
+    
     func transformCoredataCategories(_ categories: [TrackerCategoryCoreData]) -> [TrackerCategory] {
         var cats: [TrackerCategory] = []
         for category in categories {

@@ -79,6 +79,15 @@ class TrackersViewController: UIViewController  {
         )
         return collection
     }()
+//    TODO: finish filters butttons
+    private lazy var filtersButton: UIButton = {
+        let button = UIButton()
+        button.backgroundColor = UIColor(named: "Blue")
+        button.setTitle(NSLocalizedString("Filters", comment: ""), for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 17)
+        button.layer.cornerRadius = 16
+        return button
+    }()
     
     // MARK: - UIViewController
     
@@ -185,11 +194,16 @@ class TrackersViewController: UIViewController  {
         view.addSubview(placeholderText)
         view.addSubview(errorPlaceholderPic)
         view.addSubview(errorPlaceholderText)
+        
+        view.addSubview(filtersButton)
+        
         trackerCollection.translatesAutoresizingMaskIntoConstraints = false
         placeholderPic.translatesAutoresizingMaskIntoConstraints = false
         placeholderText.translatesAutoresizingMaskIntoConstraints = false
         errorPlaceholderPic.translatesAutoresizingMaskIntoConstraints = false
         errorPlaceholderText.translatesAutoresizingMaskIntoConstraints = false
+        
+        filtersButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             placeholderPic.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -204,6 +218,11 @@ class TrackersViewController: UIViewController  {
             trackerCollection.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             trackerCollection.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             trackerCollection.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            filtersButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            filtersButton.widthAnchor.constraint(equalToConstant: 114),
+            filtersButton.heightAnchor.constraint(equalToConstant: 50),
+            filtersButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -15)
         ])
     }
     
@@ -286,6 +305,7 @@ extension TrackersViewController: CreateTrackerViewControllerDelegate {
     func didCreateNewTracker() {
         
         hidePlaceholder()
+        
         initialTrackersFilter()
         trackerCollection.reloadData()
         
@@ -409,6 +429,23 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         actionSheet.addAction(action2)
         present(actionSheet, animated: true)
     }
+    
+    func editTracker(withId id: UUID) {
+        let trackerCoreData = trackerStore.fetchTrackerWithId(id)
+        let tracker = trackerStore.convertToTracker(coreDataTracker: trackerCoreData)
+        let viewController = CreateNewHabitViewController()
+        if tracker.schedule?.count == 7 {
+            viewController.isHabit = false
+        } else {
+            viewController.isHabit = true
+        }
+        
+        viewController.isEdit = true
+        viewController.tracker = trackerCoreData
+        viewController.delegate = self
+
+        present(viewController, animated: true)
+    }
 }
 
 extension TrackersViewController: UISearchResultsUpdating {
@@ -464,4 +501,16 @@ extension TrackersViewController: UISearchResultsUpdating {
             }
         }
     }
+}
+
+extension TrackersViewController: CreateNewHabitViewControllerDelegate {
+    func createdNewHabit() {
+        self.didCreateNewTracker()
+    }
+    
+    func cancelNewHabitCreation() {
+        
+    }
+    
+    
 }
