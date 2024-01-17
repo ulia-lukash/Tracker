@@ -141,7 +141,7 @@ class CreateNewHabitViewController: UIViewController {
     private lazy var createButton: UIButton = {
         let createButton = UIButton()
         createButton.backgroundColor = UIColor(named: "Gray")
-        createButton.tintColor = UIColor(named: "White")
+        createButton.setTitleColor(UIColor(named: "White"), for: .normal)
         createButton.layer.cornerRadius = 16
         return createButton
     }()

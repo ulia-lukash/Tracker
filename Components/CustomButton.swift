@@ -28,7 +28,7 @@ final class CustomButton: UIButton {
     func setup() {
         clipsToBounds = true
         backgroundColor = UIColor(named: "Black")
-        titleLabel?.tintColor =  UIColor(named: "White")
+        setTitleColor(UIColor(named: "White"), for: .normal)
         setTitle(buttonLabel, for: .normal)
 
         layer.cornerRadius = 16

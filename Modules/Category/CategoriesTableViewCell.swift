@@ -43,12 +43,10 @@ final class CategoriesTableViewCell: UITableViewCell {
                 layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             }
         } else if (viewModel?.categoriesNumber())! > 1 {
-            print("No separator becaue index path = \(indexPath.row)")
             if indexPath.row == (viewModel?.categoriesNumber())! - 1 {
                 layer.cornerRadius = 16
                 layer.maskedCorners = [.layerMinXMaxYCorner, .layerMaxXMaxYCorner]
             } else {
-                print("Yes separator becaue index path = \(indexPath.row)")
                 layer.cornerRadius = 0
             }
         }

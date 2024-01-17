@@ -150,10 +150,12 @@ class TrackersViewController: UIViewController  {
     private func showPlaceholder() {
         placeholderPic.isHidden = false
         placeholderText.isHidden = false
+        filtersButton.isHidden = true
     }
     private func hidePlaceholder() {
         placeholderPic.isHidden = true
         placeholderText.isHidden = true
+        filtersButton.isHidden = false
     }
     private func showErrorPlaceholder() {
         placeholderPic.isHidden = true
@@ -317,6 +319,7 @@ extension TrackersViewController: CreateTrackerViewControllerDelegate {
     func didCreateNewTracker() {
         
         hidePlaceholder()
+        hideErrorPlaceholder()
         
         initialTrackersFilter()
         trackerCollection.reloadData()
@@ -530,7 +533,6 @@ extension TrackersViewController: FiltersViewControllerDelegate {
         currentFilter = filter
         switch filter {
         case NSLocalizedString("All trackers", comment: ""):
-            print(currentFilter)
             initialTrackersFilter()
             trackerCollection.reloadData()
             break
