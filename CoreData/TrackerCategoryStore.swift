@@ -35,7 +35,8 @@ final class TrackerCategoryStore: NSObject {
             let emoji = tracker.emoji!
             let colour = UIColor(named: tracker.colour!)!
             let schedule = tracker.schedule?.schedule
-            let newTracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule)
+            let isPinned = tracker.isPinned
+            let newTracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule, isPinned: isPinned)
             trackers.append(newTracker)
         }
         return TrackerCategory(id: id, name: name, trackers: trackers)
@@ -54,7 +55,8 @@ final class TrackerCategoryStore: NSObject {
                 let emoji = tracker.emoji!
                 let colour = UIColor(named: tracker.colour!)!
                 let schedule = tracker.schedule?.schedule
-                let newTracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule)
+                let isPinned = tracker.isPinned
+                let newTracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule, isPinned: isPinned)
                 trackers.append(newTracker)
             }
             let newCategory = TrackerCategory(id: id, name: name, trackers: trackers)

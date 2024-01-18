@@ -24,10 +24,7 @@ final class  SetCategoryViewModel {
         }
     
     func getCategories() {
-        let allCategories = categoryStore.getCategories()
-        categories = allCategories.filter { category in
-            category.name == NSLocalizedString("Pinned", comment: "") ? false : true
-        }
+        categories = categoryStore.getCategories()
     }
     
     func categoriesNumber() -> Int {

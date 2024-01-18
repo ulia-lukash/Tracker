@@ -80,7 +80,7 @@ class TrackersViewController: UIViewController  {
         )
         return collection
     }()
-    //    TODO: finish filters butttons
+
     private lazy var filtersButton: UIButton = {
         let button = UIButton()
         button.backgroundColor = UIColor(named: "Blue")
@@ -130,21 +130,37 @@ class TrackersViewController: UIViewController  {
     
     private func initialTrackersFilter() {
         categories = categoryStore.getCategories()
-        if let pinnedCategory = categoryStore.fetchCategoryWithName(NSLocalizedString("Pinned", comment: "")) {
-            let filteredCategories = categories.filter { category in
-                category.name == NSLocalizedString("Pinned", comment: "") ? false : true
-            }
-            categories = categoryStore.transformCoredataCategories([pinnedCategory]) + filteredCategories
-        }
         filteredData = []
+        
+        var pinnedTrackers: [Tracker] = []
+       
+        
         for category in categories {
-            let filteredTrackers = category.trackers.filter { tracker in
+            let filteredByDateTrackers = category.trackers.filter { tracker in
                 return isTrackerScheduledOnSelectedDate(tracker)
             }
-            if !filteredTrackers.isEmpty {
-                filteredData.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredTrackers))
+            let filteredByPinnedTrackers = filteredByDateTrackers.filter { tracker in
+                if tracker.isPinned {
+                    pinnedTrackers.append(tracker)
+                    return false
+                } else {
+                    return true
+                }
+            }
+            if !filteredByPinnedTrackers.isEmpty {
+                filteredData.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredByPinnedTrackers))
             }
         }
+        if !pinnedTrackers.isEmpty {
+            let pinnedCategory = TrackerCategory(id: UUID(), name: NSLocalizedString("Pinned", comment: ""), trackers: pinnedTrackers)
+            filteredData.insert(pinnedCategory, at: 0)
+        }
+        if filteredData.isEmpty {
+            showErrorPlaceholder()
+        } else {
+            hideErrorPlaceholder()
+        }
+        
     }
     
     private func showPlaceholder() {
@@ -376,12 +392,11 @@ extension TrackersViewController: UICollectionViewDataSource {
         
         let tracker = filteredData[indexPath.section].trackers[indexPath.item]
         
-        let isPinned = filteredData[indexPath.section].name == NSLocalizedString("Pinned", comment: "") ? true : false
         let isCompleted = completedRecords.contains { isMatchRecord(model: $0, with: tracker.id) }
         let completedDays = completedRecords.filter { $0.trackerId == tracker.id }.count
         
         trackerCell.delegate = self
-        trackerCell.configure(model: tracker, at: indexPath, isCompleted: isCompleted, completedDays: completedDays, isPinned: isPinned)
+        trackerCell.configure(model: tracker, at: indexPath, isCompleted: isCompleted, completedDays: completedDays)
         
         return trackerCell
     }
@@ -477,6 +492,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 
 extension TrackersViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
+        
         analyticsService.didAttemptSearching()
         
         categories = categoryStore.getCategories()
@@ -572,13 +588,8 @@ extension TrackersViewController: FiltersViewControllerDelegate {
     
     private func filterNotCompletedTrackersForSelectedDate() {
         categories = categoryStore.getCategories()
-        if let pinnedCategory = categoryStore.fetchCategoryWithName(NSLocalizedString("Pinned", comment: "")) {
-            let filteredCategories = categories.filter { category in
-                category.name == NSLocalizedString("Pinned", comment: "") ? false : true
-            }
-            categories = categoryStore.transformCoredataCategories([pinnedCategory]) + filteredCategories
-        }
         filteredData = []
+        var pinnedTrackers: [Tracker] = []
         for category in categories {
             let filteredTrackers = category.trackers.filter { tracker in
                 let isCompleted = completedRecords.contains { isMatchRecord(model: $0, with: tracker.id) }
@@ -588,26 +599,39 @@ extension TrackersViewController: FiltersViewControllerDelegate {
                     return false
                 }
             }
-            if !filteredTrackers.isEmpty {
-                filteredData.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredTrackers))
+            let filterOutPinnedTrackers = filteredTrackers.filter { tracker in
+                if tracker.isPinned {
+                    pinnedTrackers.append(tracker)
+                    return false
+                } else {
+                    return true
+                }
             }
+            if !filterOutPinnedTrackers.isEmpty {
+                filteredData.append(TrackerCategory(id: category.id, name: category.name, trackers: filterOutPinnedTrackers))
+            }
+            
+        }
+        if !pinnedTrackers.isEmpty {
+            let pinnedCategory = TrackerCategory(id: UUID(), name: NSLocalizedString("Pinned", comment: ""), trackers: pinnedTrackers)
+            filteredData.insert(pinnedCategory, at: 0)
         }
         trackerCollection.reloadData()
         if filteredData.isEmpty {
             showErrorPlaceholder()
+        } else {
+            hideErrorPlaceholder()
         }
         
     }
     
     private func filterCompletedTrackersForSelectedDate() {
         categories = categoryStore.getCategories()
-        if let pinnedCategory = categoryStore.fetchCategoryWithName(NSLocalizedString("Pinned", comment: "")) {
-            let filteredCategories = categories.filter { category in
-                category.name == NSLocalizedString("Pinned", comment: "") ? false : true
-            }
-            categories = categoryStore.transformCoredataCategories([pinnedCategory]) + filteredCategories
-        }
+        
         filteredData = []
+        
+        var pinnedTrackers: [Tracker] = []
+        
         for category in categories {
             let filteredTrackers = category.trackers.filter { tracker in
                 let isCompleted = completedRecords.contains { isMatchRecord(model: $0, with: tracker.id) }
@@ -617,13 +641,28 @@ extension TrackersViewController: FiltersViewControllerDelegate {
                     return false
                 }
             }
-            if !filteredTrackers.isEmpty {
-                filteredData.append(TrackerCategory(id: category.id, name: category.name, trackers: filteredTrackers))
+            let filterOutPinnedTrackers = filteredTrackers.filter { tracker in
+                if tracker.isPinned {
+                    pinnedTrackers.append(tracker)
+                    return false
+                } else {
+                    return true
+                }
             }
+            if !filterOutPinnedTrackers.isEmpty {
+                filteredData.append(TrackerCategory(id: category.id, name: category.name, trackers: filterOutPinnedTrackers))
+            }
+            
+        }
+        if !pinnedTrackers.isEmpty {
+            let pinnedCategory = TrackerCategory(id: UUID(), name: NSLocalizedString("Pinned", comment: ""), trackers: pinnedTrackers)
+            filteredData.insert(pinnedCategory, at: 0)
         }
         trackerCollection.reloadData()
         if filteredData.isEmpty {
             showErrorPlaceholder()
+        } else {
+            hideErrorPlaceholder()
         }
     }
 }

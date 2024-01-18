@@ -107,10 +107,10 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Public Methods
     
-    func configure(model: Tracker, at indexPath: IndexPath, isCompleted: Bool, completedDays: Int, isPinned: Bool) {
+    func configure(model: Tracker, at indexPath: IndexPath, isCompleted: Bool, completedDays: Int) {
         
         self.trackerId = model.id
-        self.isPinned = isPinned
+        self.isPinned = model.isPinned
         self.indexPath = indexPath
         self.isCompleted = isCompleted
         
@@ -223,11 +223,9 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
         return UIContextMenuConfiguration(identifier: nil,
                                           previewProvider: nil,
                                           actionProvider: {
-//            TODO: 
             suggestedActions in
             
-//            TODO: i'm chamging category of the pinned trackers now, but it should kip it's category for me to be able to unpin them, so it really shouldn't be about categories, but rather an isPinned property to the struct!!!!
-            let pinAction = UIAction(title: NSLocalizedString("Pin", comment: "")) { action in
+            let pinAction = UIAction(title: self.isPinned ? NSLocalizedString("Unpin", comment: "") : NSLocalizedString("Pin", comment: "")) { action in
                 
                 guard let trackerId = self.trackerId else { return }
                 self.delegate?.pinTracker(withId: trackerId)

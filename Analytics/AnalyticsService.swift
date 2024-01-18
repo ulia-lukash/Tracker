@@ -22,7 +22,9 @@ final class AnalyticsService {
             print("REPORT ERROR: %@", error.localizedDescription)
         })
     }
-    
+    /**
+    Tracks all actions inside the searchfield (each inputted symbol will trigger it's own action for this metrica)
+     */
     func didAttemptSearching() {
         YMMYandexMetrica.reportEvent("Attempted searching for trackers on TrackersViewController", parameters: nil, onFailure: { error in
             print("REPORT ERROR: %@", error.localizedDescription)

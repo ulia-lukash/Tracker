@@ -80,8 +80,9 @@
 "Onboarding 2" = "Incluso si no son litros de agua y yoga";
 
 /* (No Comment) */
-"Pin" = "Alfiler";
+"Pin" = "Anclar";
 
+"Unpin" = "Desanclar";
 /* (No Comment) */
 "Saturday" = "Sábado";
 
@@ -121,7 +122,7 @@
 /* (No Comment) */
 "Zero categories placeholder" = "Los rastreadores se pueden agrupar en categorías\n";
 
-"Pinned" = "Fijado";
+"Pinned" = "Anclado";
 
 "Edit tracker" = "Editar el rastreador";
 

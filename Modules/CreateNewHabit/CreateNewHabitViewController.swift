@@ -379,7 +379,7 @@ class CreateNewHabitViewController: UIViewController {
             
             guard let colour = pickedColour, let emoji = pickedEmoji else { return }
             
-            let newHabit = Tracker(id: UUID(), name: trackerName, colour: colour, emoji: emoji, schedule: configuredSchedule)
+            let newHabit = Tracker(id: UUID(), name: trackerName, colour: colour, emoji: emoji, schedule: configuredSchedule, isPinned: false)
             
             trackerStore.saveTrackerCoreData(newHabit, toCategory: pickedCategory)
             
@@ -388,7 +388,7 @@ class CreateNewHabitViewController: UIViewController {
             guard let coreDataTracker = tracker else { return }
             
             guard let name = textField.text, let colour = pickedColour, let emoji = pickedEmoji else { return }
-            let newTracker = Tracker(id: UUID(), name: name, colour: colour, emoji: emoji, schedule: configuredSchedule)
+            let newTracker = Tracker(id: UUID(), name: name, colour: colour, emoji: emoji, schedule: configuredSchedule, isPinned: coreDataTracker.isPinned)
             
             trackerStore.editTracker(withId: coreDataTracker.id!, tracker: newTracker, category: pickedCategory!)
         }

@@ -22,7 +22,8 @@ final class TrackerStore: NSObject {
         let colour = UIColor(named: coreDataTracker.colour!)!
         let emoji = coreDataTracker.emoji!
         let schedule = coreDataTracker.schedule?.schedule
-        var tracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule)
+        let isPinned = coreDataTracker.isPinned
+        var tracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule, isPinned: isPinned)
         
         return tracker
     }
@@ -34,6 +35,7 @@ final class TrackerStore: NSObject {
         newTracker.name = tracker.name
         newTracker.emoji = tracker.emoji
         newTracker.colour = tracker.colour.name
+        newTracker.isPinned = false
         if let schedule = tracker.schedule {
             newTracker.schedule = DaysValue(schedule: schedule)
         }
@@ -56,6 +58,7 @@ final class TrackerStore: NSObject {
         trackerCoreData.name = tracker.name
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.colour = tracker.colour.name
+        trackerCoreData.isPinned = tracker.isPinned
         trackerCoreData.schedule = DaysValue(schedule: tracker.schedule!)
         let fetchedCategory = categoryStore.fetchCategoryWithId(category.id)
         trackerCoreData.category = fetchedCategory
@@ -161,17 +164,7 @@ final class TrackerStore: NSObject {
     }
     func pinTracker(withId id: UUID) {
         let tracker = fetchTrackerWithId(id)
-        if let category = categoryStore.fetchCategoryWithName(NSLocalizedString("Pinned", comment: "")) {
-            
-            tracker.category = category
-        } else {
-            let newCategory = TrackerCategoryCoreData(context: context)
-            
-            newCategory.id = UUID()
-            newCategory.name = NSLocalizedString("Pinned", comment: "")
-            tracker.category = newCategory
-            
-        }
+        tracker.isPinned = !tracker.isPinned
         do {
             try context.save()
         } catch {
@@ -179,4 +172,5 @@ final class TrackerStore: NSObject {
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
+    
 }

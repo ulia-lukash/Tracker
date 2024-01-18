@@ -1,8 +1,8 @@
 //
 //  TrackerCoreData+CoreDataProperties.swift
-//  Tracker
+//  
 //
-//  Created by Uliana Lukash on 19.12.2023.
+//  Created by Uliana Lukash on 18.01.2024.
 //
 //
 
@@ -21,6 +21,7 @@ extension TrackerCoreData {
     @NSManaged public var id: UUID?
     @NSManaged public var name: String?
     @NSManaged var schedule: DaysValue?
+    @NSManaged public var isPinned: Bool
     @NSManaged public var category: TrackerCategoryCoreData?
     @NSManaged public var trackerRecords: NSSet?
 
@@ -43,6 +44,6 @@ extension TrackerCoreData {
 
 }
 
-extension TrackerCoreData : Identifiable {
-
+extension TrackerCoreData: Identifiable {
+    
 }
