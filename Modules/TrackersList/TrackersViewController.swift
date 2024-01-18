@@ -25,7 +25,7 @@ class TrackersViewController: UIViewController  {
     private var completedRecords: [TrackerRecord] = []
     private var selectedDate = Date()
     private var categories: [TrackerCategory] = []
-    
+    private let analyticsService = AnalyticsService.shared
     private lazy var actionSheet: UIAlertController = {
         let alert = UIAlertController()
         alert.title = NSLocalizedString("Delete category confirmation", comment: "")
@@ -273,12 +273,15 @@ class TrackersViewController: UIViewController  {
     
     @objc private func didTapAddButton() {
         
+        analyticsService.addTrackerButtonTapped()
         let viewController = CreateTrackerViewController()
         viewController.delegate = self
         present(viewController, animated: true)
     }
     
     @objc private func didChangeSelectedDate() {
+        analyticsService.didSelectDate()
+        
         selectedDate = datePicker.date
         if let currentFilter = currentFilter {
             switch currentFilter {
@@ -302,6 +305,7 @@ class TrackersViewController: UIViewController  {
     }
     
     @objc private func didTapFiltersButton() {
+        analyticsService.didOpenFiltersMenu()
         let viewController = FiltersViewController()
         viewController.delegate = self
         if let currentFilter = currentFilter {
@@ -396,6 +400,8 @@ extension TrackersViewController: UICollectionViewDataSource {
 extension TrackersViewController: TrackerCollectionViewCellDelegate {
     
     func markComplete(with id: UUID) {
+        
+        analyticsService.didCompleteTracker()
         guard selectedDate <= Date() else {
             return
         }
@@ -406,6 +412,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     }
     
     func undoMarkComplete(with id: UUID) {
+        analyticsService.didUndoCompleteTracker()
         guard selectedDate <= Date() else {
             return
         }
@@ -416,6 +423,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         trackerCollection.reloadData()
     }
     func pinTracker(withId id: UUID) {
+        analyticsService.didPinTracker()
         trackerStore.pinTracker(withId: id)
         self.categories = self.categoryStore.getCategories()
         self.completedRecords = self.trackerRecordStore.getCompletedTrackers()
@@ -425,13 +433,14 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     }
     
     func deleteTracker(withId id: UUID) {
-        
+        analyticsService.didAttemptDeletingTracker()
         let actionSheet: UIAlertController = {
             let alert = UIAlertController()
             alert.title = NSLocalizedString("Delete category confirmation", comment: "")
             return alert
         }()
         let action1 = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive) {_ in
+            self.analyticsService.didDeleteTracker()
             self.trackerStore.deleteTracker(withId: id)
             self.categories = self.categoryStore.getCategories()
             self.completedRecords = self.trackerRecordStore.getCompletedTrackers()
@@ -439,13 +448,16 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
             self.setInitialPlaceholderVisibility()
             self.trackerCollection.reloadData()
         }
-        let action2 = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
+        let action2 = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) {_ in
+            self.analyticsService.didCancelTrackerDeletion()
+        }
         actionSheet.addAction(action1)
         actionSheet.addAction(action2)
         present(actionSheet, animated: true)
     }
     
     func editTracker(withId id: UUID) {
+        analyticsService.didPressEditTracker()
         let trackerCoreData = trackerStore.fetchTrackerWithId(id)
         let tracker = trackerStore.convertToTracker(coreDataTracker: trackerCoreData)
         let viewController = CreateNewHabitViewController()
@@ -465,6 +477,8 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 
 extension TrackersViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
+        analyticsService.didAttemptSearching()
+        
         categories = categoryStore.getCategories()
         
         if let text = searchController.searchBar.text {

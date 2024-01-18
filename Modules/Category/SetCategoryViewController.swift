@@ -161,17 +161,17 @@ extension SetCategoryViewController: UITableViewDataSource {
         
         let reuseIdentifier = "CategoriesTableViewCell"
         
-        guard let cell: CategoriesTableViewCell? = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! CategoriesTableViewCell else { return UITableViewCell() }
+        let cell: CategoriesTableViewCell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! CategoriesTableViewCell
         
-        guard let viewModel = viewModel else { return cell! }
-        cell?.viewModel = viewModel
-        cell?.configure(indexPath: indexPath)
-        self.addInteraction(toCell: cell!)
+        guard let viewModel = viewModel else { return cell }
+        cell.viewModel = viewModel
+        cell.configure(indexPath: indexPath)
+        self.addInteraction(toCell: cell)
         
         if (indexPath.row == viewModel.categoriesNumber() - 1) {
-            cell?.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         }
-        return cell!
+        return cell
         
     }
 }
