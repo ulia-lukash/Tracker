@@ -221,7 +221,8 @@ final class TrackerRecordStore {
         return([perfectDays, average, bestPeriod])
     }
     
-    func checkStreak(of dateArray: [Date]) -> Int{
+    ///Return the length of the longest contiguous sequence of days from an array of dates
+    private func checkStreak(of dateArray: [Date]) -> Int{
     let dates = dateArray.sorted()
     // Check if the array contains more than 0 dates, otherwise return 0
     guard dates.count > 0 else { return 0 }
@@ -234,10 +235,10 @@ final class TrackerRecordStore {
     // Return max streak
     return maximalConsecutiveNumbers(in: dayDiffs)
     }
-    // Find maximal length of a subsequence of consecutive numbers in the array.
-    // It is assumed that the array is sorted in non-decreasing order.
-    // Consecutive equal elements are ignored.
-    func maximalConsecutiveNumbers(in array: [Int]) -> Int{
+    /// Find maximal length of a subsequence of consecutive numbers in the array.
+    /// It is assumed that the array is sorted in non-decreasing order.
+    /// Consecutive equal elements are ignored.
+    private func maximalConsecutiveNumbers(in array: [Int]) -> Int{
     var longest = 0 // length of longest subsequence of consecutive numbers
     var current = 1 // length of current subsequence of consecutive numbers
     for (prev, next) in zip(array, array.dropFirst()) {
