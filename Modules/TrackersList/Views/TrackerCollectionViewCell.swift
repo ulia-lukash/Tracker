@@ -28,6 +28,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Private Properties
     
+    private let analyticsService = AnalyticsService.shared
     private var isPinned: Bool = false
     private var trackerStore = TrackerStore.shared
     private var trackerId: UUID?
@@ -224,6 +225,8 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
                                           previewProvider: nil,
                                           actionProvider: {
             suggestedActions in
+            
+            self.analyticsService.didTapTracker()
             
             let pinAction = UIAction(title: self.isPinned ? NSLocalizedString("Unpin", comment: "") : NSLocalizedString("Pin", comment: "")) { action in
                 

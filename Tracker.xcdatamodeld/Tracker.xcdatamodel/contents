@@ -13,10 +13,10 @@
         <attribute name="name" attributeType="String"/>
         <attribute name="schedule" optional="YES" attributeType="Transformable" valueTransformerName="DaysValueTransformer" customClassName="DaysValue"/>
         <relationship name="category" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerCategoryCoreData" inverseName="trackers" inverseEntity="TrackerCategoryCoreData"/>
-        <relationship name="trackerRecords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackerRecordCoreData" inverseName="tracker" inverseEntity="TrackerRecordCoreData"/>
+        <relationship name="trackerRecords" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="TrackerRecordCoreData"/>
     </entity>
     <entity name="TrackerRecordCoreData" representedClassName="TrackerRecordCoreData" syncable="YES">
         <attribute name="date" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="tracker" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="TrackerCoreData" inverseName="trackerRecords" inverseEntity="TrackerCoreData"/>
+        <attribute name="trackerId" optional="YES" attributeType="UUID" usesScalarValueType="NO"/>
     </entity>
 </model>

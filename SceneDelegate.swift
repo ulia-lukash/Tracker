@@ -25,9 +25,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let initialViewController: UIViewController
         let storyboard = UIStoryboard(name: "Main", bundle: nil)
 
-        
-
         if (!defaults.bool(forKey: "SkippedUnboarding")) {
+            
+            defaults.set(0, forKey: "TrackersOnMonday")
+            defaults.set(0, forKey: "TrackersOnTuesday")
+            defaults.set(0, forKey: "TrackersOnWednesday")
+            defaults.set(0, forKey: "TrackersOnThursday")
+            defaults.set(0, forKey: "TrackersOnFriday")
+            defaults.set(0, forKey: "TrackersOnSaturday")
+            defaults.set(0, forKey: "TrackersOnSunday")
+            
             let onboardingController = storyboard.instantiateViewController(withIdentifier: "OnboardingController")
             initialViewController = onboardingController
         } else {

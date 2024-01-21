@@ -292,7 +292,7 @@ class CreateNewHabitViewController: UIViewController {
     }
     
     private func setUpScrollViewContent() {
-                        
+        
         scrollViewContent.addSubview(textField)
         scrollViewContent.addSubview(restrictionLabel)
         scrollViewContent.addSubview(settingTable)
@@ -363,8 +363,8 @@ class CreateNewHabitViewController: UIViewController {
         }
         
         headerView.heightAnchor.constraint(equalToConstant: headerViewHeight).isActive = true
-        }
-        
+    }
+    
     // MARK: - @objc Methods
     
     @objc private func didTapCancelButton() {
@@ -380,6 +380,32 @@ class CreateNewHabitViewController: UIViewController {
             guard let colour = pickedColour, let emoji = pickedEmoji else { return }
             
             let newHabit = Tracker(id: UUID(), name: trackerName, colour: colour, emoji: emoji, schedule: configuredSchedule, isPinned: false)
+            let defaults = UserDefaults.standard
+            for day in configuredSchedule {
+                switch day {
+                case .monday:
+                    let trackersOnMonday = defaults.integer(forKey: "TrackersOnMonday") + 1
+                    defaults.set(trackersOnMonday, forKey: "TrackersOnMonday")
+                case .tuesday:
+                    let trackersOnMonday = defaults.integer(forKey: "TrackersOnTuesday") + 1
+                    defaults.set(trackersOnMonday, forKey: "TrackersOnTuesday")
+                case .wednesday:
+                    let trackersOnMonday = defaults.integer(forKey: "TrackersOnWednesday") + 1
+                    defaults.set(trackersOnMonday, forKey: "TrackersOnWednesday")
+                case .thursday:
+                    let trackersOnMonday = defaults.integer(forKey: "TrackersOnThursday") + 1
+                    defaults.set(trackersOnMonday, forKey: "TrackersOnThursday")
+                case .friday:
+                    let trackersOnMonday = defaults.integer(forKey: "TrackersOnFriday") + 1
+                    defaults.set(trackersOnMonday, forKey: "TrackersOnFriday")
+                case .saturday:
+                    let trackersOnMonday = defaults.integer(forKey: "TrackersOnSaturday") + 1
+                    defaults.set(trackersOnMonday, forKey: "TrackersOnSaturday")
+                case .sunday:
+                    let trackersOnMonday = defaults.integer(forKey: "TrackersOnSunday") + 1
+                    defaults.set(trackersOnMonday, forKey: "TrackersOnSunday")
+                }
+            }
             
             trackerStore.saveTrackerCoreData(newHabit, toCategory: pickedCategory)
             

@@ -2,7 +2,7 @@
 //  TrackerRecordCoreData+CoreDataClass.swift
 //  Tracker
 //
-//  Created by Uliana Lukash on 19.12.2023.
+//  Created by Uliana Lukash on 18.01.2024.
 //
 //
 

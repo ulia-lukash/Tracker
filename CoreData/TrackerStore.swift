@@ -55,6 +55,63 @@ final class TrackerStore: NSObject {
     func editTracker(withId id: UUID, tracker: Tracker, category: TrackerCategory) {
         let trackerCoreData = fetchTrackerWithId(id)
         
+        let defaults = UserDefaults.standard
+        
+        let previousSchedule = trackerCoreData.schedule?.schedule
+        
+        /**Remove previously scheduled days**/
+        for day in previousSchedule! {
+            switch day {
+            case .monday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnMonday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnMonday")
+            case .tuesday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnTuesday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnTuesday")
+            case .wednesday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnWednesday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnWednesday")
+            case .thursday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnThursday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnThursday")
+            case .friday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnFriday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnFriday")
+            case .saturday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnSaturday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnSaturday")
+            case .sunday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnSunday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnSunday")
+            }
+        }
+        /**Add newly scheduled days*/
+        for day in tracker.schedule! {
+            switch day {
+            case .monday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnMonday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnMonday")
+            case .tuesday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnTuesday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnTuesday")
+            case .wednesday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnWednesday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnWednesday")
+            case .thursday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnThursday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnThursday")
+            case .friday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnFriday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnFriday")
+            case .saturday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnSaturday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnSaturday")
+            case .sunday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnSunday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnSunday")
+            }
+        }
+        
         trackerCoreData.name = tracker.name
         trackerCoreData.emoji = tracker.emoji
         trackerCoreData.colour = tracker.colour.name

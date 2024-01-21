@@ -81,7 +81,7 @@ final class OnboardingViewControllerBase: UIViewController {
         let viewController = TabBarViewController()
         let defaults = UserDefaults.standard
         defaults.set(true, forKey: "SkippedUnboarding")
-        
+        defaults.set(Date(), forKey: "FirstDayOfUsage")
         viewController.modalPresentationStyle = .fullScreen
         present(viewController, animated: true, completion: nil)
         

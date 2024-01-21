@@ -121,7 +121,17 @@ class TrackersViewController: UIViewController  {
         view.addGestureRecognizer(tapGesture)
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        analyticsService.didOpenViewController()
+    }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        analyticsService.didCloseViewController()
+    }
     
     // MARK: - Private Methods
     /**
@@ -132,7 +142,7 @@ class TrackersViewController: UIViewController  {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         
-        navigationItem.title = NSLocalizedString("Trakers", comment: "")
+        navigationItem.title = NSLocalizedString("Trackers", comment: "")
         navigationItem.searchController = searchController
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: datePicker)
         navigationItem.leftBarButtonItem = addButton
@@ -202,16 +212,8 @@ class TrackersViewController: UIViewController  {
     
     /// Checks if tracker should be displayed on selected date
     private func isTrackerScheduledOnSelectedDate(_ tracker: Tracker) -> Bool {
-        guard let weekDay = WeekDays(rawValue: calculateWeekDayNumber(for: selectedDate)) else { return false }
+        guard let weekDay = WeekDays(rawValue: selectedDate.weekDayNumber()) else { return false }
         return tracker.schedule?.contains(weekDay) ?? false
-    }
-    
-    private func calculateWeekDayNumber(for date: Date) -> Int {
-        var calendar = Calendar.current
-        calendar.firstWeekday = 2
-        let weekDay = calendar.component(.weekday, from: date)
-        let daysWeek = 7
-        return (weekDay - calendar.firstWeekday + daysWeek) % daysWeek + 1
     }
     
     /// Fetches trackers from DataBase and filters them depending on selected date, always placing pinned ones into separate category for demonstration.
@@ -530,7 +532,8 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         guard selectedDate <= Date() else {
             return
         }
-        trackerRecordStore.saveTrackerRecordCoreData(TrackerRecord(trackerId: id, date: selectedDate))
+        guard let date = selectedDate.omitTime() else { return }
+        trackerRecordStore.saveTrackerRecordCoreData(TrackerRecord(trackerId: id, date: date))
         completedRecords = trackerRecordStore.getCompletedTrackers()
         updateCollectionView()
     }
@@ -541,8 +544,9 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         guard selectedDate <= Date() else {
             return
         }
-        if completedRecords.contains(where: { $0.trackerId == id && Calendar.current.isDate($0.date, equalTo: selectedDate, toGranularity: .day)}) {
-            trackerRecordStore.deleteTrackerRecord(with: id, on: selectedDate)
+        guard let date = selectedDate.omitTime() else { return }
+        if completedRecords.contains(where: { $0.trackerId == id && Calendar.current.isDate($0.date, equalTo: date, toGranularity: .day)}) {
+            trackerRecordStore.deleteTrackerRecord(with: id, on: date)
         }
         completedRecords = trackerRecordStore.getCompletedTrackers()
         updateCollectionView()
@@ -559,7 +563,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 
     func deleteTracker(withId id: UUID) {
         
-        analyticsService.didAttemptDeletingTracker()
+        analyticsService.didPressDeleteTracker()
         let actionSheet: UIAlertController = {
             let alert = UIAlertController()
             alert.title = NSLocalizedString("Delete category confirmation", comment: "")
