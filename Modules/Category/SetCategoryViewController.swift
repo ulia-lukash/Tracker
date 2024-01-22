@@ -17,7 +17,6 @@ class SetCategoryViewController: UIViewController {
     
     var viewModel: SetCategoryViewModel?
     var viewModelDelegate: SetCategoryViewControllerDelegate?
-    // MARK: - Public Properties
         
     // MARK: - Private Properties
         
@@ -75,9 +74,7 @@ class SetCategoryViewController: UIViewController {
         categoriesTable.dataSource = self
         categoriesTable.delegate = self
     }
-    
-    // MARK: - Public Methods
-    
+        
     // MARK: - Private Methods
     
     private func bind() {

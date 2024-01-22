@@ -15,9 +15,6 @@ final class CategoriesTableViewCell: UITableViewCell {
     static let identifier = "CategoriesTableViewCell"
     var viewModel: SetCategoryViewModel?
     
-    // MARK: - Private Properties
-    
-    
     // MARK: - Initializers
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

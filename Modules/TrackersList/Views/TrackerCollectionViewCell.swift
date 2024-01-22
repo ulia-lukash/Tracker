@@ -23,9 +23,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     
     static let identifier = "cell"
     weak var delegate: TrackerCollectionViewCellDelegate?
-    
-    // MARK: - IBOutlet
-    
+        
     // MARK: - Private Properties
     
     private let analyticsService = AnalyticsService.shared

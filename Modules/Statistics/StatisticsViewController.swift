@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class StatisticsViewController: UIViewController {
+final class StatisticsViewController: UIViewController {
     
     private let recordStore = TrackerRecordStore.shared
     
@@ -39,10 +39,7 @@ class StatisticsViewController: UIViewController {
         fetchStats()
         setUp()
     }
-    // MARK: - Public Methods
-
-    // MARK: - IBAction
-
+    
     // MARK: - Private Methods
     private func setUp() {
         navigationController?.navigationBar.prefersLargeTitles = true

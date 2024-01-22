@@ -13,10 +13,6 @@ final class FiltersTableViewCell: UITableViewCell {
     // MARK: - Public Properties
     
     static let identifier = "FiltersTableViewCell"
-    //    var viewModel: SetCategoryViewModel?
-    
-    // MARK: - Private Properties
-    
     
     // MARK: - Initializers
     
@@ -42,8 +38,6 @@ final class FiltersTableViewCell: UITableViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    // MARK: - Public Methods
     
     // MARK: - Private Methods
     private func setUp() {
