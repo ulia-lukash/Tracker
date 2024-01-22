@@ -124,13 +124,13 @@ class TrackersViewController: UIViewController  {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        analyticsService.didOpenViewController()
+        analyticsService.reportEvent(event: "Opened TrackersViewController", parameters: ["event": "open", "screen": "Main"])
     }
     
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         
-        analyticsService.didCloseViewController()
+        analyticsService.reportEvent(event: "Closed TrackersViewController", parameters: ["event": "close", "screen": "Main"])
     }
     
     // MARK: - Private Methods
@@ -321,14 +321,14 @@ class TrackersViewController: UIViewController  {
     
     @objc private func didTapAddButton() {
         
-        analyticsService.addTrackerButtonTapped()
+        analyticsService.reportEvent(event: "Add tracker button tapped on TrackersViewController", parameters: ["event": "click", "screen": "Main", "item": "add_track"])
         let viewController = CreateTrackerViewController()
         viewController.delegate = self
         present(viewController, animated: true)
     }
     
     @objc private func didChangeSelectedDate() {
-        analyticsService.didSelectDate()
+        analyticsService.reportEvent(event: "Date picker date changed on TrackersViewController", parameters: ["event": "change", "screen": "Main"])
         
         selectedDate = datePicker.date
         
@@ -351,7 +351,7 @@ class TrackersViewController: UIViewController  {
     }
     
     @objc private func didTapFiltersButton() {
-        analyticsService.didOpenFiltersMenu()
+        analyticsService.reportEvent(event: "Did press the filters button on TrackersViewController", parameters: ["event": "click", "screen": "Main", "item": "filter"])
         let viewController = FiltersViewController()
         viewController.delegate = self
         if let currentFilter = currentFilter {
@@ -491,7 +491,7 @@ extension TrackersViewController: CreateNewHabitViewControllerDelegate {
 extension TrackersViewController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
         
-        analyticsService.didAttemptSearching()
+        analyticsService.reportEvent(event: "Attempted searching for trackers on TrackersViewController", parameters: ["event": "search", "screen": "Main"])
         
         categories = categoryStore.getCategories()
         
@@ -528,7 +528,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     
     func markComplete(with id: UUID) {
 
-        analyticsService.didCompleteTracker()
+        analyticsService.reportEvent(event: "Marked tracker completed on TrackersViewController", parameters: ["event": "click", "screen": "Main"])
         guard selectedDate <= Date() else {
             return
         }
@@ -540,7 +540,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 
     func undoMarkComplete(with id: UUID) {
         
-        analyticsService.didUndoCompleteTracker()
+        analyticsService.reportEvent(event: "Marked tracker not completed on TrackersViewController", parameters: ["event": "click", "screen": "Main"])
         guard selectedDate <= Date() else {
             return
         }
@@ -554,7 +554,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     
     func pinTracker(withId id: UUID) {
         
-        analyticsService.didPinTracker()
+        analyticsService.reportEvent(event: "Pinned or unpinned tracker on TrackersViewController", parameters: ["event": "click", "screen": "Main"])
         trackerStore.pinTracker(withId: id)
         self.completedRecords = self.trackerRecordStore.getCompletedTrackers()
         filteredData = getAndFilterTrackersBySelectedDate()
@@ -563,21 +563,21 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 
     func deleteTracker(withId id: UUID) {
         
-        analyticsService.didPressDeleteTracker()
+        analyticsService.reportEvent(event: "Chose delete option in tracker's context menu", parameters: ["event": "click", "screen": "Main", "item": "delete"])
         let actionSheet: UIAlertController = {
             let alert = UIAlertController()
             alert.title = NSLocalizedString("Delete category confirmation", comment: "")
             return alert
         }()
         let action1 = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive) {_ in
-            self.analyticsService.didDeleteTracker()
+            self.analyticsService.reportEvent(event: "Confirmed tracker deletion on TrackersViewController", parameters: ["event": "click", "screen": "Main", "item": "delete"])
             self.trackerStore.deleteTracker(withId: id)
             self.completedRecords = self.trackerRecordStore.getCompletedTrackers()
             self.filteredData = self.getAndFilterTrackersBySelectedDate()
             self.updateCollectionView()
         }
         let action2 = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) {_ in
-            self.analyticsService.didCancelTrackerDeletion()
+            self.analyticsService.reportEvent(event: "Canceled tracker deletion on TrackersViewController", parameters: ["event": "click", "screen": "Main", "item": "cancel"])
         }
         actionSheet.addAction(action1)
         actionSheet.addAction(action2)
@@ -586,7 +586,7 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
 
     func editTracker(withId id: UUID) {
         
-        analyticsService.didPressEditTracker()
+        analyticsService.reportEvent(event: "Chose edit option in tracker's context menu", parameters: ["event": "click", "screen": "Main", "item": "edit"])
         let trackerCoreData = trackerStore.fetchTrackerWithId(id)
         let tracker = trackerStore.convertToTracker(coreDataTracker: trackerCoreData)
         let viewController = CreateNewHabitViewController()
