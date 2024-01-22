@@ -10,16 +10,6 @@ import UIKit
 
 class StatisticsViewController: UIViewController {
     
-    // MARK: - Types
-
-    // MARK: - Constants
-
-    // MARK: - Public Properties
-
-    // MARK: - IBOutlet
-
-    // MARK: - Private Properties
-    
     private let recordStore = TrackerRecordStore.shared
     
     private lazy var placeholderLabel: UILabel = {
@@ -41,13 +31,13 @@ class StatisticsViewController: UIViewController {
     private lazy var perfectDaysLabel = CustomView()
     private lazy var completedTrackersLabel = CustomView()
     private lazy var averageLabel = CustomView()
-    // MARK: - Initializers
 
     // MARK: - UIViewController(*)
     override func viewDidLoad() {
         super.viewDidLoad()
-        setUp()
+        
         fetchStats()
+        setUp()
     }
     // MARK: - Public Methods
 
@@ -126,21 +116,17 @@ class StatisticsViewController: UIViewController {
             if let stats = recordStore.getStats() {
                 hidePlaceholder()
                 let perfectDays = stats[0]
-                perfectDaysLabel.statsName = NSLocalizedString("Perfect days", comment: "")
-                perfectDaysLabel.statsNumber = "\(perfectDays)"
-    
-                completedTrackersLabel.statsName = NSLocalizedString("Trackers completed", comment: "")
-                completedTrackersLabel.statsNumber = "\(trackersCompleted)"
+                perfectDaysLabel.updateView(number: "\(perfectDays)", name: NSLocalizedString("Perfect days", comment: ""))
+                completedTrackersLabel.updateView(number: "\(trackersCompleted)", name: NSLocalizedString("Trackers completed", comment: ""))
                 
                 let average = stats[1]
                 
-                averageLabel.statsName = NSLocalizedString("Average value", comment: "")
-                averageLabel.statsNumber = "\(average)"
+                averageLabel.updateView(number: "\(average)", name: NSLocalizedString("Average value", comment: ""))
                 
                 let bestPeriod = stats[2]
                 
-                bestPeriodLabel.statsNumber = "\(bestPeriod)"
-                bestPeriodLabel.statsName = NSLocalizedString("Best period", comment: "")
+                bestPeriodLabel.updateView(number: "\(bestPeriod)", name: NSLocalizedString("Best period", comment: ""))
+
             }
             
         }

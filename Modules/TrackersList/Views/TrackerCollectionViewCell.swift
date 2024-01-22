@@ -226,7 +226,7 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
                                           actionProvider: {
             suggestedActions in
             
-            self.analyticsService.didTapTracker()
+            self.analyticsService.reportEvent(event: "Did tap tracker cell", parameters: ["event": "click", "screen": "Main", "item": "cell"])
             
             let pinAction = UIAction(title: self.isPinned ? NSLocalizedString("Unpin", comment: "") : NSLocalizedString("Pin", comment: "")) { action in
                 

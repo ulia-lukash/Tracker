@@ -30,7 +30,8 @@ final class TrackerRecordStore {
             records = try context.fetch(request)
         }
         catch {
-            
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
         return records
     }
@@ -44,7 +45,8 @@ final class TrackerRecordStore {
             records = try context.fetch(request)
         }
         catch {
-            
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
         return records
     }
@@ -69,7 +71,8 @@ final class TrackerRecordStore {
             }
         }
         catch {
-            
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
     }
     
@@ -82,7 +85,8 @@ final class TrackerRecordStore {
             records = try context.fetch(request)
         }
         catch {
-            
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
         return records
     }
@@ -148,29 +152,26 @@ final class TrackerRecordStore {
     
     func getStats() -> [Int]? {
         
-        let keypathExp = NSExpression(forKeyPath: "date") // can be any column
-        let expression = NSExpression(forFunction: "count:", arguments: [keypathExp])
+        let recordsDict = getSortedrecords()
         
-        let countDesc = NSExpressionDescription()
-        countDesc.expression = expression
-        countDesc.name = "count"
-        countDesc.expressionResultType = .integer64AttributeType
-        var perfectDays: Int = 0
-        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "TrackerRecordCoreData")
-        request.returnsObjectsAsFaults = false
-        request.propertiesToGroupBy = ["date"]
-        request.propertiesToFetch = ["date", countDesc]
-        request.resultType = .dictionaryResultType
-        
-        let trackerRecords = try! context.execute(request) as! NSAsynchronousFetchResult<NSFetchRequestResult>
-        guard let records = trackerRecords.finalResult else { return nil }
-        let recordsDict = records as! [[String: Any]]
-
         var dates: [Date] = []
         
-        let defaults = UserDefaults.standard
         for record in recordsDict {
             dates.append(record["date"] as! Date)
+        }
+        
+        let perfectDays = getPerfectDays(from: recordsDict)
+        let bestPeriod = checkStreak(of: dates)
+        let average = getNumberOfCompletedTrackers()/recordsDict.count
+        
+        return([perfectDays, average, bestPeriod])
+    }
+    
+    private func getPerfectDays(from recordsDict: [[String: Any]]) -> Int {
+        var perfectDays: Int = 0
+        let defaults = UserDefaults.standard
+        for record in recordsDict {
+            
             let weekday: Date = record["date"] as! Date
             let number = weekday.weekDayNumber()
             switch number {
@@ -213,12 +214,26 @@ final class TrackerRecordStore {
                 break
             }
         }
+        return perfectDays
+    }
+    private func getSortedrecords() -> [[String: Any]] {
+        let keypathExp = NSExpression(forKeyPath: "date") // can be any column
+        let expression = NSExpression(forFunction: "count:", arguments: [keypathExp])
         
-        let bestPeriod = checkStreak(of: dates)
-        let average = getNumberOfCompletedTrackers()/recordsDict.count
+        let countDesc = NSExpressionDescription()
+        countDesc.expression = expression
+        countDesc.name = "count"
+        countDesc.expressionResultType = .integer64AttributeType
         
-//        print(average)
-        return([perfectDays, average, bestPeriod])
+        let request = NSFetchRequest<NSFetchRequestResult>(entityName: "TrackerRecordCoreData")
+        request.returnsObjectsAsFaults = false
+        request.propertiesToGroupBy = ["date"]
+        request.propertiesToFetch = ["date", countDesc]
+        request.resultType = .dictionaryResultType
+        
+        let trackerRecords = try! context.execute(request) as! NSAsynchronousFetchResult<NSFetchRequestResult>
+        guard let records = trackerRecords.finalResult else { return [] }
+        return records as! [[String: Any]]
     }
     
     ///Return the length of the longest contiguous sequence of days from an array of dates

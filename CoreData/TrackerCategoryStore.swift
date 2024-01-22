@@ -28,16 +28,14 @@ final class TrackerCategoryStore: NSObject {
         let id = category.id!
         let name = category.name!
         var trackers: [Tracker] = []
-        let alltrackers = category.trackers?.allObjects as? [TrackerCoreData]
-        for tracker in alltrackers! {
-            let id = tracker.id!
-            let name = tracker.name!
-            let emoji = tracker.emoji!
-            let colour = UIColor(named: tracker.colour!)!
-            let schedule = tracker.schedule?.schedule
-            let isPinned = tracker.isPinned
-            let newTracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule, isPinned: isPinned)
-            trackers.append(newTracker)
+        let alltrackers = category.trackers?.allObjects as! [TrackerCoreData]
+        for tracker in alltrackers {
+            if let id = tracker.id, let name = tracker.name, let emoji = tracker.emoji, let colour = UIColor(named: tracker.colour!), let schedule = tracker.schedule?.schedule  {
+                let isPinned = tracker.isPinned
+                let newTracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule, isPinned: isPinned)
+                trackers.append(newTracker)
+            }
+            
         }
         return TrackerCategory(id: id, name: name, trackers: trackers)
     }
@@ -72,6 +70,8 @@ final class TrackerCategoryStore: NSObject {
         }
         
         catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
         
         return categories
@@ -102,6 +102,8 @@ final class TrackerCategoryStore: NSObject {
             categories = try context.fetch(TrackerCategoryCoreData.fetchRequest())
         }
         catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
         
         if categories.contains(where: { $0.id == category.id}) {
@@ -175,7 +177,8 @@ final class TrackerCategoryStore: NSObject {
                     }
                 }
                 catch {
-                    
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
                 }
                 context.delete(tracker)
 

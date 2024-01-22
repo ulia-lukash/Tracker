@@ -10,8 +10,8 @@ import UIKit
 
 final class CustomView: UIView {
     
-    var statsNumber: String?
-    var statsName: String?
+    private var statsNumber: String?
+    private var statsName: String?
     
     private lazy var innerRect: UIView = {
         let innerRect = UIView()
@@ -22,11 +22,10 @@ final class CustomView: UIView {
     }()
     
     private lazy var statsLabel: UILabel = {
-       let label = UILabel()
+        let label = UILabel()
         label.font = .systemFont(ofSize: 34, weight: .bold)
         label.textColor = UIColor(named: "Black")
         label.textAlignment = .left
-//        label.text = "6"
         return label
     }()
     private lazy var statsNameLabel: UILabel = {
@@ -34,7 +33,6 @@ final class CustomView: UIView {
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = UIColor(named: "Black")
         label.textAlignment = .left
-//        label.text = NSLocalizedString("Best period", comment: "")
         return label
     }()
     
@@ -49,6 +47,11 @@ final class CustomView: UIView {
     override func layoutSubviews() {
         super.layoutSubviews()
         setUp()
+    }
+    
+    func updateView(number: String, name: String) {
+        statsNumber = number
+        statsName = name
     }
     
     private func setUp() {
