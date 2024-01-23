@@ -13,7 +13,7 @@ protocol CreateNewHabitViewControllerDelegate: AnyObject {
     func cancelNewHabitCreation()
 }
 
-class CreateNewHabitViewController: UIViewController {
+final class CreateNewHabitViewController: UIViewController {
     
     // MARK: - Public Properties
     

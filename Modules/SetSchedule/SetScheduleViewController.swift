@@ -13,7 +13,7 @@ protocol SetScheduleViewControllerDelegate: AnyObject {
     func didConfigure(schedule: Set<WeekDays>)
 }
 
-class SetScheduleViewController: UIViewController {
+final class SetScheduleViewController: UIViewController {
     
     // MARK: - Public Properties
 

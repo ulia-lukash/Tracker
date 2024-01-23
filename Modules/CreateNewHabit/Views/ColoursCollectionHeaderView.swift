@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class ColoursCollectionHeaderView: UICollectionReusableView {
+final class ColoursCollectionHeaderView: UICollectionReusableView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 19, weight: .bold)

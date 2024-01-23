@@ -10,7 +10,7 @@ import UIKit
 import CoreData
 
 
-class TrackersViewController: UIViewController  {
+final class TrackersViewController: UIViewController  {
     
     // MARK: - Private Properties
     

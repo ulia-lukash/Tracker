@@ -13,7 +13,7 @@ protocol SetCategoryViewControllerDelegate: AnyObject {
     func didSetCategory(category: TrackerCategory)
 }
 
-class SetCategoryViewController: UIViewController {
+final class SetCategoryViewController: UIViewController {
     
     var viewModel: SetCategoryViewModel?
     var viewModelDelegate: SetCategoryViewControllerDelegate?

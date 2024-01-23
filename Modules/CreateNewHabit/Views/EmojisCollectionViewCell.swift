@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class EmojisCollectionViewCell: UICollectionViewCell {
+final class EmojisCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Public Properties
     

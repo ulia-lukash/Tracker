@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class EmojisCollectionHeaderView: UICollectionReusableView {
+final class EmojisCollectionHeaderView: UICollectionReusableView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 19, weight: .bold)

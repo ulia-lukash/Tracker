@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class ColoursCollectionViewCell: UICollectionViewCell {
+final class ColoursCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Public Properties
     

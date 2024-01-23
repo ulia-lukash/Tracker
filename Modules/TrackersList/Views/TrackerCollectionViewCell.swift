@@ -17,7 +17,7 @@ protocol TrackerCollectionViewCellDelegate: AnyObject {
     func editTracker(withId id: UUID)
 }
 
-class TrackerCollectionViewCell: UICollectionViewCell {
+final class TrackerCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Public Properties
     

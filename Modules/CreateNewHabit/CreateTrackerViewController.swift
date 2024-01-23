@@ -12,7 +12,7 @@ protocol CreateTrackerViewControllerDelegate: AnyObject {
     func didCreateNewTracker()
 }
 
-class CreateTrackerViewController: UIViewController {
+final class CreateTrackerViewController: UIViewController {
     
     // MARK: - Public Properties
 
