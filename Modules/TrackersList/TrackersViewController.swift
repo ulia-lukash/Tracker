@@ -312,8 +312,9 @@ final class TrackersViewController: UIViewController  {
 
     /// Sets placeholders' visibility and reloads trackers collection.
     private func updateCollectionView() {
-        setPlaceholderVisibility()
+        
         setErrorPlaceholderVisibility()
+        setPlaceholderVisibility()
         trackerCollection.reloadData()
     }
     

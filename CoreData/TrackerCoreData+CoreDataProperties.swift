@@ -2,7 +2,7 @@
 //  TrackerCoreData+CoreDataProperties.swift
 //  
 //
-//  Created by Uliana Lukash on 18.01.2024.
+//  Created by Uliana Lukash on 23.01.2024.
 //
 //
 
@@ -19,9 +19,9 @@ extension TrackerCoreData {
     @NSManaged public var colour: String?
     @NSManaged public var emoji: String?
     @NSManaged public var id: UUID?
+    @NSManaged public var isPinned: Bool
     @NSManaged public var name: String?
     @NSManaged var schedule: DaysValue?
-    @NSManaged public var isPinned: Bool
     @NSManaged public var category: TrackerCategoryCoreData?
     @NSManaged public var trackerRecords: NSSet?
 
@@ -42,8 +42,4 @@ extension TrackerCoreData {
     @objc(removeTrackerRecords:)
     @NSManaged public func removeFromTrackerRecords(_ values: NSSet)
 
-}
-
-extension TrackerCoreData: Identifiable {
-    
 }
