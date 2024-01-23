@@ -166,7 +166,6 @@ final class TrackerRecordStore {
         
         return([perfectDays, average, bestPeriod])
     }
-    
     private func getPerfectDays(from recordsDict: [[String: Any]]) -> Int {
         var perfectDays: Int = 0
         let defaults = UserDefaults.standard
