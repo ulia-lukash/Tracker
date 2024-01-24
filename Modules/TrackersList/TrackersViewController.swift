@@ -565,19 +565,23 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     func deleteTracker(withId id: UUID) {
         
         analyticsService.reportEvent(event: "Chose delete option in tracker's context menu", parameters: ["event": "click", "screen": "Main", "item": "delete"])
+        
         let actionSheet: UIAlertController = {
             let alert = UIAlertController()
-            alert.title = NSLocalizedString("Delete category confirmation", comment: "")
+            alert.title = NSLocalizedString("Delete tracker confirmation", comment: "")
             return alert
         }()
         let action1 = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive) {_ in
+            
             self.analyticsService.reportEvent(event: "Confirmed tracker deletion on TrackersViewController", parameters: ["event": "click", "screen": "Main", "item": "delete"])
+            
             self.trackerStore.deleteTracker(withId: id)
             self.completedRecords = self.trackerRecordStore.getCompletedTrackers()
             self.filteredData = self.getAndFilterTrackersBySelectedDate()
             self.updateCollectionView()
         }
         let action2 = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel) {_ in
+            
             self.analyticsService.reportEvent(event: "Canceled tracker deletion on TrackersViewController", parameters: ["event": "click", "screen": "Main", "item": "cancel"])
         }
         actionSheet.addAction(action1)
@@ -588,9 +592,12 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
     func editTracker(withId id: UUID) {
         
         analyticsService.reportEvent(event: "Chose edit option in tracker's context menu", parameters: ["event": "click", "screen": "Main", "item": "edit"])
+        
         let trackerCoreData = trackerStore.fetchTrackerWithId(id)
         let tracker = trackerStore.convertToTracker(coreDataTracker: trackerCoreData)
+        
         let viewController = CreateNewHabitViewController()
+        
         if tracker.schedule?.count == 7 {
             viewController.isHabit = false
         } else {

@@ -40,7 +40,8 @@ final class TrackerRecordStore {
         var records: [TrackerRecordCoreData] = []
         let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
         request.returnsObjectsAsFaults = false
-        request.predicate = NSPredicate(format: "tracker == %@", tracker)
+        let idString = tracker.id?.uuidString
+        request.predicate = NSPredicate(format: "trackerId == %@", idString!)
         do {
             records = try context.fetch(request)
         }
@@ -55,7 +56,8 @@ final class TrackerRecordStore {
         var records: [TrackerRecordCoreData] = []
         let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
         request.returnsObjectsAsFaults = false
-        request.predicate = NSPredicate(format: "tracker == %@", tracker)
+        let idString = tracker.id?.uuidString
+        request.predicate = NSPredicate(format: "trackerId == %@", idString!)
         do {
             records = try context.fetch(request)
             for record in records {
@@ -235,32 +237,25 @@ final class TrackerRecordStore {
         return records as! [[String: Any]]
     }
     
-    ///Return the length of the longest contiguous sequence of days from an array of dates
     private func checkStreak(of dateArray: [Date]) -> Int{
     let dates = dateArray.sorted()
-    // Check if the array contains more than 0 dates, otherwise return 0
     guard dates.count > 0 else { return 0 }
-    // Get full day value of first date in array
     let referenceDate = Calendar.current.startOfDay(for: dates.first!)
-    // Get an array of (non-decreasing) integers
     let dayDiffs = dates.map { (date) -> Int in
             Calendar.current.dateComponents([.day], from: referenceDate, to: date).day!
         }
-    // Return max streak
     return maximalConsecutiveNumbers(in: dayDiffs)
     }
     /// Find maximal length of a subsequence of consecutive numbers in the array.
     /// It is assumed that the array is sorted in non-decreasing order.
     /// Consecutive equal elements are ignored.
     private func maximalConsecutiveNumbers(in array: [Int]) -> Int{
-    var longest = 0 // length of longest subsequence of consecutive numbers
-    var current = 1 // length of current subsequence of consecutive numbers
+    var longest = 0
+    var current = 1
     for (prev, next) in zip(array, array.dropFirst()) {
     if next > prev + 1 {
-    // Numbers are not consecutive, start a new subsequence.
                 current = 1
             } else if next == prev + 1 {
-    // Numbers are consecutive, increase current length
                 current += 1
             }
     if current > longest {

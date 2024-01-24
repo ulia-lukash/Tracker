@@ -191,7 +191,8 @@ final class TrackerStore: NSObject {
         var records: [TrackerRecordCoreData] = []
         let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
         request.returnsObjectsAsFaults = false
-        request.predicate = NSPredicate(format: "tracker == %@", tracker)
+        let idString = tracker.id?.uuidString
+        request.predicate = NSPredicate(format: "trackerId == %@", idString!)
         do {
             records = try context.fetch(request)
             for record in records {
