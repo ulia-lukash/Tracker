@@ -23,7 +23,7 @@ final class TrackerStore: NSObject {
         let emoji = coreDataTracker.emoji!
         let schedule = coreDataTracker.schedule?.schedule
         let isPinned = coreDataTracker.isPinned
-        var tracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule, isPinned: isPinned)
+        let tracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule, isPinned: isPinned)
         
         return tracker
     }

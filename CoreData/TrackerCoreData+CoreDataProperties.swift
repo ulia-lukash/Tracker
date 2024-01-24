@@ -1,8 +1,8 @@
 //
 //  TrackerCoreData+CoreDataProperties.swift
-//  
+//  Tracker
 //
-//  Created by Uliana Lukash on 23.01.2024.
+//  Created by Uliana Lukash on 24.01.2024.
 //
 //
 
@@ -23,23 +23,9 @@ extension TrackerCoreData {
     @NSManaged public var name: String?
     @NSManaged var schedule: DaysValue?
     @NSManaged public var category: TrackerCategoryCoreData?
-    @NSManaged public var trackerRecords: NSSet?
 
 }
 
-// MARK: Generated accessors for trackerRecords
-extension TrackerCoreData {
-
-    @objc(addTrackerRecordsObject:)
-    @NSManaged public func addToTrackerRecords(_ value: TrackerRecordCoreData)
-
-    @objc(removeTrackerRecordsObject:)
-    @NSManaged public func removeFromTrackerRecords(_ value: TrackerRecordCoreData)
-
-    @objc(addTrackerRecords:)
-    @NSManaged public func addToTrackerRecords(_ values: NSSet)
-
-    @objc(removeTrackerRecords:)
-    @NSManaged public func removeFromTrackerRecords(_ values: NSSet)
+extension TrackerCoreData : Identifiable {
 
 }

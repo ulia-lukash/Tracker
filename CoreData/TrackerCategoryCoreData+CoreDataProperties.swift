@@ -1,8 +1,8 @@
 //
 //  TrackerCategoryCoreData+CoreDataProperties.swift
-//  
+//  Tracker
 //
-//  Created by Uliana Lukash on 23.01.2024.
+//  Created by Uliana Lukash on 24.01.2024.
 //
 //
 
@@ -36,5 +36,9 @@ extension TrackerCategoryCoreData {
 
     @objc(removeTrackers:)
     @NSManaged public func removeFromTrackers(_ values: NSSet)
+
+}
+
+extension TrackerCategoryCoreData : Identifiable {
 
 }
