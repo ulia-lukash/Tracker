@@ -161,7 +161,7 @@ final class TrackerRecordStore {
         for record in recordsDict {
             dates.append(record["date"] as! Date)
         }
-        
+        print(recordsDict)
         let perfectDays = getPerfectDays(from: recordsDict)
         let bestPeriod = checkStreak(of: dates)
         let average = getNumberOfCompletedTrackers()/recordsDict.count
@@ -177,6 +177,8 @@ final class TrackerRecordStore {
             let number = weekday.weekDayNumber()
             switch number {
             case 1:
+                print(defaults.integer(forKey: "TrackersOnMonday"))
+                print(record.count)
                 if record["count"] as! Int == defaults.integer(forKey: "TrackersOnMonday") {
                     perfectDays += 1
                 }

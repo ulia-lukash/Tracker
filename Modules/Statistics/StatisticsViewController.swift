@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 final class StatisticsViewController: UIViewController {
-    
+        
     private let recordStore = TrackerRecordStore.shared
     
     private lazy var placeholderLabel: UILabel = {
@@ -35,30 +35,27 @@ final class StatisticsViewController: UIViewController {
     // MARK: - UIViewController(*)
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+                
         fetchStats()
         setUp()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        fetchStats()
+    }
+    
     // MARK: - Private Methods
+  
     private func setUp() {
         navigationController?.navigationBar.prefersLargeTitles = true
         navigationItem.largeTitleDisplayMode = .always
         navigationItem.title = NSLocalizedString("Stats", comment: "")
-        
-        view.addSubview(placeholderLabel)
-        view.addSubview(placeholderImageView)
-        view.addSubview(bestPeriodLabel)
-        view.addSubview(perfectDaysLabel)
-        view.addSubview(completedTrackersLabel)
-        view.addSubview(averageLabel)
-        
-        placeholderLabel.translatesAutoresizingMaskIntoConstraints = false
-        placeholderImageView.translatesAutoresizingMaskIntoConstraints = false
-        bestPeriodLabel.translatesAutoresizingMaskIntoConstraints = false
-        perfectDaysLabel.translatesAutoresizingMaskIntoConstraints = false
-        completedTrackersLabel.translatesAutoresizingMaskIntoConstraints = false
-        averageLabel.translatesAutoresizingMaskIntoConstraints = false
+        [placeholderLabel, placeholderImageView, bestPeriodLabel, perfectDaysLabel, completedTrackersLabel, averageLabel].forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
         
         NSLayoutConstraint.activate([
             placeholderLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),

@@ -59,7 +59,6 @@
 		2684DCD92B57F77700AB4A7F /* FiltersTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684DCD82B57F77700AB4A7F /* FiltersTableViewCell.swift */; };
 		2684DCEF2B581BA500AB4A7F /* AnalyticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684DCEE2B581BA500AB4A7F /* AnalyticsService.swift */; };
 		2684DCFE2B59537A00AB4A7F /* CustomView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684DCFD2B59537A00AB4A7F /* CustomView.swift */; };
-		2684DD002B595DB400AB4A7F /* StatisticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684DCFF2B595DB400AB4A7F /* StatisticsService.swift */; };
 		2684DD042B59641200AB4A7F /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2684DD032B59641200AB4A7F /* Date.swift */; };
 		269A22452B4E958B0094974E /* OnboardingViewControllerBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 269A22442B4E958B0094974E /* OnboardingViewControllerBase.swift */; };
 		26AF274A2B3215680076B228 /* UIColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26AF27492B3215680076B228 /* UIColor.swift */; };
@@ -141,7 +140,6 @@
 		2684DCD82B57F77700AB4A7F /* FiltersTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersTableViewCell.swift; sourceTree = "<group>"; };
 		2684DCEE2B581BA500AB4A7F /* AnalyticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsService.swift; sourceTree = "<group>"; };
 		2684DCFD2B59537A00AB4A7F /* CustomView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomView.swift; sourceTree = "<group>"; };
-		2684DCFF2B595DB400AB4A7F /* StatisticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsService.swift; sourceTree = "<group>"; };
 		2684DD032B59641200AB4A7F /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		269A22442B4E958B0094974E /* OnboardingViewControllerBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingViewControllerBase.swift; sourceTree = "<group>"; };
 		26AF27492B3215680076B228 /* UIColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColor.swift; sourceTree = "<group>"; };
@@ -290,7 +288,6 @@
 			isa = PBXGroup;
 			children = (
 				2653A2B02B1382E4006B92A5 /* StatisticsViewController.swift */,
-				2684DCFF2B595DB400AB4A7F /* StatisticsService.swift */,
 			);
 			path = Statistics;
 			sourceTree = "<group>";
@@ -645,7 +642,6 @@
 				2684DD042B59641200AB4A7F /* Date.swift in Sources */,
 				2653A30D2B289CEE006B92A5 /* TrackerCategoryStore.swift in Sources */,
 				262C06272B399761006FB716 /* OnboardingViewController.swift in Sources */,
-				2684DD002B595DB400AB4A7F /* StatisticsService.swift in Sources */,
 				2653A2D32B208E84006B92A5 /* EmojisCollectionHeaderView.swift in Sources */,
 				2653A2C72B1F299F006B92A5 /* WeekDaysSwitchTableViewCell.swift in Sources */,
 				2653A3012B2883B0006B92A5 /* Tracker.xcdatamodeld in Sources */,

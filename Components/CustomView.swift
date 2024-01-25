@@ -9,12 +9,10 @@ import Foundation
 import UIKit
 
 final class CustomView: UIView {
-    
-    private var statsNumber: String?
-    private var statsName: String?
-    
+        
     private lazy var innerRect: UIView = {
         let innerRect = UIView()
+        innerRect.backgroundColor = UIColor(named: "White")
         innerRect.clipsToBounds = true
         innerRect.layer.cornerRadius = 15
         innerRect.backgroundColor = .white
@@ -50,11 +48,12 @@ final class CustomView: UIView {
     }
     
     func updateView(number: String, name: String) {
-        statsNumber = number
-        statsName = name
+        statsNameLabel.text = name
+        statsLabel.text = number
     }
     
     private func setUp() {
+        
         clipsToBounds = true
         layer.cornerRadius = 16
         setGradientBackground()
@@ -80,9 +79,6 @@ final class CustomView: UIView {
             statsNameLabel.heightAnchor.constraint(equalToConstant: 18),
             
         ])
-        
-        statsLabel.text = statsNumber
-        statsNameLabel.text = statsName
     }
     
     private func setGradientBackground() {

@@ -11,7 +11,6 @@ import YandexMobileMetrica
 /// Used to send reports to Yandex AppMetrica
 final class AnalyticsService {
     
-    ///Property to use the service in other classes.
     static let shared = AnalyticsService()
     
     func reportEvent(event: String, parameters: [String: String]) {

@@ -9,7 +9,6 @@ import Foundation
 import UIKit
 import CoreData
 
-
 final class TrackersViewController: UIViewController  {
     
     // MARK: - Private Properties
@@ -104,7 +103,7 @@ final class TrackersViewController: UIViewController  {
         super.viewDidLoad()
         
         view.backgroundColor = UIColor(named: "White")
-        
+                
         searchController.searchResultsUpdater = self
         trackerCollection.dataSource = self
         trackerCollection.delegate = self
