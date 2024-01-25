@@ -22,7 +22,8 @@ final class TrackerStore: NSObject {
         let colour = UIColor(named: coreDataTracker.colour!)!
         let emoji = coreDataTracker.emoji!
         let schedule = coreDataTracker.schedule?.schedule
-        var tracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule)
+        let isPinned = coreDataTracker.isPinned
+        let tracker = Tracker(id: id, name: name, colour: colour, emoji: emoji, schedule: schedule, isPinned: isPinned)
         
         return tracker
     }
@@ -34,6 +35,7 @@ final class TrackerStore: NSObject {
         newTracker.name = tracker.name
         newTracker.emoji = tracker.emoji
         newTracker.colour = tracker.colour.name
+        newTracker.isPinned = false
         if let schedule = tracker.schedule {
             newTracker.schedule = DaysValue(schedule: schedule)
         }
@@ -44,8 +46,85 @@ final class TrackerStore: NSObject {
             try self.context.save()
         }
         catch {
-            // Replace this implementation with code to handle the error appropriately.
-            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
+    func editTracker(withId id: UUID, tracker: Tracker, category: TrackerCategory) {
+        let trackerCoreData = fetchTrackerWithId(id)
+        
+        let defaults = UserDefaults.standard
+        
+        let previousSchedule = trackerCoreData.schedule?.schedule
+        
+        /**Remove previously scheduled days**/
+        for day in previousSchedule! {
+            switch day {
+            case .monday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnMonday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnMonday")
+            case .tuesday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnTuesday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnTuesday")
+            case .wednesday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnWednesday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnWednesday")
+            case .thursday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnThursday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnThursday")
+            case .friday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnFriday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnFriday")
+            case .saturday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnSaturday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnSaturday")
+            case .sunday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnSunday") - 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnSunday")
+            }
+        }
+        /**Add newly scheduled days*/
+        for day in tracker.schedule! {
+            switch day {
+            case .monday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnMonday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnMonday")
+            case .tuesday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnTuesday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnTuesday")
+            case .wednesday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnWednesday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnWednesday")
+            case .thursday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnThursday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnThursday")
+            case .friday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnFriday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnFriday")
+            case .saturday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnSaturday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnSaturday")
+            case .sunday:
+                let trackersOnMonday = defaults.integer(forKey: "TrackersOnSunday") + 1
+                defaults.set(trackersOnMonday, forKey: "TrackersOnSunday")
+            }
+        }
+        
+        trackerCoreData.name = tracker.name
+        trackerCoreData.emoji = tracker.emoji
+        trackerCoreData.colour = tracker.colour.name
+        trackerCoreData.isPinned = tracker.isPinned
+        trackerCoreData.schedule = DaysValue(schedule: tracker.schedule!)
+        let fetchedCategory = categoryStore.fetchCategoryWithId(category.id)
+        trackerCoreData.category = fetchedCategory
+        
+        do {
+            try self.context.save()
+        }
+        catch {
+            
             let nserror = error as NSError
             fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
         }
@@ -104,4 +183,53 @@ final class TrackerStore: NSObject {
         let trackers = getTrackers()
         return trackers.count
     }
+    
+    func deleteTracker(withId id: UUID) {
+        
+        let tracker = fetchTrackerWithId(id)
+        
+        var records: [TrackerRecordCoreData] = []
+        let request = NSFetchRequest<TrackerRecordCoreData>(entityName: "TrackerRecordCoreData")
+        request.returnsObjectsAsFaults = false
+        let idString = tracker.id?.uuidString
+        request.predicate = NSPredicate(format: "trackerId == %@", idString!)
+        do {
+            records = try context.fetch(request)
+            for record in records {
+                context.delete(record)
+                do {
+                    try self.context.save()
+                }
+                catch {
+                     
+                    let nserror = error as NSError
+                    fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+                }
+            }
+        }
+        catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+        context.delete(tracker)
+        do {
+            try context.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+        
+        
+    }
+    func pinTracker(withId id: UUID) {
+        let tracker = fetchTrackerWithId(id)
+        tracker.isPinned = !tracker.isPinned
+        do {
+            try context.save()
+        } catch {
+            let nserror = error as NSError
+            fatalError("Unresolved error \(nserror), \(nserror.userInfo)")
+        }
+    }
+    
 }

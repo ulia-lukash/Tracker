@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class TrackerCollectionViewHeader: UICollectionReusableView {
+final class TrackerCollectionViewHeader: UICollectionReusableView {
     
     // MARK: - Public Properties
     

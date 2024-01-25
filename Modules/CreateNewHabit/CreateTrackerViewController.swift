@@ -12,7 +12,7 @@ protocol CreateTrackerViewControllerDelegate: AnyObject {
     func didCreateNewTracker()
 }
 
-class CreateTrackerViewController: UIViewController {
+final class CreateTrackerViewController: UIViewController {
     
     // MARK: - Public Properties
 
@@ -22,19 +22,19 @@ class CreateTrackerViewController: UIViewController {
 
     private lazy var habitButton: CustomButton = {
         let button = CustomButton()
-        button.buttonLabel = "Привычка"
+        button.buttonLabel = NSLocalizedString("Habit", comment: "")
         button.addTarget(self, action: #selector(habitButtonTapped), for: .touchUpInside)
         return button
     }()
     private lazy var irregularActionButton: CustomButton = {
         let button = CustomButton()
-        button.buttonLabel = "Нерегулярные событие"
+        button.buttonLabel = NSLocalizedString("Irregular action", comment: "")
         button.addTarget(self, action: #selector(irregularActionButtonTapped), for: .touchUpInside)
         return button
     }()
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
-        label.text = "Создание трекера"
+        label.text = NSLocalizedString("Create a tracker", comment: "")
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
     }()
@@ -51,7 +51,7 @@ class CreateTrackerViewController: UIViewController {
     
     private func configView() {
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "White")
         view.addSubview(viewTitle)
         view.addSubview(habitButton)
         view.addSubview(irregularActionButton)
@@ -68,11 +68,11 @@ class CreateTrackerViewController: UIViewController {
             viewTitle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             viewTitle.topAnchor.constraint(equalTo: view.topAnchor, constant: 30),
             viewTitle.heightAnchor.constraint(equalToConstant: 22),
-            habitButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            habitButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            habitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            habitButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             habitButton.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            irregularActionButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            irregularActionButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            irregularActionButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            irregularActionButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             irregularActionButton.topAnchor.constraint(equalTo: habitButton.bottomAnchor, constant: 16)
         ])
     }

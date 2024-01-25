@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class EmojisCollectionHeaderView: UICollectionReusableView {
+final class EmojisCollectionHeaderView: UICollectionReusableView {
     let titleLabel: UILabel = {
         let label = UILabel()
         label.font = .systemFont(ofSize: 19, weight: .bold)
@@ -22,7 +22,7 @@ class EmojisCollectionHeaderView: UICollectionReusableView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.leftAnchor.constraint(equalTo: leftAnchor, constant: 10),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             titleLabel.topAnchor.constraint(equalTo: topAnchor),
             titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -14),
         ])

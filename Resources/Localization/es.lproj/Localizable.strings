@@ -1,0 +1,141 @@
+/* (No Comment) */
+"Add category" = "Añadir categoría";
+
+/* (No Comment) */
+"Cancel" = "Cancelar";
+
+/* (No Comment) */
+"Categories" = "Categorías";
+
+/* (No Comment) */
+"Category" = "Categoría";
+
+/* (No Comment) */
+"Colour" = "Color";
+
+/* (No Comment) */
+"Create" = "Crear";
+
+/* (No Comment) */
+"Create a tracker" = "Crear un rastreador";
+
+/* (No Comment) */
+"Delete" = "Borrar";
+
+/* (No Comment) */
+"Delete category confirmation" = "¿Estás seguro de que esta categoría no es necesaria?";
+
+/* (No Comment) */
+"Delete tracker confirmation" = "¿Estás seguro de que este rastreador no es necesaria?";
+
+/* (No Comment) */
+"Done" = "Hecho";
+
+/* (No Comment) */
+"Edit" = "Editar";
+
+/* (No Comment) */
+"Edit category" = "Editar categoria";
+
+/* (No Comment) */
+"Friday" = "Viernes";
+
+/* (No Comment) */
+"Habit" = "Hábito";
+
+/* Localizable.strings
+  Tracker
+
+  Created by Uliana Lukash on 15.01.2024. */
+"Input category name" = "Ingrese el nombre de la categoría";
+
+/* (No Comment) */
+"Input tracker name" = "Ingrese el nombre del rastreador";
+
+/* (No Comment) */
+"Irregular action" = "Acción irregular";
+
+/* (No Comment) */
+"Monday" = "Lunes";
+
+/* (No Comment) */
+"Name length restriction" = "Límite de 38 caracteres";
+
+/* (No Comment) */
+"New category" = "Nueva categoría";
+
+/* (No Comment) */
+"New habit" = "Nuevo hábito";
+
+/* (No Comment) */
+"New irregular action" = "Nueva acción irregular";
+
+/* (No Comment) */
+"No trackers found" = "No se encontraron rastreadores";
+
+/* (No Comment) */
+"Onboarding 1" = "Sigue solo lo que quieras";
+
+/* (No Comment) */
+"Onboarding 2" = "Incluso si no son litros de agua y yoga";
+
+/* (No Comment) */
+"Pin" = "Anclar";
+
+"Unpin" = "Desanclar";
+/* (No Comment) */
+"Saturday" = "Sábado";
+
+/* (No Comment) */
+"Schedule" = "Cronograma";
+
+/* (No Comment) */
+"Search" = "Buscar";
+
+/* (No Comment) */
+"Stats" = "Estadísticas";
+
+/* (No Comment) */
+"Sunday" = "Domingo";
+
+/* (No Comment) */
+"Thursday" = "Jueves";
+
+/* (No Comment) */
+"Tracker" = "Rastreador";
+
+/* (No Comment) */
+"Trackers" = "Rastreadores";
+
+/* (No Comment) */
+"Trackers placeholder" = "¿Qué estamos rastreando?";
+
+/* (No Comment) */
+"Tuesday" = "Martes";
+
+/* (No Comment) */
+"Wednesday" = "Miércoles";
+
+/* (No Comment) */
+"Wow technology" = "¡Guau! ¡Tecnología!";
+
+/* (No Comment) */
+"Zero categories placeholder" = "Los rastreadores se pueden agrupar en categorías\n";
+
+"Pinned" = "Anclado";
+
+"Edit tracker" = "Editar el rastreador";
+
+"Save" = "Guardar";
+
+"Filters" = "Filtros";
+
+"All trackers" = "Todos los rastreadoresы";
+"Trackers for today" = "Rastreadores de hoy";
+"Completed" = "Completados";
+"Not completed" = "No completados";
+"There is nothing to analyze" = "No hay nada que analizar";
+"Best period" = "El mejor periodo";
+"Perfect days" = "Días perfectos";
+"Trackers completed" = "Rastreadores completados";
+"Average value" = "Valor promedio";

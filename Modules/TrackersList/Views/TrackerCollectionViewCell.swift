@@ -12,20 +12,23 @@ protocol TrackerCollectionViewCellDelegate: AnyObject {
     
     func markComplete(with id: UUID)
     func undoMarkComplete(with id: UUID)
-    
+    func deleteTracker(withId id: UUID)
+    func pinTracker(withId id: UUID)
+    func editTracker(withId id: UUID)
 }
 
-class TrackerCollectionViewCell: UICollectionViewCell {
+final class TrackerCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Public Properties
     
     static let identifier = "cell"
     weak var delegate: TrackerCollectionViewCellDelegate?
-    
-    // MARK: - IBOutlet
-    
+        
     // MARK: - Private Properties
     
+    private let analyticsService = AnalyticsService.shared
+    private var isPinned: Bool = false
+    private var trackerStore = TrackerStore.shared
     private var trackerId: UUID?
     private var indexPath: IndexPath?
     private var isCompleted: Bool?
@@ -42,7 +45,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         
-        label.textColor = UIColor(ciColor: .white)
+        label.textColor = UIColor(named: "White")
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.numberOfLines = 2
         return label
@@ -75,10 +78,18 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         button.layer.cornerRadius = 17
         button.widthAnchor.constraint(equalToConstant: 34).isActive = true
         button.heightAnchor.constraint(equalTo: button.widthAnchor).isActive = true
-        button.tintColor = UIColor(ciColor: .white)
+        button.tintColor = UIColor(named: "White")
         button.addTarget(self, action: #selector(incrementCounter), for: .touchUpInside)
         
         return button
+    }()
+    
+    private lazy var pinIcon: UIImageView = {
+        let imageview = UIImageView()
+        let image = UIImage(systemName: "pin.fill")
+        imageview.image = image?.withAlignmentRectInsets(UIEdgeInsets(top: -6, left: -6, bottom: -6, right: -6))
+        imageview.tintColor = .white
+        return imageview
     }()
     
     // MARK: - Initializers
@@ -96,7 +107,9 @@ class TrackerCollectionViewCell: UICollectionViewCell {
     // MARK: - Public Methods
     
     func configure(model: Tracker, at indexPath: IndexPath, isCompleted: Bool, completedDays: Int) {
+        
         self.trackerId = model.id
+        self.isPinned = model.isPinned
         self.indexPath = indexPath
         self.isCompleted = isCompleted
         
@@ -129,6 +142,7 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.centerXAnchor.constraint(equalTo: emojiView.centerXAnchor).isActive = true
         label.centerYAnchor.constraint(equalTo: emojiView.centerYAnchor).isActive = true
+        showPin()
     }
     
     // MARK: - Private Methods
@@ -137,8 +151,12 @@ class TrackerCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(backgroundRect)
         backgroundRect.addSubview(emojiView)
         backgroundRect.addSubview(nameLabel)
+        backgroundRect.addSubview(pinIcon)
+        
         contentView.addSubview(counterLabel)
         contentView.addSubview(markCompleteButton)
+        
+        pinIcon.translatesAutoresizingMaskIntoConstraints = false
         
         backgroundRect.translatesAutoresizingMaskIntoConstraints = false
         emojiView.translatesAutoresizingMaskIntoConstraints = false
@@ -158,25 +176,27 @@ class TrackerCollectionViewCell: UICollectionViewCell {
             counterLabel.centerYAnchor.constraint(equalTo: markCompleteButton.centerYAnchor),
             counterLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 12),
             markCompleteButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            markCompleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12)
+            markCompleteButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -12),
+            pinIcon.widthAnchor.constraint(equalToConstant: 24),
+            pinIcon.heightAnchor.constraint(equalToConstant: 24),
+            pinIcon.topAnchor.constraint(equalTo: backgroundRect.topAnchor, constant: 12),
+            pinIcon.trailingAnchor.constraint(equalTo: backgroundRect.trailingAnchor, constant: -4)
         ])
     }
     
-    private func configureCounter(days: Int) {
-        let remainder = days % 100
-        
-        if (11...14).contains(remainder) {
-            counterLabel.text = "\(days) дней"
+    private func showPin() {
+        if self.isPinned {
+            pinIcon.isHidden = false
         } else {
-            switch remainder % 10 {
-            case 1:
-                counterLabel.text = "\(days) день"
-            case 2...4:
-                counterLabel.text = "\(days) дня"
-            default:
-                counterLabel.text = "\(days) дней"
-            }
+            pinIcon.isHidden = true
         }
+    }
+    
+    private func configureCounter(days: Int) {
+        let key = "number_of_days"
+        let localizationFormat = NSLocalizedString(key, tableName: key, comment: "Days counter label")
+        let string = String(format: localizationFormat, days)
+        counterLabel.text = string
     }
     
     // MARK: - @objc Methods
@@ -203,16 +223,25 @@ extension TrackerCollectionViewCell: UIContextMenuInteractionDelegate {
                                           previewProvider: nil,
                                           actionProvider: {
             suggestedActions in
-            let pinAction = UIAction(title: "Закрепить") { action in
-//                self.performInspect()
+            
+            self.analyticsService.reportEvent(event: "Did tap tracker cell", parameters: ["event": "click", "screen": "Main", "item": "cell"])
+            
+            let pinAction = UIAction(title: self.isPinned ? NSLocalizedString("Unpin", comment: "") : NSLocalizedString("Pin", comment: "")) { action in
+                
+                guard let trackerId = self.trackerId else { return }
+                self.delegate?.pinTracker(withId: trackerId)
+                
             }
             
-            let editAction = UIAction(title: "Редактировать") { action in
-//                self.performDuplicate()
+            let editAction = UIAction(title: NSLocalizedString("Edit", comment: "")) { action in
+                guard let trackerId = self.trackerId else { return }
+                self.delegate?.editTracker(withId: trackerId)
             }
             
-            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { action in
-//                self.performDelete()
+            let deleteAction = UIAction(title: NSLocalizedString("Delete", comment: ""), attributes: .destructive) { action in
+                
+                guard let trackerId = self.trackerId else { return }
+                self.delegate?.deleteTracker(withId: trackerId)
             }
             
             return UIMenu(title: "", children: [pinAction, editAction, deleteAction])

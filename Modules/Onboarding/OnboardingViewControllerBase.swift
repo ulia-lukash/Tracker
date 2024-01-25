@@ -22,7 +22,7 @@ final class OnboardingViewControllerBase: UIViewController {
     
     lazy private var label: UILabel = {
         let label = UILabel()
-        label.text = "Отслеживайте только то, что хотите"
+        label.text = labelText
         label.font = .systemFont(ofSize: 32, weight: .bold)
         label.textColor = UIColor(named: "Black")
         label.textAlignment = .center
@@ -32,7 +32,7 @@ final class OnboardingViewControllerBase: UIViewController {
     }()
     lazy private var button: CustomButton = {
         let button = CustomButton()
-        button.buttonLabel = "Вот это технологии!"
+        button.buttonLabel = NSLocalizedString("Wow technology", comment: "")
         return button
     }()
     
@@ -68,12 +68,12 @@ final class OnboardingViewControllerBase: UIViewController {
             imageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             imageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            label.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            label.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             label.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
             button.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50),
-            button.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            button.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20)
+            button.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            button.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
         ])
     }
     
@@ -81,7 +81,7 @@ final class OnboardingViewControllerBase: UIViewController {
         let viewController = TabBarViewController()
         let defaults = UserDefaults.standard
         defaults.set(true, forKey: "SkippedUnboarding")
-        
+        defaults.set(Date(), forKey: "FirstDayOfUsage")
         viewController.modalPresentationStyle = .fullScreen
         present(viewController, animated: true, completion: nil)
         

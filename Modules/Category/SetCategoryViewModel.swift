@@ -19,7 +19,7 @@ final class  SetCategoryViewModel {
     
     private(set) var categories: [TrackerCategory] = [] {
             didSet {
-                onChange?() // сообщаем через замыкание, что ViewModel изменилась
+                onChange?()
             }
         }
     
@@ -28,6 +28,7 @@ final class  SetCategoryViewModel {
     }
     
     func categoriesNumber() -> Int {
+        
         categories.count
     }
     

@@ -1,0 +1,61 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Uliana Lukash on 15.01.2024.
+  
+*/
+"Input category name" = "Введите название категории";
+"Zero categories placeholder" = "Привычки и события можно\nобъединить по смыслу";
+"Search" = "Поиск";
+"Cancel" = "Отменить";
+"Delete" = "Удалить";
+"Edit" = "Редактировать";
+"Pin" = "Закрепить";
+"Unpin" = "Открепить";
+"Habit" = "Привычка";
+"Irregular action" = "Нерегулярные событие";
+"Tracker" = "Трекер";
+"Trackers" = "Трекеры";
+"Category" = "Категория";
+"Categories" = "Категории";
+"Schedule" = "Расписание";
+"Create a tracker" = "Создание трекера";
+"Stats" = "Статистика";
+"Input tracker name" = "Введите название трекера";
+"New category" = "Новая категория";
+"New habit" = "Новая привычка";
+"New irregular action" = "Новое нерегулярное событие";
+"Name length restriction" = "Ограничение 38 символов";
+"Delete category confirmation" = "Эта категория точно не нужна?";
+"Delete tracker confirmation" = "Уверены что хотите удалить трекер?";
+"Edit category" = "Редактирование категории";
+"Add category" = "Добавить категорию";
+"Create" = "Создать";
+"Trackers placeholder" = "Что будем отслеживать?";
+"No trackers found" = "Ничего не найдено";
+"Done" = "Готово";
+"Monday" = "Понедельник";
+"Tuesday" = "Вторник";
+"Wednesday" = "Среда";
+"Thursday" = "Четверг";
+"Friday" = "Пятница";
+"Saturday" = "Суббота";
+"Sunday" = "Воскресенье";
+"Colour" = "Цвет";
+"Onboarding 1" = "Отслеживайте только то, что хотите";
+"Onboarding 2" = "Даже если это не литры воды и йога";
+"Wow technology" = "Вот это технологии!";
+"Pinned" = "Закрепленные";
+"Edit tracker" = "Редактирование привычки";
+"Save" = "Сохранить";
+"Filters" = "Фильтры";
+"All trackers" = "Все трекеры";
+"Trackers for today" = "Трекеры на сегодня";
+"Completed" = "Завершенные";
+"Not completed" = "Не завершенные";
+"There is nothing to analyze" = "Анализировать пока нечего";
+"Best period" = "Лучший период";
+"Perfect days" = "Идеальные дни";
+"Trackers completed" = "Трекеров завершено";
+"Average value" = "Среднее значение";

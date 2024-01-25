@@ -2,7 +2,7 @@
 //  TrackerRecordCoreData+CoreDataProperties.swift
 //  Tracker
 //
-//  Created by Uliana Lukash on 19.12.2023.
+//  Created by Uliana Lukash on 24.01.2024.
 //
 //
 
@@ -17,7 +17,7 @@ extension TrackerRecordCoreData {
     }
 
     @NSManaged public var date: Date?
-    @NSManaged public var tracker: TrackerCoreData?
+    @NSManaged public var trackerId: UUID?
 
 }
 

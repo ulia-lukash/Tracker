@@ -28,7 +28,6 @@ class DaysValue: NSObject, Codable {
 
 @objc
 final class DaysValueTransformer: ValueTransformer {
-    // тут будем писать код транформации
     
     override class func transformedValueClass() -> AnyClass { NSData.self }
     override class func allowsReverseTransformation() -> Bool { true }

@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-class EmojisCollectionViewCell: UICollectionViewCell {
+final class EmojisCollectionViewCell: UICollectionViewCell {
     
     // MARK: - Public Properties
     
@@ -28,14 +28,35 @@ class EmojisCollectionViewCell: UICollectionViewCell {
         contentView.addSubview(titleLabel)
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
-       NSLayoutConstraint.activate([
+        NSLayoutConstraint.activate([
             titleLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
         ])
+    }
+    
+    override var isSelected: Bool{
+        didSet{
+            if self.isSelected
+            {
+                super.isSelected = true
+                layer.masksToBounds = true
+                layer.cornerRadius = 16
+                backgroundColor = UIColor(named: "Light Gray")
+            }
+            else
+            {
+                super.isSelected = false
+                backgroundColor = UIColor(named: "White")                }
+        }
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func pickCell() {
+        layer.masksToBounds = true
+        layer.cornerRadius = 16
+        backgroundColor = UIColor(named: "Light Gray")
+    }
 }

@@ -13,24 +13,23 @@ protocol SetCategoryViewControllerDelegate: AnyObject {
     func didSetCategory(category: TrackerCategory)
 }
 
-class SetCategoryViewController: UIViewController {
+final class SetCategoryViewController: UIViewController {
     
     var viewModel: SetCategoryViewModel?
     var viewModelDelegate: SetCategoryViewControllerDelegate?
-    // MARK: - Public Properties
         
     // MARK: - Private Properties
         
     private lazy var viewTitle: UILabel = {
         let label = UILabel()
-        label.text = "Категория"
+        label.text = NSLocalizedString("Categories", comment: "")
         label.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         return label
     }()
     
     private lazy var addCategoryButton: CustomButton = {
         let button = CustomButton()
-        button.buttonLabel = "Добавить категорию"
+        button.buttonLabel = NSLocalizedString("Add category", comment: "")
         button.addTarget(self, action: #selector(addCategoryButtonTapped), for: .touchUpInside)
         return button
     }()
@@ -42,7 +41,7 @@ class SetCategoryViewController: UIViewController {
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 2
         label.textAlignment = .center
-        label.text = "Привычки и события можно\nобъединить по смыслу"
+        label.text = NSLocalizedString("Zero categories placeholder", comment: "")
         label.textColor = UIColor(named: "Black")
         label.font = .systemFont(ofSize: 12, weight: .medium)
         return label
@@ -75,9 +74,7 @@ class SetCategoryViewController: UIViewController {
         categoriesTable.dataSource = self
         categoriesTable.delegate = self
     }
-    
-    // MARK: - Public Methods
-    
+        
     // MARK: - Private Methods
     
     private func bind() {
@@ -109,7 +106,7 @@ class SetCategoryViewController: UIViewController {
     
     private func configView() {
         
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "White")
         view.addSubview(viewTitle)
         view.addSubview(addCategoryButton)
         view.addSubview(placeholderPic)
@@ -131,19 +128,19 @@ class SetCategoryViewController: UIViewController {
             placeholderText.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             placeholderText.topAnchor.constraint(equalTo: placeholderPic.bottomAnchor, constant: 8),
             
-            addCategoryButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20),
-            addCategoryButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20),
+            addCategoryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            addCategoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             addCategoryButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             categoriesTable.topAnchor.constraint(equalTo: viewTitle.bottomAnchor, constant: 38),
-            categoriesTable.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 16),
-            categoriesTable.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -16),
+            categoriesTable.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            categoriesTable.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             categoriesTable.bottomAnchor.constraint(equalTo: addCategoryButton.topAnchor, constant: -16),
         ])
     }
     
     @objc private func addCategoryButtonTapped() {
         let viewController = CreateNewCategoryViewController()
-        viewController.titleText = "Новая категория"
+        viewController.titleText = NSLocalizedString("New category", comment: "")
         viewController.delegate = self
         present(viewController, animated: true)
     }
@@ -161,17 +158,17 @@ extension SetCategoryViewController: UITableViewDataSource {
         
         let reuseIdentifier = "CategoriesTableViewCell"
         
-        guard let cell: CategoriesTableViewCell? = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! CategoriesTableViewCell else { return UITableViewCell() }
+        let cell: CategoriesTableViewCell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier) as! CategoriesTableViewCell
         
-        guard let viewModel = viewModel else { return cell! }
-        cell?.viewModel = viewModel
-        cell?.configure(indexPath: indexPath)
-        self.addInteraction(toCell: cell!)
+        guard let viewModel = viewModel else { return cell }
+        cell.viewModel = viewModel
+        cell.configure(indexPath: indexPath)
+        self.addInteraction(toCell: cell)
         
         if (indexPath.row == viewModel.categoriesNumber() - 1) {
-            cell?.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
+            cell.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: .greatestFiniteMagnitude)
         }
-        return cell!
+        return cell
         
     }
 }
@@ -204,25 +201,25 @@ extension SetCategoryViewController: UIContextMenuInteractionDelegate {
         
         return UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ -> UIMenu? in
             
-            let editAction = UIAction(title: "Редактировать") { _ in
+            let editAction = UIAction(title: NSLocalizedString("Edit", comment: "")) { _ in
                 let viewController = CreateNewCategoryViewController()
-                viewController.titleText = "Редактирование категории"
+                viewController.titleText = NSLocalizedString("Edit category", comment: "")
                 viewController.startingString = item.name
                 viewController.categoryId = item.id
                 viewController.delegate = self
                 self.present(viewController, animated: true)
             }
-            let deleteAction = UIAction(title: "Удалить", attributes: .destructive) { _ in
+            let deleteAction = UIAction(title: NSLocalizedString("Delete", comment: ""), attributes: .destructive) { _ in
                 
                 let actionSheet: UIAlertController = {
                     let alert = UIAlertController()
-                    alert.title = "Эта категория точно не нужна?"
+                    alert.title = NSLocalizedString("Delete category confirmation", comment: "")
                     return alert
                 }()
-                let action1 = UIAlertAction(title: "Удалить", style: .destructive) {_ in
+                let action1 = UIAlertAction(title: NSLocalizedString("Delete", comment: ""), style: .destructive) {_ in
                     viewModel.deleteCategory(item)
                 }
-                let action2 = UIAlertAction(title: "Отменить", style: .cancel)
+                let action2 = UIAlertAction(title: NSLocalizedString("Cancel", comment: ""), style: .cancel)
                 actionSheet.addAction(action1)
                 actionSheet.addAction(action2)
                 self.present(actionSheet, animated: true)
