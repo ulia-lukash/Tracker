@@ -20,8 +20,8 @@
 
 ## **Dependencies**
 
-[SnapshotTesting](https://github.com/pointfreeco/swift-snapshot-testing)
-[YandexMobileMetrica](https://github.com/appmetrica/appmetrica-sdk-ios)
+- [SnapshotTesting](https://github.com/pointfreeco/swift-snapshot-testing)
+- [YandexMobileMetrica](https://github.com/appmetrica/appmetrica-sdk-ios)
 
 ## System requirements
 
